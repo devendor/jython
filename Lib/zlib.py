@@ -110,6 +110,7 @@ def decompress(string, wbits=0, bufsize=16384):
 # > system will be set to 255 (unknown). If a gzip stream is being
 # > written, strm->adler is a crc32 instead of an adler32.
 
+
 class compressobj(object):
     # All jython uses wbits for is in deciding whether to skip the
     # header if it's negative or to set gzip. But we still raise
@@ -118,10 +119,11 @@ class compressobj(object):
     GZIP_HEADER = "\x1f\x8b\x08\x00\x00\x00\x00\x00\x04\x03"
 
     # NB: this format is little-endian, not big-endian as we might
-    # expect for network oriented protocols, as specified by RFCs;
-    # CRC32.getValue() returns an unsigned int as a long, so cope
-    # accordingly
-    GZIP_TRAILER_FORMAT = struct.Struct("<Ii")  # crc32, size
+    # expect for network oriented protocols. Both are 4 bytes unsigned
+    # modulus 2^32 per RFC-1952. CRC32.getValue() returns an unsigned
+    # int as a long, so cope accordingly. 
+    GZIP_TRAILER_FORMAT = struct.Struct("<II")  # crc32, size
+
 
     def __init__(self, level=6, method=DEFLATED, wbits=MAX_WBITS,
                        memLevel=0, strategy=0):
@@ -165,13 +167,19 @@ class compressobj(object):
         if mode == Z_FINISH:
             if self._gzip:
                 last += self.GZIP_TRAILER_FORMAT.pack(
-                    self._crc32.getValue(), self._size % sys.maxint)
+                    self._crc32.getValue(), self._size % 2**32)
             self.deflater.end()
             self._ended = True
         return last
 
 
 class decompressobj(object):
+
+    # NB: this format is little-endian, not big-endian as we might
+    # expect for network oriented protocols. Both are 4 bytes unsigned
+    # modulus 2^32 per RFC-1952. CRC32.getValue() returns an unsigned
+    # int as a long, so cope accordingly. 
+    GZIP_TRAILER_FORMAT = struct.Struct("<II")  # crc32, size
 
     def __init__(self, wbits=MAX_WBITS):
 
@@ -190,6 +198,8 @@ class decompressobj(object):
         self.unconsumed_tail = ""
         self.gzip = wbits < 0
         self.gzip_header_skipped = False
+        self._crc32 = CRC32()
+
 
     def decompress(self, string, max_length=0):
         if self._ended:
@@ -224,10 +234,20 @@ class decompressobj(object):
 
         self.inflater.setInput(string)
         inflated = _get_inflate_data(self.inflater, max_length)
+        self._crc32.update(inflated)
 
         r = self.inflater.getRemaining()
         if r:
-            if max_length and not self.inflater.finished():
+            if self.gzip and self.inflater.finished() and r == 8:
+                # Consume tail, check inflate size, and crc32
+                crc,isize = self.GZIP_TRAILER_FORMAT.unpack(string[-r:])
+                mysize = int(self.inflater.getTotalOut()) % 2**32
+                mycrc = self._crc32.getValue() % 2**32
+                if mysize != isize:
+                    raise ValueError("Inflation size mismatch error expected %s got %s" % (isize, mysize))
+                if mycrc != crc:
+                    raise ValueError("CRC32 checksum failure expected %s got %s" % (crc, mycrc))
+            elif max_length and not self.inflater.finished():
                 self.unconsumed_tail = string[-r:]
             else:
                 self.unused_data += string[-r:]
@@ -301,8 +321,7 @@ FCOMMENT = 16
 def _skip_gzip_header(string):
     # per format specified in https://tools.ietf.org/html/rfc1952
     
-    # could we use bytearray instead?
-    s = array.array("B", string)
+    s = bytearray(string)
 
     id1 = s[0]
     id2 = s[1]
@@ -334,7 +353,7 @@ def _skip_gzip_header(string):
         # skip CRC16 for the header - might be nice to check of course
         s = s[2:]
     
-    return s.tostring()
+    return bytes(s)
 
 
 
