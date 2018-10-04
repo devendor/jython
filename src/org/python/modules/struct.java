@@ -8,19 +8,11 @@
 
 package org.python.modules;
 
-import org.python.core.Py;
-import org.python.core.PyException;
-import org.python.core.PyFloat;
-import org.python.core.PyList;
-import org.python.core.PyLong;
-import org.python.core.PyObject;
-import org.python.core.PyString;
-import org.python.core.PyStringMap;
-import org.python.core.PyTuple;
+import org.python.core.*;
+import org.python.core.buffer.SimpleBuffer;
+import org.python.core.buffer.SimpleStringBuffer;
 
 import java.math.BigInteger;
-import org.python.core.ClassDictInit;
-import org.python.core.PyArray;
 
 /**
  * This module performs conversions between Python values and C
@@ -1096,11 +1088,35 @@ public class struct implements ClassDictInit {
             throw StructError("unpack str size does not match format");
          return unpack(f, size, format, new ByteStream(string));
     }
-    
-    public static PyTuple unpack_from(String format, String string) {
-        return unpack_from(format, string, 0);   
+
+    public static PyTuple unpack_from(String format, BufferProtocol buffer) {
+        return unpack_from(format, buffer, 0);
     }
-        
+
+    public static PyTuple unpack_from(String format, BufferProtocol buffer, int offset) {
+        String string ;
+        if (buffer instanceof Py2kBuffer || buffer instanceof PyMemoryView) {
+            SimpleBuffer stringBuffer = (SimpleBuffer)buffer.getBuffer( PyBUF.SIMPLE);
+            string = stringBuffer.toString();
+            stringBuffer.release();
+        } else if (buffer instanceof PyByteArray) {
+            BaseBytes baseBytes = (BaseBytes)buffer;
+            string = baseBytes.asString();
+        } else if (buffer instanceof PyString || buffer instanceof PyUnicode) {
+            string = buffer.toString();
+        } else {
+            PyType bufferType = (PyType)buffer ;
+            String fmt =  "Unable to coerce object type <%s> to string.";
+            throw Py.TypeError(String.format(fmt, "Unable to coerce object type %s to string.",
+                               bufferType.fastGetName()));
+        }
+        return unpack_from(format, string, 0);
+    }
+
+    public static PyTuple unpack_from(String format, String string) {
+        return unpack_from(format, string, 0);
+    }
+
     public static PyTuple unpack_from(String format, String string, int offset) {
         FormatDef[] f = whichtable(format);
         int size = calcsize(format, f);
