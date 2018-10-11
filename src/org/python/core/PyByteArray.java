@@ -13,6 +13,7 @@ import org.python.expose.MethodType;
 
 import static com.sun.tools.doclint.Entity.sub;
 
+
 /**
  * Implementation of Python <code>bytearray</code> with a Java API that includes equivalents to most
  * of the Python API. These Python equivalents accept a {@link PyObject} as argument, where you
@@ -1324,11 +1325,16 @@ public class PyByteArray extends BaseBytes implements BufferProtocol {
             // Use the general method, specifying the crack at the end of the array.
             // Note this deals with the case o==this.
             setslice(size, size, 1, (BaseBytes)o);
-        } else if (oType == PyString.TYPE) {
-            // Will fail if somehow not 8-bit clean
-            setslice( size, size, 1, (PyString)o );
+        } else if (oType == PyString.TYPE && !(o instanceof PyUnicode)) {
+            try {
+                // Will fail if somehow not 8-bit clean
+                setslice( size, size, 1, (PyString)o );
+            } catch (PyException e){
+                // py27 is casuall about what is a string vs bytes try to step through the bytes.
+                bytearray_extend( o );
+            }
         } else if (o instanceof Py2kBuffer || o instanceof PyMemoryView){
-            setslice( size, size, 1, (BufferProtocol)o );
+            bytearray_extend( o );
         } else {
             throw ConcatenationTypeError( oType, TYPE );
         }
@@ -1997,29 +2003,10 @@ public class PyByteArray extends BaseBytes implements BufferProtocol {
      * or a hexadecimal escape. The built-in function <code>repr()</code> is expected to call this
      * method, and wraps the result in a Python <code>str</code>.
      */
-    @Override
-    public String toString() {
-        return bytearray_repr();
-    }
 
     @ExposedMethod(names = {"__repr__"}, doc = BuiltinDocs.bytearray___repr___doc)
     final synchronized String bytearray_repr() {
         return basebytes_repr("bytearray(b", ")");
-    }
-
-    /**
-     * An overriding of the {@link PyObject#__str__()} method, returning <code>PyString</code>,
-     * where in the characters are simply those with a point-codes given in this byte array. The
-     * built-in function <code>str()</code> is expected to call this method.
-     */
-    @Override
-    public PyString __str__() {
-        return bytearray_str();
-    }
-
-    @ExposedMethod(names = {"__str__"}, doc = BuiltinDocs.bytearray___str___doc)
-    final PyString bytearray_str() {
-        return new PyString(this.asString());
     }
 
     /**

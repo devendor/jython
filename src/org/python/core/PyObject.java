@@ -250,20 +250,19 @@ public class PyObject implements Serializable {
      * be overrriden. The easiest way to configure the string representation of a
      * <code>PyObject</code> is to override the standard Java <code>toString</code> method.
      **/
-    @ExposedMethod(names = "__repr__", doc = BuiltinDocs.object___repr___doc)
-    public final PyString object__repr__(){
-        return __repr__();
-    };
+
 
     public PyString __repr__(){
-        return new PyString(object__toString());
-    }
-    @Override
-    public String toString() {
-        return object__toString();
+        return object___repr__();
     }
 
-    final String object__toString() {
+    @ExposedMethod(doc = BuiltinDocs.object___repr___doc)
+    final public PyString object___repr__(){
+        return new PyString(toString());
+    }
+
+    @Override
+    public String toString() {
         if (getType() == null) {
             return "unknown object";
         }
@@ -279,6 +278,8 @@ public class PyObject implements Serializable {
         }
         return String.format("<%s object at %s>", name, Py.idstr(this));
     }
+
+
 
     /**
      * Equivalent to the standard Python __str__ method. This method should not typically need to be
@@ -302,11 +303,14 @@ public class PyObject implements Serializable {
     };
 
      **/
-    @ExposedMethod(names = "__str__", doc = BuiltinDocs.object___str___doc)
     public PyString __str__(){
-        return PyString.fromInterned(toString());
+        return object___str__();
     }
 
+    @ExposedMethod(doc=BuiltinDocs.object___str___doc)
+    final public PyString object___str__(){
+        return new PyString(toString());
+    }
     /**
      * PyObjects that implement <code>org.python.core.finalization.HasFinalizeTrigger</code> shall
      * implement this method via:<br>
@@ -539,6 +543,7 @@ public class PyObject implements Serializable {
         return __call__(arg0, arg1, arg2);
     }
 
+
     /**
      * A variant of the __call__ method with four arguments. The default behavior is to invoke
      * <code>__call__(args, keywords)</code> with the appropriate arguments. The only reason to
@@ -761,6 +766,7 @@ public class PyObject implements Serializable {
         }
         return ret;
     }
+
 
     /**
      * Equivalent to the standard Python __setitem__ method.

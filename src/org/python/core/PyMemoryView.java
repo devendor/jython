@@ -68,7 +68,7 @@ public class PyMemoryView extends PySequence implements BufferProtocol, Traverse
         PyObject obj = ap.getPyObject(0);
 
         // memoryview in 2.7 throws typeerror on unicode rather than assuming encoding like buffer().
-        if (obj instanceof BufferProtocol && !(obj instanceof PyUnicode)) {
+        if (obj instanceof PyString && !(obj instanceof PyUnicode)) {
             return new PyMemoryView((BufferProtocol)obj);
         } else {
             throw Py.TypeError("cannot make memory view because object does not have "

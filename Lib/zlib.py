@@ -240,7 +240,7 @@ class decompressobj(object):
         if r:
             if self.gzip and self.inflater.finished() and r == 8:
                 # Consume tail, check inflate size, and crc32
-                crc,isize = self.GZIP_TRAILER_FORMAT.unpack(string[-r:])
+                crc,isize = struct.unpack_from("<LL",string[-r:])
                 mysize = int(self.inflater.getTotalOut()) % 2**32
                 mycrc = self._crc32.getValue() % 2**32
                 if mysize != isize:

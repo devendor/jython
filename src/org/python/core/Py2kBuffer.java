@@ -185,28 +185,33 @@ public class Py2kBuffer extends PySequence implements BufferProtocol {
     }
 
     @Override
-    public PyString __repr__() {
+    public PyString __repr__(){
+        return buffer___repr__();
+    }
+
+    @ExposedMethod(doc=BuiltinDocs.buffer___repr___doc)
+    public PyString buffer___repr__() {
         String fmt = "<read-only buffer for %s, size %d, offset %d at 0x%s>";
         String ret = String.format(fmt, Py.idstr((PyObject)object), size, offset, Py.idstr(this));
         return new PyString(ret);
     }
 
-    @Override
-    public PyString __str__() {
+    public String toString(){
         PyBuffer buf = getBuffer();
         try {
             if (buf instanceof BaseBuffer) {
                 // In practice, it always is
-                return new PyString(buf.toString());
+                return buf.toString();
             } else {
                 // But just in case ...
                 String s = StringUtil.fromBytes(buf);
-                return new PyString(s);
+                return s ;
             }
         } finally {
             buf.release();
         }
     }
+
 
     /**
      * {@inheritDoc} A <code>buffer</code> implements this as concatenation and returns a
