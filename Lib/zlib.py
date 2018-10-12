@@ -175,12 +175,6 @@ class compressobj(object):
 
 class decompressobj(object):
 
-    # NB: this format is little-endian, not big-endian as we might
-    # expect for network oriented protocols. Both are 4 bytes unsigned
-    # modulus 2^32 per RFC-1952. CRC32.getValue() returns an unsigned
-    # int as a long, so cope accordingly. 
-    GZIP_TRAILER_FORMAT = struct.Struct("<II")  # crc32, size
-
     def __init__(self, wbits=MAX_WBITS):
 
         # Jython only uses wbits to determine to skip the header if it's negative;
