@@ -7,7 +7,6 @@
  */
 
 package org.python.modules;
-
 import org.python.core.Py;
 import org.python.core.PyException;
 import org.python.core.PyFloat;
@@ -21,6 +20,8 @@ import org.python.core.PyTuple;
 import java.math.BigInteger;
 import org.python.core.ClassDictInit;
 import org.python.core.PyArray;
+import org.python.core.PyByteArray;
+import org.python.core.Py2kBuffer;
 
 /**
  * This module performs conversions between Python values and C
@@ -1077,7 +1078,7 @@ public class struct implements ClassDictInit {
      * The string must contain exactly the amount of data required by
      * the format (i.e. len(string) must equal calcsize(fmt)).
      */
-   
+
     public static PyTuple unpack(String format, String string) {
         FormatDef[] f = whichtable(format);
         int size = calcsize(format, f);
@@ -1096,11 +1097,36 @@ public class struct implements ClassDictInit {
             throw StructError("unpack str size does not match format");
          return unpack(f, size, format, new ByteStream(string));
     }
-    
-    public static PyTuple unpack_from(String format, String string) {
-        return unpack_from(format, string, 0);   
+
+    public static PyTuple unpack(String format, Py2kBuffer buffer){
+        return unpack(format, buffer.toString());
     }
-        
+
+    public static PyTuple unpack(String format, PyByteArray bytearray) {
+        /* bytearray is added in 2.7.7 */
+        return unpack(format, bytearray.toString());
+    }
+
+    public static PyTuple unpack_from(String format, Py2kBuffer buffer) {
+        return unpack_from(format, buffer.toString(), 0);
+    }
+
+    public static PyTuple unpack_from(String format, PyByteArray bytearray) {
+        return unpack_from(format, bytearray.toString(), 0);
+    }
+
+    public static PyTuple unpack_from(String format, Py2kBuffer buffer, int offset) {
+        return unpack_from(format, buffer.toString(), offset);
+    }
+
+    public static PyTuple unpack_from(String format, PyByteArray bytearray, int offset) {
+        return unpack_from(format, bytearray.toString(), offset);
+    }
+
+    public static PyTuple unpack_from(String format, String string) {
+        return unpack_from(format, string, 0);
+    }
+
     public static PyTuple unpack_from(String format, String string, int offset) {
         FormatDef[] f = whichtable(format);
         int size = calcsize(format, f);
@@ -1109,7 +1135,7 @@ public class struct implements ClassDictInit {
             throw StructError("unpack_from str size does not match format");
         return unpack(f, size, format, new ByteStream(string, offset));
     }
-    
+
     static PyTuple unpack(FormatDef[] f, int size, String format, ByteStream str) {
         PyList res = new PyList();
         int flen = format.length();
@@ -1137,7 +1163,6 @@ public class struct implements ClassDictInit {
         }
         return PyTuple.fromIterable(res);
     }
-
 
     static PyException StructError(String explanation) {
         return new PyException(error, explanation);
