@@ -88,8 +88,7 @@ public class PyObjectDerived extends PyObject implements Slotted,FinalizablePyOb
     public PyString __str__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__str__");
-        // we are not the builtin!
-        if (impl!=null && impl.objtype.builtin == false ) {
+        if (impl!=null) {
             PyObject res=impl.__get__(this,self_type).__call__();
             if (res instanceof PyString)
                 return(PyString)res;
@@ -101,8 +100,7 @@ public class PyObjectDerived extends PyObject implements Slotted,FinalizablePyOb
     public PyString __repr__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__repr__");
-        // we are not the builtin!
-        if (impl!=null && impl.objtype.builtin == false ) {
+        if (impl!=null) {
             PyObject res=impl.__get__(this,self_type).__call__();
             if (res instanceof PyString)
                 return(PyString)res;

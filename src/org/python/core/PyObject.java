@@ -221,49 +221,22 @@ public class PyObject implements Serializable {
      * <code>PyObject</code> is to override the standard Java <code>toString</code> method.
      **/
     /*
-     * This was as exposed __str__ method in the original @ExposedMethod annotation
-     * implementation way back in '07 and it orphoned a bunch of intentional overrides
-     * that faithfully reproduce proper __str__ and __repr__ behavior down stream objects.
-     * and making jython dirverge from behavior reproduced from the target cython.
-     *
-     * git diff  b06512177^  b06512177 -- src/org/python/core/PyObject.java
-     *
-     * Someone looked at it years later and added this.
-     *
      * counter-intuitively exposing this as __str__, otherwise stack overflow occurs during
      * regression testing.
-     *
-     * Then many years later, somone added this.
-     *
-     * XXX: more detail for this comment is needed...
-     *
-     * AFAIK, this was a small mistake in 07 and maybe the attempt to just pull it out without avoiding
-     * recursion caused some issue in some test a long time ago.  Still need some testing, but it's better
-     * to fix what caused the test issue if it still occurs.
-     *
-     * A good example of consequence is Py2kBuffer buffer() objects which should return the actual content
-     * byte string on __str__() not __repr__() and custom __repr__() on __repr__() rather than
-     * the generic object_toString.
      */
-    /**
-     * Equivalent to the standard Python __repr__ method. This method should not typically need to
-     * be overrriden. The easiest way to configure the string representation of a
-     * <code>PyObject</code> is to override the standard Java <code>toString</code> method.
-     **/
-    @ExposedMethod(names = "__repr__", doc = BuiltinDocs.object___repr___doc)
-    public final PyString object__repr__(){
-        return __repr__();
-    };
-
-    public PyString __repr__(){
-        return new PyString(object__toString());
+    // XXX: more detail for this comment is needed.
+    @ExposedMethod(names = "__str__", doc = BuiltinDocs.object___str___doc)
+    public PyString __repr__() {
+        return new PyString(toString());
     }
+
     @Override
     public String toString() {
-        return object__toString();
+        return object_toString();
     }
 
-    final String object__toString() {
+    @ExposedMethod(names = "__repr__", doc = BuiltinDocs.object___repr___doc)
+    final String object_toString() {
         if (getType() == null) {
             return "unknown object";
         }
@@ -284,27 +257,9 @@ public class PyObject implements Serializable {
      * Equivalent to the standard Python __str__ method. This method should not typically need to be
      * overridden. The easiest way to configure the string representation of a <code>PyObject</code>
      * is to override the standard Java <code>toString</code> method.
-    public PyString __str__(){
-        if (getType() == null) {
-            return "unknown object";
-        }
-
-        String name = getType().getName();
-        if (name == null) {
-            return "unknown object";
-        }
-        PyObject module = getType().getModule();
-        if (!module.toString().equals("__builtin__"){
-
-
-
-        }
-    };
-
      **/
-    @ExposedMethod(names = "__str__", doc = BuiltinDocs.object___str___doc)
-    public PyString __str__(){
-        return PyString.fromInterned(toString());
+    public PyString __str__() {
+        return __repr__();
     }
 
     /**
@@ -1786,7 +1741,7 @@ public class PyObject implements Serializable {
             Py.warning(Py.PendingDeprecationWarning,
                     "object.__format__ with a non-empty format string is deprecated");
         }
-        return new PyString(toString()).__format__(formatSpec);
+        return __str__().__format__(formatSpec);
     }
 
     /**
