@@ -1162,12 +1162,19 @@ public class BreakDerived extends Break implements Slotted,FinalizablePyObjectDe
 
     public String toString() {
         PyType self_type=getType();
-        PyObject impl=self_type.lookup("__repr__");
+        PyObject impl=self_type.lookup("toString");
         if (impl!=null) {
-            PyObject res=impl.__get__(this,self_type).__call__();
-            if (!(res instanceof PyString))
-                throw Py.TypeError("__repr__ returned non-string (type "+res.getType().fastGetName()+")");
-            return((PyString)res).toString();
+            Object res=impl.__get__(this,self_type).__call__();
+            if (res instanceof PyString) {
+                return((PyString)res).toString();
+            } else
+                if (res instanceof String) {
+                    return(String)res;
+                } else
+                    if (res instanceof PyObject) {
+                        throw Py.TypeError("__repr__ returned non-string (type "+((PyObject)res).getType().fastGetName()+")");
+                    }
+            throw Py.TypeError("__repr__ returned non-string (type "+getClass().getCanonicalName()+")");
         }
         return super.toString();
     }
