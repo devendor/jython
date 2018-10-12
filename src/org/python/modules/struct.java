@@ -1101,37 +1101,28 @@ public class struct implements ClassDictInit {
     }
 
     public static PyTuple unpack(String format, Py2kBuffer buffer){
-        SimpleBuffer stringBuffer = (SimpleBuffer)buffer.getBuffer( PyBUF.SIMPLE);
-        String string = stringBuffer.toString();
-        stringBuffer.release();
-        return unpack(format, string);
+        return unpack(format, buffer.toString());
     }
 
-    public static PyTuple unpack(String format, PyByteArray bytarray) {
+    public static PyTuple unpack(String format, PyByteArray bytearray) {
         /* bytearray is added in 2.7.7 */
-        BaseBytes baseBytes = (BaseBytes)bytarray;
-        String string = baseBytes.toString();
-        return unpack(format, string);
+        return unpack(format, bytearray.toString());
     }
 
     public static PyTuple unpack_from(String format, Py2kBuffer buffer) {
-        return unpack_from(format, buffer, 0);
+        return unpack_from(format, buffer.toString(), 0);
     }
 
     public static PyTuple unpack_from(String format, PyByteArray bytearray) {
-        return unpack_from(format, bytearray, 0);
+        return unpack_from(format, bytearray.toString(), 0);
     }
 
     public static PyTuple unpack_from(String format, Py2kBuffer buffer, int offset) {
-        SimpleBuffer stringBuffer = (SimpleBuffer)buffer.getBuffer( PyBUF.SIMPLE);
-        String string = stringBuffer.toString();
-        stringBuffer.release();
-        return unpack_from(format, string, 0);
+        return unpack_from(format, buffer.toString(), offset);
     }
 
     public static PyTuple unpack_from(String format, PyByteArray bytearray, int offset) {
-        String string = bytearray.toString();
-        return unpack_from(format, string, 0);
+        return unpack_from(format, bytearray.toString(), offset);
     }
 
     public static PyTuple unpack_from(String format, String string) {
