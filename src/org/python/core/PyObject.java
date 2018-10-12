@@ -285,23 +285,6 @@ public class PyObject implements Serializable {
      * Equivalent to the standard Python __str__ method. This method should not typically need to be
      * overridden. The easiest way to configure the string representation of a <code>PyObject</code>
      * is to override the standard Java <code>toString</code> method.
-    public PyString __str__(){
-        if (getType() == null) {
-            return "unknown object";
-        }
-
-        String name = getType().getName();
-        if (name == null) {
-            return "unknown object";
-        }
-        PyObject module = getType().getModule();
-        if (!module.toString().equals("__builtin__"){
-
-
-
-        }
-    };
-
      **/
     public PyString __str__(){
         return object___str__();
