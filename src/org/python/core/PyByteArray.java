@@ -11,8 +11,6 @@ import org.python.expose.ExposedNew;
 import org.python.expose.ExposedType;
 import org.python.expose.MethodType;
 
-import static com.sun.tools.doclint.Entity.sub;
-
 /**
  * Implementation of Python <code>bytearray</code> with a Java API that includes equivalents to most
  * of the Python API. These Python equivalents accept a {@link PyObject} as argument, where you
@@ -1330,7 +1328,7 @@ public class PyByteArray extends BaseBytes implements BufferProtocol {
         } else if (o instanceof PyMemoryView){
             setslice( size, size, 1, (BufferProtocol)o );
         } else {
-            throw ConcatenationTypeError( oType, TYPE );
+            throw ConcatenationTypeError(oType, TYPE);
         }
         return this;
     }

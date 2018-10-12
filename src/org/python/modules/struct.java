@@ -1071,8 +1071,6 @@ public class struct implements ClassDictInit {
         return res;
     }
 
-
-
     /**
      * Unpack the string (presumably packed by pack(fmt, ...)) according
      * to the given format. The result is a tuple even if it contains
@@ -1137,7 +1135,7 @@ public class struct implements ClassDictInit {
             throw StructError("unpack_from str size does not match format");
         return unpack(f, size, format, new ByteStream(string, offset));
     }
-    
+
     static PyTuple unpack(FormatDef[] f, int size, String format, ByteStream str) {
         PyList res = new PyList();
         int flen = format.length();
@@ -1165,7 +1163,6 @@ public class struct implements ClassDictInit {
         }
         return PyTuple.fromIterable(res);
     }
-
 
     static PyException StructError(String explanation) {
         return new PyException(error, explanation);
