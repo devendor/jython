@@ -24,9 +24,6 @@ from java.lang import Long, String, System
 from java.util.zip import Adler32, CRC32, Deflater, Inflater, DataFormatException
 
 
-class error(Exception):
-    pass
-
 
 DEFLATED = 8
 MAX_WBITS = 15
@@ -238,9 +235,9 @@ class decompressobj(object):
                 mysize = int(self.inflater.getTotalOut()) % 2**32
                 mycrc = self._crc32.getValue() % 2**32
                 if mysize != isize:
-                    raise ValueError("Inflation size mismatch error expected %s got %s" % (isize, mysize))
+                    raise error('Error -3 while decompressing data: incorrect length check')
                 if mycrc != crc:
-                    raise ValueError("CRC32 checksum failure expected %s got %s" % (crc, mycrc))
+                    raise error("Error -3 while decompressing data: incorrect data check")
             elif max_length and not self.inflater.finished():
                 self.unconsumed_tail = string[-r:]
             else:
@@ -351,3 +348,5 @@ def _skip_gzip_header(string):
 
 
 
+class error(Exception):
+    pass
