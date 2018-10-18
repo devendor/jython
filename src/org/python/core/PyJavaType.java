@@ -977,13 +977,33 @@ public class PyJavaType extends PyType {
                 return Py.newInteger(self.getJavaProxy().hashCode());
             }
         });
+
+        addMethod(new PyBuiltinMethodNarrow("__str__") {
+
+            @Override
+            public PyObject __call__() {
+                /*
+                 * java.lang.Object.toString returns Unicode: preserve as a PyUnicode, then let the
+                 * repr() built-in decide how to handle it.
+                 */
+                if (self.getJavaProxy().getClass().getCanonicalName() == "java.lang.String") {
+                    String toString = self.getJavaProxy().toString();
+                    try {
+                        return toString == null ? Py.EmptyString : new PyString(toString);
+                    } catch (IllegalArgumentException e) {
+                        return toString == null ? Py.EmptyUnicode : Py.newUnicode(toString);
+                    }
+                } else
+                    return self.__repr__();
+            }
+        });
         addMethod(new PyBuiltinMethodNarrow("__repr__") {
 
             @Override
             public PyObject __call__() {
                 /*
                  * java.lang.Object.toString returns Unicode: preserve as a PyUnicode, then let the
-                 * repr() built-in decide how to handle it. (Also applies to __str__.)
+                 * repr() built-in decide how to handle it.
                  */
                 String toString = self.getJavaProxy().toString();
                 return toString == null ? Py.EmptyUnicode : Py.newUnicode(toString);
@@ -993,7 +1013,8 @@ public class PyJavaType extends PyType {
 
             @Override
             public PyObject __call__() {
-                return new PyUnicode(self.toString());
+                String toString = self.getJavaProxy().toString();
+                return toString == null ? Py.EmptyUnicode : Py.newUnicode( toString );
             }
         });
     }
