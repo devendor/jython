@@ -1,5 +1,8 @@
 package org.python.core;
 
+import org.python.core.adapter.ClassicPyObjectAdapter;
+import org.python.core.adapter.PyObjectAdapter;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -131,20 +134,29 @@ class JavaProxyMap {
     private static final PyBuiltinMethodNarrow mapReprProxy = new MapMethod("__repr__", 0) {
         @Override
         public PyObject __call__() {
+            ThreadState ts = Py.getThreadState();
+            if (!ts.enterRepr(self)) {
+               return Py.newString("{...}");
+            }
             StringBuilder repr = new StringBuilder("{");
-            for (Map.Entry<Object, Object> entry : asMap().entrySet()) {
-                Object jkey = entry.getKey();
-                Object jval = entry.getValue();
-                repr.append(jkey.toString());
-                repr.append(": ");
-                repr.append(jval == asMap() ? "{...}" : (jval == null ? "None" : jval.toString()));
-                repr.append(", ");
+            try {
+                for (Map.Entry<Object, Object> entry : asMap().entrySet()) {
+                        Object jkey = entry.getKey();
+                        Object jval = entry.getValue();
+                        repr.append((jkey instanceof PyObject) ? ((PyObject) jkey).__repr__().toString() : Py.java2py(jkey).__repr__().toString());
+                        repr.append( ": " );
+                        repr.append((jval instanceof PyObject) ? ((PyObject) jval).__repr__().toString() : Py.java2py(jval).__repr__().toString());
+
+                    repr.append( ", " );
+                }
+                int lastindex = repr.lastIndexOf(", ");
+                if (lastindex > -1) {
+                    repr.delete(lastindex, lastindex + 2);
+                }
+                repr.append("}");
+            } finally {
+                ts.exitRepr(self);
             }
-            int lastindex = repr.lastIndexOf(", ");
-            if (lastindex > -1) {
-                repr.delete(lastindex, lastindex + 2);
-            }
-            repr.append("}");
             return new PyString(repr.toString());
         }
     };
