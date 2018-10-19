@@ -240,25 +240,28 @@ public class PyStringMap extends AbstractDict implements Traverseproc {
         if (!ts.enterRepr(this)) {
             return "{...}";
         }
-        StringBuilder buf = new StringBuilder("{");
-        for (Entry<Object, PyObject> entry : table.entrySet()) {
-            Object key = entry.getKey();
-            if (key instanceof String) {
-                /* This is a bit complicated, but prevents us to duplicate
-                   PyString#__repr__ logic here. */
-                buf.append(new PyString((String)key).__repr__().toString());
-            } else {
-                buf.append(((PyObject)key).__repr__().toString());
+        StringBuilder buf = new StringBuilder( "{" );
+        try {
+            for (Entry<Object, PyObject> entry : table.entrySet()) {
+                Object key = entry.getKey();
+                if (key instanceof String) {
+                    /* This is a bit complicated, but prevents us to duplicate
+                       PyString#__repr__ logic here. */
+                    buf.append( new PyString( (String) key ).__repr__().toString() );
+                } else {
+                    buf.append( ((PyObject) key).__repr__().toString() );
+                }
+                buf.append( ": " );
+                buf.append( entry.getValue().__repr__().toString() );
+                buf.append( ", " );
             }
-            buf.append(": ");
-            buf.append(entry.getValue().__repr__().toString());
-            buf.append(", ");
+            if (buf.length() > 1) {
+                buf.delete( buf.length() - 2, buf.length() );
+            }
+            buf.append( "}" );
+        } finally {
+            ts.exitRepr( this );
         }
-        if (buf.length() > 1) {
-            buf.delete(buf.length() - 2, buf.length());
-        }
-        buf.append("}");
-        ts.exitRepr(this);
         return buf.toString();
     }
 

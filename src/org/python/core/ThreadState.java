@@ -43,14 +43,17 @@ public class ThreadState {
         PySystemState systemState = systemStateRef == null ? null : systemStateRef.get();
         return systemState == null ? Py.defaultSystemState : systemState; 
     }
-    
+
     public boolean enterRepr(PyObject obj) {
         if (reprStack == null) {
             reprStack = new PyList(new PyObject[] {obj});
             return true;
         }
+        Boolean objHasTp = (obj instanceof Traverseproc);
         for (int i = reprStack.size() - 1; i >= 0; i--) {
-            if (obj == reprStack.pyget(i)) {
+            if (objHasTp && obj == reprStack.pyget(i)){
+                return false;
+            } else if (!objHasTp && reprStack.pyget(i).getJavaProxy() == obj.getJavaProxy()){
                 return false;
             }
         }
@@ -62,8 +65,11 @@ public class ThreadState {
         if (reprStack == null) {
             return;
         }
+        Boolean objHasTp = (obj instanceof Traverseproc);
         for (int i = reprStack.size() - 1; i >= 0; i--) {
-            if (reprStack.pyget(i) == obj) {
+            if (objHasTp && reprStack.pyget(i) == obj) {
+                reprStack.delRange(i, reprStack.size());
+            } else if (!objHasTp && reprStack.pyget(i).getJavaProxy() == obj.getJavaProxy()) {
                 reprStack.delRange(i, reprStack.size());
             }
         }

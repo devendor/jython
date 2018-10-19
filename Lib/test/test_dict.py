@@ -418,8 +418,7 @@ class DictTest(unittest.TestCase):
         d = self._make_dict({})
         self.assertEqual(repr(d), '{}')
         d[1] = 2
-        self.assertEqual(repr(d), '{1: 2}')
-
+        self.assertEqual(repr(d), '{1: 2}', msg="%s != '{1: 2}' for type %s" % (repr(d),d.__class__.__mro__))
         d = self._make_dict({})
         d[1] = d
         self.assertEqual(repr(d), '{1: {...}}')
@@ -432,6 +431,16 @@ class DictTest(unittest.TestCase):
 
         d = self._make_dict({1: BadRepr()})
         self.assertRaises(Exc, repr, d)
+
+    def test_repr_indirect_(self):
+        f = self._make_dict({})
+        e = self._make_dict({})
+        f[1]=e
+        e[1]=f
+        print " ------- %s " % self._class
+        self.assertEqual(repr(f), '{1: {1: {...}}}')
+
+
 
     def test_le(self):
         self.assertFalse(self._make_dict({}) < {})
