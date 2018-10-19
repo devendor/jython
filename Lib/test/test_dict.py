@@ -437,7 +437,6 @@ class DictTest(unittest.TestCase):
         e = self._make_dict({})
         f[1]=e
         e[1]=f
-        print " ------- %s " % self._class
         self.assertEqual(repr(f), '{1: {1: {...}}}')
 
 

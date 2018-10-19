@@ -294,6 +294,17 @@ class TypesTests(unittest.TestCase):
         try: int(buffer(array.array('c')))
         except TypeError: pass
         else: self.fail("char buffer (at C level) not working")
+        # buffer interface translates to utf16-be on unicode input.
+        b=buffer(u'asdf')
+        self.assertEqual(str(b),b'\x00a\x00s\x00d\x00f')
+        # __str__ is exposed from Py2kBuffer
+        self.assertEqual(str(b), b.__str__())
+        # __repr__ is customized
+        self.assertRegexpMatches(repr(b),
+                                 r'<read-only buffer for 0x[\da-f]+, size -1, offset 0 at 0x[\da-f]+>')
+        # __repr__ is exposed
+        self.assertEqual(b.__repr__(),repr(b))
+
 
     def test_int__format__(self):
         def test(i, format_spec, result):

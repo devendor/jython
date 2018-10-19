@@ -694,6 +694,8 @@ class ByteArrayTest(BaseBytesTest):
         self.assertTrue(b is b1)
         b += b"xyz"
         self.assertEqual(b, b"abcdefxyz")
+        b += memoryview('zyx') # Used by pip / msgpack
+        self.assertEqual(b, b"abcdefxyzzyx")
         try:
             b += u""
         except TypeError:

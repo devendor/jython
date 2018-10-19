@@ -427,6 +427,15 @@ class BytesMemoryviewTest(unittest.TestCase,
             self.assertRaises(TypeError, memoryview, argument=ob)
             self.assertRaises(TypeError, memoryview, ob, argument=True)
 
+    def test_unicode_resistance(self):
+        """Py 2.x doesn't support memoryview from Unicode unlike buffer which
+        " translates to UTF-32BE. The error is a feature that forces explicit
+        " decode, and is used in msgpack / pip to trigger appropriate decode.
+        """
+        self.assertRaises(TypeError, memoryview, u'asdf')
+
+
+
 #class ArrayMemoryviewTest(unittest.TestCase,
     #BaseMemoryviewTests, BaseArrayMemoryTests):
 
@@ -442,6 +451,7 @@ class BytesMemoryviewTest(unittest.TestCase,
 class BytesMemorySliceTest(unittest.TestCase,
     BaseMemorySliceTests, BaseBytesMemoryTests):
     pass
+
 
 #class ArrayMemorySliceTest(unittest.TestCase,
     #BaseMemorySliceTests, BaseArrayMemoryTests):
