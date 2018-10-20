@@ -62,7 +62,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyString __str__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__str__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__str__")) {
             PyObject res=impl.__get__(this,self_type).__call__();
             if (res instanceof PyString)
                 return(PyString)res;
@@ -74,7 +74,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyString __repr__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__repr__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__repr__")) {
             PyObject res=impl.__get__(this,self_type).__call__();
             if (res instanceof PyString)
                 return(PyString)res;
@@ -86,7 +86,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyString __hex__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__hex__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__hex__")) {
             PyObject res=impl.__get__(this,self_type).__call__();
             if (res instanceof PyString)
                 return(PyString)res;
@@ -98,7 +98,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyString __oct__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__oct__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__oct__")) {
             PyObject res=impl.__get__(this,self_type).__call__();
             if (res instanceof PyString)
                 return(PyString)res;
@@ -110,7 +110,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyFloat __float__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__float__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__float__")) {
             PyObject res=impl.__get__(this,self_type).__call__();
             if (res instanceof PyFloat)
                 return(PyFloat)res;
@@ -122,7 +122,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyComplex __complex__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__complex__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__complex__")) {
             PyObject res=impl.__get__(this,self_type).__call__();
             if (res instanceof PyComplex)
                 return(PyComplex)res;
@@ -134,7 +134,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __pos__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__pos__");
-        if (impl!=null)
+        if (impl!=null&&impl!=TYPE.lookup("__pos__"))
             return impl.__get__(this,self_type).__call__();
         return super.__pos__();
     }
@@ -142,7 +142,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __neg__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__neg__");
-        if (impl!=null)
+        if (impl!=null&&impl!=TYPE.lookup("__neg__"))
             return impl.__get__(this,self_type).__call__();
         return super.__neg__();
     }
@@ -150,7 +150,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __abs__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__abs__");
-        if (impl!=null)
+        if (impl!=null&&impl!=TYPE.lookup("__abs__"))
             return impl.__get__(this,self_type).__call__();
         return super.__abs__();
     }
@@ -158,7 +158,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __invert__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__invert__");
-        if (impl!=null)
+        if (impl!=null&&impl!=TYPE.lookup("__invert__"))
             return impl.__get__(this,self_type).__call__();
         return super.__invert__();
     }
@@ -166,7 +166,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __reduce__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__reduce__");
-        if (impl!=null)
+        if (impl!=null&&impl!=TYPE.lookup("__reduce__"))
             return impl.__get__(this,self_type).__call__();
         return super.__reduce__();
     }
@@ -174,7 +174,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __dir__() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__dir__");
-        if (impl!=null)
+        if (impl!=null&&impl!=TYPE.lookup("__dir__"))
             return impl.__get__(this,self_type).__call__();
         return super.__dir__();
     }
@@ -182,7 +182,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __add__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__add__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__add__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -194,7 +194,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __radd__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__radd__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__radd__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -206,7 +206,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __sub__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__sub__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__sub__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -218,7 +218,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rsub__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rsub__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rsub__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -230,7 +230,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __mul__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__mul__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__mul__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -242,7 +242,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rmul__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rmul__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rmul__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -254,7 +254,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __div__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__div__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__div__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -266,7 +266,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rdiv__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rdiv__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rdiv__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -278,7 +278,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __floordiv__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__floordiv__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__floordiv__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -290,7 +290,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rfloordiv__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rfloordiv__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rfloordiv__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -302,7 +302,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __truediv__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__truediv__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__truediv__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -314,7 +314,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rtruediv__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rtruediv__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rtruediv__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -326,7 +326,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __mod__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__mod__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__mod__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -338,7 +338,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rmod__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rmod__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rmod__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -350,7 +350,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __divmod__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__divmod__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__divmod__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -362,7 +362,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rdivmod__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rdivmod__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rdivmod__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -374,7 +374,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rpow__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rpow__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rpow__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -386,7 +386,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __lshift__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__lshift__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__lshift__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -398,7 +398,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rlshift__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rlshift__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rlshift__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -410,7 +410,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rshift__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rshift__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rshift__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -422,7 +422,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rrshift__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rrshift__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rrshift__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -434,7 +434,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __and__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__and__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__and__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -446,7 +446,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rand__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rand__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rand__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -458,7 +458,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __or__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__or__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__or__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -470,7 +470,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __ror__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__ror__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__ror__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -482,7 +482,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __xor__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__xor__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__xor__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -494,7 +494,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __rxor__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__rxor__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__rxor__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -506,7 +506,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __lt__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__lt__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__lt__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -518,7 +518,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __le__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__le__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__le__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -530,7 +530,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __gt__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__gt__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__gt__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -542,7 +542,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __ge__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__ge__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__ge__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -554,7 +554,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __eq__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__eq__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__eq__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -566,7 +566,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __ne__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__ne__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__ne__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -578,7 +578,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __format__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__format__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__format__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -590,7 +590,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __iadd__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__iadd__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__iadd__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -602,7 +602,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __isub__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__isub__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__isub__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -614,7 +614,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __imul__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__imul__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__imul__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -626,7 +626,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __idiv__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__idiv__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__idiv__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -638,7 +638,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __ifloordiv__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__ifloordiv__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__ifloordiv__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -650,7 +650,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __itruediv__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__itruediv__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__itruediv__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -662,7 +662,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __imod__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__imod__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__imod__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -674,7 +674,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __ipow__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__ipow__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__ipow__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -686,7 +686,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __ilshift__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__ilshift__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__ilshift__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -698,7 +698,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __irshift__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__irshift__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__irshift__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -710,7 +710,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __iand__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__iand__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__iand__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -722,7 +722,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __ior__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__ior__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__ior__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -734,7 +734,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public PyObject __ixor__(PyObject other) {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("__ixor__");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("__ixor__")) {
             PyObject res=impl.__get__(this,self_type).__call__(other);
             if (res==Py.NotImplemented)
                 return null;
@@ -1136,7 +1136,7 @@ public class PyLocalDerived extends PyLocal implements Slotted,FinalizablePyObje
     public String toString() {
         PyType self_type=getType();
         PyObject impl=self_type.lookup("toString");
-        if (impl!=null) {
+        if (impl!=null&&impl!=TYPE.lookup("toString")) {
             Object res=impl.__get__(this,self_type).__call__();
             if (res instanceof PyString) {
                 return((PyString)res).toString();
