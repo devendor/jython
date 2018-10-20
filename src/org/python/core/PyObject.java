@@ -252,12 +252,8 @@ public class PyObject implements Serializable {
      **/
 
 
-    public PyString __repr__(){
-        return object___repr__();
-    }
-
     @ExposedMethod(doc = BuiltinDocs.object___repr___doc)
-    final public PyString object___repr__(){
+    public PyString __repr__(){
         return new PyString(toString());
     }
 
@@ -286,12 +282,8 @@ public class PyObject implements Serializable {
      * overridden. The easiest way to configure the string representation of a <code>PyObject</code>
      * is to override the standard Java <code>toString</code> method.
      **/
-    public PyString __str__(){
-        return __repr__();
-    }
-
     @ExposedMethod(doc=BuiltinDocs.object___str___doc)
-    final public PyString object___str__(){
+    public PyString __str__(){
         return __repr__();
     }
     /**

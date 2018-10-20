@@ -379,7 +379,7 @@ public class PyInstance extends PyObject implements FinalizablePyObject, Travers
 
     @Override
     public String toString() {
-        return __repr__().toString();
+        return __str__().toString();
     }
 
     @Override

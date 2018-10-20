@@ -149,16 +149,18 @@ public abstract class BaseDictionaryView extends PyObject implements Traversepro
         if (!ts.enterRepr(this)) {
             return name + "([])";
         }
-
-        StringBuilder buf = new StringBuilder(name).append("([");
-        for (Iterator<PyObject> i = this.asIterable().iterator(); i.hasNext();) {
-            buf.append((i.next()).__repr__().toString());
-            if (i.hasNext()) {
-                buf.append(", ");
+        StringBuilder buf = new StringBuilder( name ).append( "([" );
+        try {
+            for (Iterator<PyObject> i = this.asIterable().iterator(); i.hasNext(); ) {
+                buf.append( (i.next()).__repr__().toString() );
+                if (i.hasNext()) {
+                    buf.append( ", " );
+                }
             }
+            buf.append( "])" );
+        } finally {
+            ts.exitRepr( this );
         }
-        buf.append("])");
-        ts.exitRepr(this);
         return buf.toString();
     }
 

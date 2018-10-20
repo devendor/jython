@@ -227,26 +227,28 @@ public class PyDictionary extends AbstractDict implements ConcurrentMap, Travers
         return dict_toString();
     }
 
+
     @ExposedMethod(names = {"__repr__", "__str__"}, doc = BuiltinDocs.dict___str___doc)
     final String dict_toString() {
         ThreadState ts = Py.getThreadState();
         if (!ts.enterRepr(this)) {
             return "{...}";
         }
-
-        StringBuilder buf = new StringBuilder("{");
-        for (Entry<PyObject, PyObject> entry : getMap().entrySet()) {
-            buf.append((entry.getKey()).__repr__().toString());
-            buf.append(": ");
-            buf.append((entry.getValue()).__repr__().toString());
-            buf.append(", ");
+        StringBuilder buf = new StringBuilder( "{" );
+        try {
+            for (Entry<PyObject, PyObject> entry : getMap().entrySet()) {
+                buf.append( (entry.getKey()).__repr__().toString() );
+                buf.append( ": " );
+                buf.append( (entry.getValue()).__repr__().toString() );
+                buf.append( ", " );
+            }
+            if (buf.length() > 1) {
+                buf.delete( buf.length() - 2, buf.length() );
+            }
+            buf.append( "}" );
+        } finally {
+            ts.exitRepr( this );
         }
-        if (buf.length() > 1) {
-            buf.delete(buf.length() - 2, buf.length());
-        }
-        buf.append("}");
-
-        ts.exitRepr(this);
         return buf.toString();
     }
 

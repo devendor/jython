@@ -500,23 +500,26 @@ public class PyList extends PySequenceList {
 
     //XXX: needs __doc__
     @ExposedMethod(names = "__repr__")
-    final synchronized String list_toString() {
+    final String list_toString() {
         ThreadState ts = Py.getThreadState();
         if (!ts.enterRepr(this)) {
             return "[...]";
         }
         StringBuilder buf = new StringBuilder("[");
-        int length = size();
-        int i = 0;
-        for (PyObject item : list) {
-            buf.append(item.__repr__().toString());
-            if (i < length - 1) {
-                buf.append(", ");
+        try {
+            int length = size();
+            int i = 0;
+            for (PyObject item : list) {
+                buf.append( item.__repr__().toString() );
+                if (i < length - 1) {
+                    buf.append( ", " );
+                }
+                i++;
             }
-            i++;
+            buf.append( "]" );
+        } finally {
+            ts.exitRepr( this );
         }
-        buf.append("]");
-        ts.exitRepr(this);
         return buf.toString();
     }
 
