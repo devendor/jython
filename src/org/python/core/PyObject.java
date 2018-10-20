@@ -287,12 +287,12 @@ public class PyObject implements Serializable {
      * is to override the standard Java <code>toString</code> method.
      **/
     public PyString __str__(){
-        return object___str__();
+        return __repr__();
     }
 
     @ExposedMethod(doc=BuiltinDocs.object___str___doc)
     final public PyString object___str__(){
-        return new PyString(toString());
+        return __repr__();
     }
     /**
      * PyObjects that implement <code>org.python.core.finalization.HasFinalizeTrigger</code> shall
