@@ -12,6 +12,7 @@ class DictTest(unittest.TestCase):
     _class = None
 
     def _make_dict(self, pydict):
+        self._class_name = str(getattr(self,'_class','pydict'))
         return pydict if not self._class else self._class(pydict)
 
     def test_constructor(self):
@@ -418,11 +419,18 @@ class DictTest(unittest.TestCase):
         d = self._make_dict({})
         self.assertEqual(repr(d), '{}')
         d[1] = 2
-        self.assertEqual(repr(d), '{1: 2}')
-
+        rd=repr(d)
+        self.assertEqual(rd, '{1: 2}', msg="%s != '{1: 2}' for type %s" % (rd,self._class_name))
         d = self._make_dict({})
         d[1] = d
-        self.assertEqual(repr(d), '{1: {...}}')
+        try:
+            rd = repr(d)
+            self.assertEqual(rd, '{1: {...}}', msg="%s != '{1: {...}}' for type %s" % (rd,self._class_name))
+        except RuntimeError as e:
+            if 'StackOverflowError' in str(e):
+                raise self.fail("Recursion error in DicTest.test_repr for type %s" % self._class_name)
+            else:
+                raise e
 
         class Exc(Exception): pass
 
@@ -432,6 +440,20 @@ class DictTest(unittest.TestCase):
 
         d = self._make_dict({1: BadRepr()})
         self.assertRaises(Exc, repr, d)
+
+    def test_repr_indirect_(self):
+        f = self._make_dict({})
+        e = self._make_dict({})
+        f[1]=e
+        e[1]=f
+        try:
+            rf=repr(f)
+            self.assertEqual(rf, '{1: {1: {...}}}',msg="%s != '{1: {1: {...}}}' for DictTest type %s" % (rf,self._class_name))
+        except RuntimeError as e:
+            if 'StackOverflowError' in str(e):
+                raise self.fail("Recursion error in DicTest.test_repr_indirect for type %s" % self._class_name)
+            else:
+                raise e
 
     def test_le(self):
         self.assertFalse(self._make_dict({}) < {})
