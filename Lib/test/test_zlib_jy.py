@@ -51,7 +51,7 @@ class ArrayTestCase(unittest.TestCase):
         self.assertRaisesRegexp(zlib.error, 'Error -3 while decompressing data: incorrect length check',
                                 dco.decompress,c)
 
-    def test_decompress_badlen(self):
+    def test_decompress_badcrc(self):
         """Manipulating last crc bytes to create a crc check exception.
         RFC-1952:
            0   1   2   3   4   5   6   7
