@@ -1328,7 +1328,7 @@ public class PyByteArray extends BaseBytes implements BufferProtocol {
         } else if (o instanceof PyMemoryView){
             setslice(size, size, 1, (BufferProtocol)o);
         } else {
-	    // Unsuitable type
+            // Unsuitable type
             throw ConcatenationTypeError(oType, TYPE);
         }
         return this;
