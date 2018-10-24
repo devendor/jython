@@ -2,6 +2,7 @@
 from test import test_support
 import java.lang
 import unittest
+from org.python.core.Py import java2py
 
 class WrappedStrCmpTest(unittest.TestCase):
 
@@ -32,8 +33,28 @@ class StrConstructorTest(unittest.TestCase):
 
     def test_unicode_resistance(self):
         # Issue 2037: prevent byte/str elements > 255
-        self.assertRaises(UnicodeEncodeError, str, java.lang.String(u"caf\xe9 noir"))
+        # Enforce 7 bit clean int(char) < 128 on PyUnicode strings as py2 does.
+        self.assertRaises(UnicodeEncodeError, str, u'caf\xe9 noir')
+        # Allow 8 bit clean int(char) < 256 in java.lang.Strings when not specifically
+        # subclassed as PyUnicode or otherwise packed into a PyString. Replicates
+        # py2.x ambiuguity of using bytes and strings synonymously with default ascii
+        # encoding and a disregard for non-printable bytes.
+        self.assertEquals(str("caf\xe8 noir"), str(java.lang.String(u"caf\u00e8 noir")))
+        # Treat as PyUnicode if java.lang.String codepoints > 255 even when not
+        # subclassed as PyUnicode.
         self.assertRaises(UnicodeEncodeError, str, java.lang.String(u"abc\u0111efgh"))
+        # Don't be more lazy than python with str/byte ambiguity. Only unwrapped
+        # java.lang.String gets a bye on ascii 7bit clean since it is likely to contain
+        # byte driven IO based on how python treates str type in py2. Otherwise we'll
+        # enforce strong typing and explicit decode/encode if you want something else.
+        class test7BitDirtyJavaObject(java2py(java.lang.Object)):
+            def toString(self):
+                return java.lang.String(u'caf\xe9 noir')
+        class test7BitCleanJavaObject(java2py(java.lang.Object)):
+            def toString(self):
+                return java.lang.String(u'cafe noir')
+        self.assertRaises(UnicodeEncodeError, str, test7BitDirtyJavaObject())
+        self.assertEquals(str("cafe noir"), str(test7BitCleanJavaObject()))
 
 
 class StringSlicingTest(unittest.TestCase):
