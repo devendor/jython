@@ -10,29 +10,26 @@ install: ant
 os:
   - linux
   - osx
-
-
-env:
-  matrix:
-    - CUSTOM_JDK="default"
-    - CUSTOM_JDK="oraclejdk7"
-    - CUSTOM_JDK="openjdk7"
-    - CUSTOM_JDK="oraclejdk8"
-    - CUSTOM_JDK="openjdk8"
+ 
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk7 
+  - default
 
 
 matrix:
-  exclude:
+  include:
      # On OSX, run with default JDK only.
      - os: osx
-       env: CUSTOM_JDK="oraclejdk7"
-     - os: osx
-       env: CUSTOM_JDK="openjdk7"
-     - os: osx
-       env: CUSTOM_JDK="oraclejdk8"
+       jdk: default
      # On Linux, run with specific JDKs only.
      - os: linux
-       env: CUSTOM_JDK="default"
+       jdk: oraclejdk8
+     - os: linux
+       jdk: openjdk7
+     - os: linux
+       jdk: oraclejdk7
 
 before_install:
   # Patch for buffer overflow bug, see https://github.com/travis-ci/travis-ci/issues/5227
@@ -42,10 +39,6 @@ before_install:
   - sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
   - hostname
   - cat /etc/hosts # optionally check the content *after*
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; fi
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ant; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then jdk_switcher use "$CUSTOM_JDK"; fi
-
+  
 script: ant && ant regrtest-travis
 
