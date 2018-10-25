@@ -11,12 +11,23 @@ os:
   - linux
   - osx
 
+language:
+  - java
+
 env:
   matrix:
     - CUSTOM_JDK="default"
     - CUSTOM_JDK="oraclejdk7"
     - CUSTOM_JDK="openjdk7"
     - CUSTOM_JDK="oraclejdk8"
+    - CUSTOM_JDK="openjdk8"
+
+
+jdk:
+    - oraclejdk7
+    - oraclejdk8
+    - openjdk8
+    - openjdk7
 
 matrix:
   exclude:
