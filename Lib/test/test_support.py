@@ -1315,7 +1315,7 @@ def _run_suite(suite, testclass=None):
         elif len(result.failures) == 1 and not result.errors:
             err = result.failures[0][1]
         else:
-            err = "multiple errors occurred %s"  % (str(result.errors), str(result.failures))
+            err = "multiple errors occurred %s %s"  % (str(result.errors), str(result.failures))
             if not verbose:
                 err += "; run in verbose mode for details"
         raise TestFailed(err)

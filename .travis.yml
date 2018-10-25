@@ -14,15 +14,15 @@ dist: trusty
 
 os:
   - linux
-  - osx
+#  - osx
 
  
 env:
   matrix:
-    - CUSTOM_JDK="default"
-    - CUSTOM_JDK="openjdk7"
+    # - CUSTOM_JDK="default"
+    # - CUSTOM_JDK="openjdk7"
     - CUSTOM_JDK="oraclejdk8"
-    - CUSTOM_JDK="openjdk10"
+    # - CUSTOM_JDK="openjdk10"
 
 matrix:
   exclude:
