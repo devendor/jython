@@ -57,6 +57,11 @@ before_install:
   - hash -r
   - javac -version
   - java -version
+  - unset _JAVA_OPTIONS
 
 script: ant && ant regrtest-travis
+
+addons:
+   hosts:
+      devdr-jython
 
