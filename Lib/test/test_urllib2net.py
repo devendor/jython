@@ -292,7 +292,9 @@ class TimeoutTest(unittest.TestCase):
         self.assertTrue(socket.getdefaulttimeout() is None)
         with test_support.transient_internet(self.FTP_HOST, timeout=None):
             u = _urlopen_with_retry(self.FTP_HOST)
-            print dir(u.fp)
+            print type(u.fp)
+            time.sleep(5)
+            print type(u.fp)
             self.assertTrue(u.fp.fp._sock.gettimeout() is None)
 
     def test_ftp_default_timeout(self):
