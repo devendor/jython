@@ -9,16 +9,12 @@ install:
 os:
   - linux
   - osx
-  - windows
 
 language: java
  
-dist: percise
-
 env:
   matrix:
     - CUSTOM_JDK="default"
-    - CUSTOM_JDK="oraclejdk7"
     - CUSTOM_JDK="openjdk7"
     - CUSTOM_JDK="oraclejdk8"
 
@@ -31,8 +27,6 @@ matrix:
        env: CUSTOM_JDK="openjdk7"
      - os: osx
        env: CUSTOM_JDK="oraclejdk8"
-     - os: windows
-       env: CUSTOM_JDK="oraclejdk7"
      - os: windows
        env: CUSTOM_JDK="openjdk7"
      - os: windows
