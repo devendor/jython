@@ -298,7 +298,9 @@ class TimeoutTest(unittest.TestCase):
             print dir(u)
             print type(u)
             print u.info()
-            print u.code()
+            print u.getcode()
+            print u.headers()
+            print u.msg()
 
 
             self.assertTrue(u.fp.fp._sock.gettimeout() is None)
