@@ -6,6 +6,12 @@ notifications:
 install:
   - ant
 
+language: shell
+
+sudo: false
+
+dist: trusty
+
 os:
   - linux
   - osx
