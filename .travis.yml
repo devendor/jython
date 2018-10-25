@@ -55,6 +55,7 @@ before_install:
   - java -version
   - unset _JAVA_OPTIONS
   - export HOSTNAME=devdr-jython
+  - env
 
 script: ant && ant regrtest-travis
 
