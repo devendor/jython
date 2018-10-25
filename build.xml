@@ -1116,7 +1116,7 @@ The readme text for the next release will be like:
             <arg value="test_select_new"/>
             <arg value="test_socket"/>
 	    -->
-	    <arg value="test_urllib2net">
+	    <arg value="test_urllib2net"/>
         </exec>
     </target>
 
