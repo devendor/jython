@@ -54,6 +54,8 @@ before_install:
   - javac -version
   - java -version
   - unset _JAVA_OPTIONS
+  - unset PYTHON_CFLAGS
+  - unset PYTHON_CONFIGURE_OPTS
   - export HOSTNAME=devdr-jython
   - env
 
