@@ -6,7 +6,7 @@ notifications:
 install:
   - ant
 
-language: shell
+language: java
 
 sudo: false
 
@@ -15,7 +15,6 @@ dist: trusty
 os:
   - linux
   - osx
-  - windows
 
  
 env:
@@ -45,8 +44,8 @@ before_install:
   # Patch for buffer overflow bug, see https://github.com/travis-ci/travis-ci/issues/5227
   - hostname
   - cat /etc/hosts # optionally check the content *before*
-  - sudo hostname "$(hostname | cut -c1-63)"
-  - sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
+  - #sudo hostname "$(hostname | cut -c1-63)"
+  - #sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
   - hostname
   - cat /etc/hosts # optionally check the content *after*
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
