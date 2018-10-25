@@ -8,6 +8,7 @@ import socket
 import urllib2
 import os
 import sys
+import time
 
 TIMEOUT = 60  # seconds
 
