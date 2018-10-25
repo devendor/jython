@@ -51,13 +51,10 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ant; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then jdk_switcher use "$CUSTOM_JDK"; export PATH=${JAVA_HOME}/bin:$PATH ; fi
-  - env
-  - javac -version
-  - java -version
-  - hash -r
   - javac -version
   - java -version
   - unset _JAVA_OPTIONS
+  - export HOSTNAME=devdr-jython
 
 script: ant && ant regrtest-travis
 
