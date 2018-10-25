@@ -9,8 +9,8 @@ install:
 os:
   - linux
   - osx
+  - windows
 
-language: java
  
 env:
   matrix:
