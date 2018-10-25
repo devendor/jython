@@ -22,6 +22,7 @@ env:
     - CUSTOM_JDK="default"
     - CUSTOM_JDK="openjdk7"
     - CUSTOM_JDK="oraclejdk8"
+    - CUSTOM_JDK="openjdk10"
 
 matrix:
   exclude:
@@ -32,6 +33,8 @@ matrix:
        env: CUSTOM_JDK="openjdk7"
      - os: osx
        env: CUSTOM_JDK="oraclejdk8"
+     - os: osx
+       env: CUSTOM_JDK="openjdk10"
      # On Linux, run with specific JDKs only.
      - os: linux
        env: CUSTOM_JDK="default"
@@ -48,6 +51,8 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ant; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then jdk_switcher use "$CUSTOM_JDK"; fi
+  - env
+  - javac -version
 
 script: ant && ant regrtest-travis
 
