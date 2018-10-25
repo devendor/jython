@@ -294,7 +294,7 @@ class TimeoutTest(unittest.TestCase):
         with test_support.transient_internet(self.FTP_HOST, timeout=None):
             u = _urlopen_with_retry(self.FTP_HOST)
             print dir(u.fp)
-            print u.fp.__hash__
+            print u.fp.__hash__()
             print dir(u)
             print type(u)
 
