@@ -32,10 +32,6 @@ matrix:
        env: CUSTOM_JDK="openjdk7"
      - os: osx
        env: CUSTOM_JDK="oraclejdk8"
-     - os: windows
-       env: CUSTOM_JDK="openjdk7"
-     - os: windows
-       env: CUSTOM_JDK="oraclejdk8"
      # On Linux, run with specific JDKs only.
      - os: linux
        env: CUSTOM_JDK="default"
