@@ -5,8 +5,8 @@ notifications:
 
 install:
   - ant
-  - oraclejdk7
-  - openjdk7
+
+language: java
 
 os:
   - linux
