@@ -1110,7 +1110,7 @@ The readme text for the next release will be like:
             <arg value="-j"/>
             <arg value="${junit.reports}"/>
             <arg value="--use"/>
-            <arg value="network,subprocess"/>
+	    <arg value="all"/> <!--network,subprocess"/> -->
             <!-- Exclude particular tests troublesome on the build bots -->
 	    <!-- <arg value="- -exclude"/>
             <arg value="test_select_new"/>
