@@ -1,0 +1,39 @@
+#!/bin/bash
+
+if [ $0 == $BASH_SOURCE ] ; then 
+	echo "This file is intended to be sourced from a shell, not executed directly."
+fi
+
+
+pathmunge () {
+	[ -n "$1" ] || exit $LINENO
+        if [ "$2" = "delete" ] ; then
+	   PATH=$(echo $PATH | sed 's/:/\n/g' | egrep -v "^${1:-null}$" | xargs | sed 's/ /:/g' )
+   	elif ! echo $PATH | /bin/egrep -q "(^|:)$1($|:)" ; then
+	   [ -d "${1}" ] || echo WARNING: ADDED MISSING DIR TO PATH ${1}
+           if [ "$2" = "after" ] ; then
+              PATH=$PATH:$1
+           else
+              PATH=$1:$PATH
+           fi
+	fi
+	export PATH
+}
+
+
+export DISTPATH=$(dirname $(readlink -f $BASH_SOURCE))/dist/bin
+if [  "${VIRTUAL_ENV}" != "$DISTPATH" ] ; then
+	deactivate
+fi
+
+export VIRTUAL_ENV=$DISTPATH
+pathmunge $DISTPATH
+unset CLASSPATH
+
+deactivate () {
+	pathmunge ${DISTPATH} delete
+	unset DISTPATH
+	unset deactivate
+	unset VIRTUAL_ENV
+}
+
