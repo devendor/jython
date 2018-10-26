@@ -5,7 +5,9 @@ notifications:
     recipients:
       - jython-dev@lists.sourceforge.net
 
-install: ant
+install: 
+  - ant
+  - python3-twisted
 
 os:
   - linux
@@ -42,7 +44,7 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ant; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then jdk_switcher use "$CUSTOM_JDK"; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then jdk_switcher use "$CUSTOM_JDK" ; twistd3 -n ftp & ; fi
 
 
 script: ant && ./dist/bin/jython -m test.regrtest -v --use=network,subprocess -e test_urllib2net 
