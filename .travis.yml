@@ -52,7 +52,7 @@ before_install:
     brew update;
     brew install ant; pip install Twisted ;
     brew install gnu-sed;
-    /usr/local/bin/sed -i 's#FTP_HOST = .*#FTP_HOST = "ftp://localhost:2121"#' Lib/test/test_urllib2net.py ;
+    gsed -i 's#FTP_HOST = .*#FTP_HOST = "ftp://localhost:2121"#' Lib/test/test_urllib2net.py ;
     fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
     jdk_switcher use "$CUSTOM_JDK" ;
