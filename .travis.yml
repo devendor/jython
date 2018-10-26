@@ -57,8 +57,10 @@ before_install:
   # - cat /etc/hosts # optionally check the content *after*
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; fi
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ant; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then jdk_switcher use "$CUSTOM_JDK" ; sed -i 's/FTP_HOST = .*/FTP_HOST = "ftp://localhost:2121"' Lib/test/test_urllib2net.py ; twistd  ftp -r $HOME ; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ant; pip install Twisted ;  fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then jdk_switcher use "$CUSTOM_JDK" ; fi
+  - sed -i 's/FTP_HOST = .*/FTP_HOST = "ftp://localhost:2121"' Lib/test/test_urllib2net.py
+  - twistd  ftp -r $HOME
 
 
 script: ant && ./dist/bin/jython -m test.regrtest -v --use=network,subprocess -e test_urllib2net 
