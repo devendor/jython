@@ -15,6 +15,8 @@ os:
 
 dist: trusty
 
+# This allows use of faster docker images but is overriden by the string sudo in this
+# file.  Unfortunately osx still needs sudo.
 sudo: false 
 
 env:
@@ -23,7 +25,8 @@ env:
     - CUSTOM_JDK="openjdk7"
     - CUSTOM_JDK="oraclejdk8"
     # oraclejdk7 is no longer supported on travis, but 9 is
-    - CUSTOM_JDK="oraclejdk9"
+    # Good luck making it work!
+    # - CUSTOM_JDK="oraclejdk9"
 
 matrix:
   exclude:
@@ -40,8 +43,8 @@ matrix:
 
 addons:
    hosts:
-      - jytravi
-   hostname: jytravi
+      - travis
+   hostname: travis
 
 # newer xcode uses java-10
 osx_image: xcode9.3
@@ -58,9 +61,10 @@ before_install:
     export JAVA_HOME=$(/usr/libexec/java_home)
     export PATH=/usr/local/bin:$PATH
     brew update;
-    brew install ant;
-    which pip;
-    sudo pip install Twisted ;
+    brew install ant brew-pip;
+    export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages ;
+    export PATH=$PATH:$(brew --prefix)/bin:$(brew --prefix)/share/python ;
+    brew pip Twisted ;
     brew install gnu-sed;
     gsed -i 's#FTP_HOST = .*#FTP_HOST = "ftp://localhost:2121"#' Lib/test/test_urllib2net.py ;
     fi
