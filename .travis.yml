@@ -7,17 +7,16 @@ notifications:
 
 install: 
   - ant
-  - python-twisted
 
 os:
   - linux
-  - osx
+#  - osx
 
 env:
   matrix:
-    - CUSTOM_JDK="default"
-    - CUSTOM_JDK="oraclejdk7"
-    - CUSTOM_JDK="openjdk7"
+    # - CUSTOM_JDK="default"
+    # - CUSTOM_JDK="oraclejdk7"
+    # - CUSTOM_JDK="openjdk7"
     - CUSTOM_JDK="oraclejdk8"
 
 matrix:
