@@ -39,6 +39,11 @@ matrix:
      - os: linux
        env: CUSTOM_JDK="default"
 
+addons:
+   hosts:
+      - jytravi
+   hostname: jytravi
+
 before_install:
   # Patch for buffer overflow bug, see https://github.com/travis-ci/travis-ci/issues/5227
   # - hostname
@@ -62,6 +67,8 @@ before_install:
   - twistd  ftp -r $HOME
   - java -version
   - javac -version
+  - unset _JAVA_OPTIONS
+
 
 script: ant && ant regrtest-travis
 
