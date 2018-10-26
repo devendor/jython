@@ -62,7 +62,8 @@ before_install:
     export PATH=$JAVA_HOME/bin:$PATH ;
     twistd  ftp -r $HOME ;
     fi
-  - java -version | grep '[78]' || false # Tests only work in 7 and 8 now.
+  # Travis tests currently work only in java 7 and 8 currently.
+  - java -version 2>&1 |grep '"1\.[78]\.' || false 
   - javac -version
   - unset _JAVA_OPTIONS
 
