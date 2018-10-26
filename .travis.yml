@@ -56,7 +56,6 @@ before_install:
   - unset _JAVA_OPTIONS
   - unset PYTHON_CFLAGS
   - unset PYTHON_CONFIGURE_OPTS
-  - export HOSTNAME=devdr-jython
   - env
   - which python
   - ip -s link show
@@ -64,9 +63,5 @@ before_install:
   - ls $HOME
   - pwd
 
-script: ant && ./dist/bin/jython -m test.regrtest -v --use=network,subprocess test_urllib2net;  ant regrtest-travis  ; ./dist/bin/jython -m test.regrtest -v --use=network,subprocess test_urllib2net
-
-addons:
-   hosts:
-      devdr-jython
+script: ant -verbose -nouserlib -noclasspath && ./dist/bin/jython -m test.regrtest -v --use=network,subprocess test_urllib2net;  ant  -verbose -nouserlib -noclasspath regrtest-travis  ; ./dist/bin/jython -m test.regrtest -v --use=network,subprocess test_urllib2net
 
