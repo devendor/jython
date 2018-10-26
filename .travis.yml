@@ -58,6 +58,7 @@ before_install:
   - unset PYTHON_CONFIGURE_OPTS
   - export HOSTNAME=devdr-jython
   - env
+  - ip -s link show
 
 script: ant && ant regrtest-travis
 
