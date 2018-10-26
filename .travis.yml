@@ -58,10 +58,9 @@ before_install:
     export JAVA_HOME=$(/usr/libexec/java_home)
     export PATH=/usr/local/bin:$PATH
     brew update;
-    brew install ant python;
-    which python;
+    brew install ant;
     which pip;
-    pip install Twisted ;
+    sudo pip install Twisted ;
     brew install gnu-sed;
     gsed -i 's#FTP_HOST = .*#FTP_HOST = "ftp://localhost:2121"#' Lib/test/test_urllib2net.py ;
     fi
