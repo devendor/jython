@@ -1,76 +1,88 @@
-language: java
-
-notifications:
-  email:
-    recipients:
-      - jython-dev@lists.sourceforge.net
-
-install: 
-  - ant
+language: shell
 
 os:
-  - linux
-  - osx
+  - windows
 
-# Trusty is 14.04 LTS. 18.04 LTS / beaver is not supported by travis 10/2018
-# setting these two options allows faster testing in docker images.
+script: env ; readlink -f $(which java) ; which ant ; find C:/ -name java
 
-dist: trusty
-
-sudo: false 
-
-env:
-  matrix:
-    - CUSTOM_JDK="default"
-    - CUSTOM_JDK="openjdk7"
-    - CUSTOM_JDK="oraclejdk8"
-    # oraclejdk7 is no longer supported by oracle or travis
-    # 9 is available on trusty. Please try a newer xcode
-    # below if you get newer java working.
-    # - CUSTOM_JDK="oraclejdk9"
-
-matrix:
-  exclude:
-     # On OSX, run with default JDK only.
-     - os: osx
-       env: CUSTOM_JDK="openjdk7"
-     - os: osx
-       env: CUSTOM_JDK="oraclejdk8"
-     - os: osx
-       env: CUSTOM_JDK="oraclejdk9"
-     # On Linux, run with specific JDKs only.
-     - os: linux
-       env: CUSTOM_JDK="default"
-
-addons:
-   hosts:
-      - travis
-   hostname: travis
-
-# pin to xcode9.3. Newer versions use java 10.
-osx_image: xcode9.3
-
-before_install:
-  - hostname
-  - cat /etc/hosts
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-    export JAVA_HOME=$(/usr/libexec/java_home)
-    brew update;
-    brew install ant ;
-    fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-    jdk_switcher use "$CUSTOM_JDK" ;
-    export PATH=$JAVA_HOME/bin:$PATH ;
-    twistd  ftp -r $HOME ;
-    fi
-  # Travis tests currently work only in java 7 and 8 currently.
-  - java -version 2>&1 |grep '"1\.[78]\.' || false 
-  - javac -version
-  - unset _JAVA_OPTIONS
-  # useful for troubleshooting.
-  - echo "--- env start ---"
-  - env
-  - echo "--- env stop ---"
-
-script: ant && ant regrtest-travis
-
+#notifications:
+#  email:
+#    recipients:
+#      - jython-dev@lists.sourceforge.net
+#
+#install: 
+#  - ant
+#
+#os:
+#  - linux
+#  - osx
+#  - windows
+#
+## Trusty is 14.04 LTS. 18.04 LTS / beaver is not supported by travis 10/2018
+## setting these two options allows faster testing in docker images.
+#
+#dist: trusty
+#
+#sudo: false 
+#
+#env:
+#  matrix:
+#    - CUSTOM_JDK="default"
+#    - CUSTOM_JDK="openjdk7"
+#    - CUSTOM_JDK="oraclejdk8"
+#    # oraclejdk7 is no longer supported by oracle or travis
+#    # 9 is available on trusty. Please try a newer xcode
+#    # below if you get newer java working.
+#    # - CUSTOM_JDK="oraclejdk9"
+#
+#matrix:
+#  exclude:
+#     # On OSX, run with default JDK only.
+#     - os: osx
+#       env: CUSTOM_JDK="openjdk7"
+#     - os: osx
+#       env: CUSTOM_JDK="oraclejdk8"
+#     - os: osx
+#       env: CUSTOM_JDK="oraclejdk9"
+#     - os: windows
+#       env: CUSTOM_JDK="openjdk7"
+#     - os: windows
+#       env: CUSTOM_JDK="default"
+#     - os: windows
+#       env: CUSTOM_JDK="oraclejdk9"
+#     # On Linux, run with specific JDKs only.
+#     - os: linux
+#       env: CUSTOM_JDK="default"
+#
+#addons:
+#   hosts:
+#      - travis
+#   hostname: travis
+#
+## pin to xcode9.3. Newer versions use java 10.
+#osx_image: xcode9.3
+#
+#before_install:
+#  - hostname
+#  - cat /etc/hosts
+#  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+#    export JAVA_HOME=$(/usr/libexec/java_home)
+#    brew update;
+#    brew install ant ;
+#    fi
+#  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+#    jdk_switcher use "$CUSTOM_JDK" ;
+#    export PATH=$JAVA_HOME/bin:$PATH ;
+#    twistd  ftp -r $HOME ;
+#    fi
+#  # Travis tests currently work only in java 7 and 8 currently.
+#  - java -version 2>&1 |grep '"1\.[78]\.' || false 
+#  - javac -version
+#  - unset _JAVA_OPTIONS
+#  # useful for troubleshooting.
+#  - echo "--- env start ---"
+#  - env
+#  - echo "--- env stop ---"
+#
+#script: ant #&& ant regrtest-travis
+#
