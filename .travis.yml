@@ -3,7 +3,14 @@ language: shell
 os:
   - windows
 
+before_install:
+   - choco install jdk8
+   - choco install ant
+   - choco install twisted
+   - twistd ftp -r ./
+
 script: env ; readlink -f $(which java) ; which ant ; find C:/ -name java
+
 
 #notifications:
 #  email:
