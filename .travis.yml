@@ -12,6 +12,7 @@ os:
   - linux
   - osx
 
+# Trusty is 14.04 LTS. 18.04 LTS / beaver is not supported by travis 10/2018
 # setting these two options allows faster testing in docker images.
 dist: trusty
 
@@ -22,8 +23,9 @@ env:
     - CUSTOM_JDK="default"
     - CUSTOM_JDK="openjdk7"
     - CUSTOM_JDK="oraclejdk8"
-    # oraclejdk7 is no longer supported on travis, but 9 is
-    # Good luck making it work!
+    # oraclejdk7 is no longer supported by oracle or travis
+    # 9 is available on trusty. Please try a newer xcode
+    # below if you get newer java working.
     # - CUSTOM_JDK="oraclejdk9"
 
 matrix:
@@ -44,14 +46,14 @@ addons:
       - travis
    hostname: travis
 
-# newer xcode uses java-10
+# pin to xcode9.3. Newer versions use java 10.
 osx_image: xcode9.3
 
 language: java
 
 before_install:
   - hostname
-  - cat /etc/hosts # optionally check the content *after*
+  - cat /etc/hosts
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
     export JAVA_HOME=$(/usr/libexec/java_home)
     brew update;
@@ -66,6 +68,10 @@ before_install:
   - java -version 2>&1 |grep '"1\.[78]\.' || false 
   - javac -version
   - unset _JAVA_OPTIONS
+  # useful for troubleshooting.
+  - echo "--- env start ---"
+  - env
+  - echo "--- env stop ---"
 
 script: ant && ant regrtest-travis
 
