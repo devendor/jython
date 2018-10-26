@@ -28,8 +28,6 @@ matrix:
   exclude:
      # On OSX, run with default JDK only.
      - os: osx
-       env: CUSTOM_JDK="oraclejdk7"
-     - os: osx
        env: CUSTOM_JDK="openjdk7"
      - os: osx
        env: CUSTOM_JDK="oraclejdk8"
@@ -68,6 +66,7 @@ before_install:
   - java -version
   - javac -version
   - unset _JAVA_OPTIONS
+  - if [ $CUSTOM_JDK != "openjdk7" ] ; then echo -e "build.compiler=modern\njdk.source.version=1.8\njdk.target.version=1.8" > ant.properties ; fi
 
 
 script: ant && ant regrtest-travis
