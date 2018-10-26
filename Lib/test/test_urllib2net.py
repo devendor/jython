@@ -8,7 +8,6 @@ import socket
 import urllib2
 import os
 import sys
-import time
 
 TIMEOUT = 60  # seconds
 
@@ -300,8 +299,7 @@ class TimeoutTest(unittest.TestCase):
             print u.info()
             print u.getcode()
             print u.headers()
-            print u.msg
-            print sys.path
+            print str(sys.path)
 
 
             self.assertTrue(u.fp.fp._sock.gettimeout() is None)
