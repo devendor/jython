@@ -63,6 +63,5 @@ before_install:
   - java -version
   - javac -version
 
-
-script: ant && ./dist/bin/jython -m test.regrtest -v --use=network,subprocess -e test_urllib2net 
+script: ant && ant regrtest-travis
 
