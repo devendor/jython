@@ -6,17 +6,18 @@ os:
 before_install:
    - if [ ${TRAVIS_OS_NAME} == 'windows' ] ; then
      choco install jdk8 ;
-     export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:$PATH"
-     export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/"
-     export JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"
+     export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:$PATH" 
+     JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/" 
+     JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
      choco install ant ;
      choco install twisted ;
-     find /c/ -name "twistd*"
-     find /c/ -name "ant"
+     find /c/ -name "twistd*";
+     find /c/ -name "ant"; 
+     env;
      fi
 
 
-script: env ; readlink -f $(which java) ; which ant ; find /c/ -name java
+script: ant && ant regrtest-travis
 
 
 #notifications:
