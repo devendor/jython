@@ -51,10 +51,13 @@ before_install:
     brew update;
     brew install ant; pip install Twisted ;
     brew install gnu-sed;
-    alias sed=/usr/local/bin/sed ;
+    /usr/local/bin/sed -i 's#FTP_HOST = .*#FTP_HOST = "ftp://localhost:2121"#' Lib/test/test_urllib2net.py ;
     fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then jdk_switcher use "$CUSTOM_JDK" ; export PATH=$JAVA_HOME:$PATH ; fi
-  - sed -i 's#FTP_HOST = .*#FTP_HOST = "ftp://localhost:2121"#' Lib/test/test_urllib2net.py
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+    jdk_switcher use "$CUSTOM_JDK" ;
+    export PATH=$JAVA_HOME/bin:$PATH ;
+    sed -i 's#FTP_HOST = .*#FTP_HOST = "ftp://localhost:2121"#' Lib/test/test_urllib2net.py;
+    fi
   - twistd  ftp -r $HOME
   - java -version
   - javac -version
