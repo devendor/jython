@@ -5,12 +5,12 @@ os:
 
 before_install:
    - if [ ${TRAVIS_OS_NAME} == 'windows' ] ; then
-     powershell choco install jdk8 ;
-     powershell refreshenv ;
-     powershell choco install ant ;
-     powershell refreshenv ;
-     powershell choco install twisted ;
-     powershell refreshenv ;
+     choco install jdk8 ;
+     export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:$PATH"
+     export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/"
+     export JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"
+     choco install ant ;
+     choco install twisted ;
      twistd ftp -r $HOME ;
      fi
 
