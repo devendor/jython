@@ -1,5 +1,4 @@
 ---
-language: java
 
 notifications:
   email:
@@ -13,10 +12,9 @@ os:
   - linux
   - osx
 
+# setting these two options allows faster testing in docker images.
 dist: trusty
 
-# This allows use of faster docker images but is overriden by the string sudo in this
-# file.  Unfortunately osx still needs sudo.
 sudo: false 
 
 env:
@@ -49,36 +47,24 @@ addons:
 # newer xcode uses java-10
 osx_image: xcode9.3
 
+language: java
+
 before_install:
-  # Patch for buffer overflow bug, see https://github.com/travis-ci/travis-ci/issues/5227
-  # - hostname
-  # - cat /etc/hosts # optionally check the content *before*
-  #  - sudo hostname "$(hostname | cut -c1-63)"
-  # - sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
-  # - hostname
-  # - cat /etc/hosts # optionally check the content *after*
+  - hostname
+  - cat /etc/hosts # optionally check the content *after*
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
     export JAVA_HOME=$(/usr/libexec/java_home)
-    export PATH=/usr/local/bin:$PATH
     brew update;
-    brew install ant brew-pip;
-    export PYTHONPATH=$(brew --prefix)/lib/python2.7/site-packages ;
-    export PATH=$PATH:$(brew --prefix)/bin:$(brew --prefix)/share/python ;
-    brew pip Twisted ;
-    brew install gnu-sed;
-    gsed -i 's#FTP_HOST = .*#FTP_HOST = "ftp://localhost:2121"#' Lib/test/test_urllib2net.py ;
+    brew install ant ;
     fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
     jdk_switcher use "$CUSTOM_JDK" ;
     export PATH=$JAVA_HOME/bin:$PATH ;
-    sed -i 's#FTP_HOST = .*#FTP_HOST = "ftp://localhost:2121"#' Lib/test/test_urllib2net.py;
+    twistd  ftp -r $HOME
     fi
-  - twistd  ftp -r $HOME
-  - java -version
+  - java -version | grep '[78]' || { echo "Tests only work on 7 and 8 right now"  ; false ; } 
   - javac -version
   - unset _JAVA_OPTIONS
-  - if [ $CUSTOM_JDK == "oraclejdk9" ] ; then export _JAVA_OPTIONS="--illegal-access=warn -Dpython.cachedir.skip=true" ; fi
-
 
 script: ant && ant regrtest-travis
 
