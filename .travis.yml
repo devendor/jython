@@ -21,7 +21,8 @@ env:
     - CUSTOM_JDK="default"
     - CUSTOM_JDK="openjdk7"
     - CUSTOM_JDK="oraclejdk8"
-    - CUSTOM_JDK="openjdk9"
+    # oraclejdk7 is no longer supported on travis, but 9 is
+    - CUSTOM_JDK="oraclejdk9"
 
 matrix:
   exclude:
@@ -33,7 +34,7 @@ matrix:
      - os: osx
        env: CUSTOM_JDK="oraclejdk8"
      - os: osx
-       env: CUSTOM_JDK="openjdk9"
+       env: CUSTOM_JDK="oraclejdk9"
      # On Linux, run with specific JDKs only.
      - os: linux
        env: CUSTOM_JDK="default"
