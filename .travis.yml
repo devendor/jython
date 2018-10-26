@@ -11,11 +11,12 @@ before_install:
      export JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"
      choco install ant ;
      choco install twisted ;
-     twistd ftp -r $HOME ;
+     find /c/ -name "twistd*"
+     find /c/ -name "ant"
      fi
 
 
-script: env ; readlink -f $(which java) ; which ant ; find C:/ -name java
+script: env ; readlink -f $(which java) ; which ant ; find /c/ -name java
 
 
 #notifications:
