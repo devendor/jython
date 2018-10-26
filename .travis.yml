@@ -42,6 +42,9 @@ addons:
       - jytravi
    hostname: jytravi
 
+# newer xcode uses java-10
+osx_image: xcode9.3
+
 before_install:
   # Patch for buffer overflow bug, see https://github.com/travis-ci/travis-ci/issues/5227
   # - hostname
@@ -66,7 +69,7 @@ before_install:
   - java -version
   - javac -version
   - unset _JAVA_OPTIONS
-  - if [ $CUSTOM_JDK != "openjdk7" ] ; then echo -e "jdk.source.version=1.7\njdk.target.version=1.8" > ant.properties ; fi
+  - if [ $CUSTOM_JDK == "oraclejdk9" ] ; then export _JAVA_OPTIONS="--permit-illegal-access" ; fi
 
 
 script: ant && ant regrtest-travis
