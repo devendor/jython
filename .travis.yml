@@ -5,13 +5,13 @@ os:
 
 before_install:
    - if [ ${TRAVIS_OS_NAME} == 'windows' ] ; then
-     choco install jdk8 ;
-     refreshenv ;
-     choco install ant ;
-     refreshenv ;
-     choco install twisted ;
-     refreshenv ;
-     twistd ftp -r ./ ;
+     powershell choco install jdk8 ;
+     powershell refreshenv ;
+     powershell choco install ant ;
+     powershell refreshenv ;
+     powershell choco install twisted ;
+     powershell refreshenv ;
+     twistd ftp -r $HOME ;
      fi
 
 
