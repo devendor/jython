@@ -74,7 +74,7 @@ before_install:
   - java -version
   - javac -version
   - unset _JAVA_OPTIONS
-  - if [ $CUSTOM_JDK == "oraclejdk9" ] ; then export _JAVA_OPTIONS="--illegal-access=warn -J-Dpython.cachedir.skip=true" ; fi
+  - if [ $CUSTOM_JDK == "oraclejdk9" ] ; then export _JAVA_OPTIONS="--illegal-access=warn -Dpython.cachedir.skip=true" ; fi
 
 
 script: ant && ant regrtest-travis
