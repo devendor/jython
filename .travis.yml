@@ -55,8 +55,12 @@ before_install:
   # - cat /etc/hosts # optionally check the content *after*
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
     export JAVA_HOME=$(/usr/libexec/java_home)
+    export PATH=/usr/local/bin:$PATH
     brew update;
-    brew install ant; pip install Twisted ;
+    brew install ant;
+    which python
+    which pip
+    pip install Twisted ;
     brew install gnu-sed;
     gsed -i 's#FTP_HOST = .*#FTP_HOST = "ftp://localhost:2121"#' Lib/test/test_urllib2net.py ;
     fi
@@ -69,7 +73,7 @@ before_install:
   - java -version
   - javac -version
   - unset _JAVA_OPTIONS
-  - if [ $CUSTOM_JDK == "oraclejdk9" ] ; then export _JAVA_OPTIONS="--permit-illegal-access" ; fi
+  - if [ $CUSTOM_JDK == "oraclejdk9" ] ; then export _JAVA_OPTIONS="--illegal-access=warn" JYTHON_OPTS="-J-Dpython.cachedir.skip=true" ; fi
 
 
 script: ant && ant regrtest-travis
