@@ -300,7 +300,8 @@ class TimeoutTest(unittest.TestCase):
             print u.info()
             print u.getcode()
             print u.headers()
-            print u.msg()
+            print u.msg
+            print sys.path
 
 
             self.assertTrue(u.fp.fp._sock.gettimeout() is None)
@@ -313,7 +314,6 @@ class TimeoutTest(unittest.TestCase):
                 u = _urlopen_with_retry(self.FTP_HOST)
             finally:
                 socket.setdefaulttimeout(None)
-            time.sleep(4)
             self.assertEqual(u.fp.fp._sock.gettimeout(), 60)
 
     def test_ftp_no_timeout(self):
@@ -324,13 +324,11 @@ class TimeoutTest(unittest.TestCase):
                 u = _urlopen_with_retry(self.FTP_HOST, timeout=None)
             finally:
                 socket.setdefaulttimeout(None)
-            time.sleep(3)
             self.assertTrue(u.fp.fp._sock.gettimeout() is None)
 
     def test_ftp_timeout(self):
         with test_support.transient_internet(self.FTP_HOST):
             u = _urlopen_with_retry(self.FTP_HOST, timeout=60)
-            time.sleep(2)
             self.assertEqual(u.fp.fp._sock.gettimeout(), 60)
 
 
