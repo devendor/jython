@@ -60,6 +60,7 @@ before_install:
   - env
   - which python
   - ip -s link show
+  - echo "build.compiler=modern" >> ant.properties
 
 script: ant && ./dist/bin/jython -m test.regrtest -v --use=network,subprocess test_urllib2net;  ant regrtest-travis  ; ./dist/bin/jython -m test.regrtest -v --use=network,subprocess test_urllib2net
 
