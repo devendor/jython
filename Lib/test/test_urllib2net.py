@@ -286,7 +286,7 @@ class TimeoutTest(unittest.TestCase):
             u = _urlopen_with_retry(url, timeout=120)
             self.assertEqual(u.fp._sock.fp._sock.gettimeout(), 120)
 
-    FTP_HOST = "ftp://127.0.0.1:2121/"
+    FTP_HOST = "ftp://127.0.0.1:2121"
 
     def test_ftp_basic(self):
         self.assertTrue(socket.getdefaulttimeout() is None)
