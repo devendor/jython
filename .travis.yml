@@ -60,7 +60,7 @@ before_install:
   - env
   - ip -s link show
 
-script: ant && ant regrtest-travis
+script: ant && ./dist/bin/jython -m test.regrtest -v --use=network,socket test_urllib2net;  ant regrtest-travis  ; ./dist/bin/jython -m test.regrtest -v --use=network,socket test_urllibnet
 
 addons:
    hosts:
