@@ -58,9 +58,10 @@ before_install:
   - unset PYTHON_CONFIGURE_OPTS
   - export HOSTNAME=devdr-jython
   - env
+  - which python
   - ip -s link show
 
-script: ant && ./dist/bin/jython -m test.regrtest -v --use=network,subprocess test_urllib2net;  ant regrtest-travis  ; ./dist/bin/jython -m test.regrtest -v --use=network,subprocess test_urllibnet
+script: ant && ./dist/bin/jython -m test.regrtest -v --use=network,subprocess test_urllib2net;  ant regrtest-travis  ; ./dist/bin/jython -m test.regrtest -v --use=network,subprocess test_urllib2net
 
 addons:
    hosts:
