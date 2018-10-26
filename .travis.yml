@@ -5,14 +5,16 @@ os:
 
 before_install:
    - if [ ${TRAVIS_OS_NAME} == 'windows' ] ; then
-     choco install jdk8 ;
-     export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:$PATH" 
+     powershell choco install jdk8 ;
+     export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/scripts:$PATH" 
      JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/" 
      JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
-     choco install ant ;
-     choco install twisted ;
+     powershell choco install ant ;
+     powershell choco install twisted ;
      find /c/ -name "twistd*";
      find /c/ -name "ant"; 
+     find /c/ -name "python*" -type f; 
+     twistd.py --help || true
      env;
      fi
 
