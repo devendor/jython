@@ -110,5 +110,5 @@ before_install:
 
 # 30 is a no output timeout after which the job will be terminated. 10 is default.
 # subprocess runs longer than that on slow travis windows containers.
-script: "ant && { _i=30 ; sleep 30; while `ps au|grep -v grep |grep -q java`; do echo \"<elapsed seconds ${_i}>\"; let _i=$_i+30 ; sleep 30 ; done & ant regrtest-travis ;}"
+script: "ant && { _i=30 ; sleep 30; while `ps -ef |grep -v grep |grep -q java`; do echo \"<elapsed seconds ${_i}>\"; let _i=$_i+30 ; sleep 30 ; done & ant regrtest-travis ;}"
 
