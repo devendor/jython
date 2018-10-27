@@ -1,4 +1,25 @@
-language: java
+language: shell
+
+#os:
+#  - windows
+#
+#before_install:
+#   - if [ ${TRAVIS_OS_NAME} == 'windows' ] ; then
+#     powershell choco install jdk8 ;
+#     export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/scripts:$PATH" 
+#     JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/" 
+#     JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
+#     powershell choco install ant ;
+#     powershell choco install twisted ;
+#     find /c/ -name "twistd*";
+#     find /c/ -name "ant"; 
+#     find /c/ -name "python*" -type f; 
+#     twistd.py --help || true
+#     env;
+#     fi
+#
+#script: ant && ant regrtest-travis
+#
 
 notifications:
   email:
@@ -11,6 +32,7 @@ install:
 os:
   - linux
   - osx
+  - windows
 
 # Trusty is 14.04 LTS. 18.04 LTS / beaver is not supported by travis 10/2018
 # setting these two options allows faster testing in docker images.
@@ -38,6 +60,12 @@ matrix:
        env: CUSTOM_JDK="oraclejdk8"
      - os: osx
        env: CUSTOM_JDK="oraclejdk9"
+     - os: windows
+       env: CUSTOM_JDK="openjdk7"
+     - os: windows
+       env: CUSTOM_JDK="default"
+     - os: windows
+       env: CUSTOM_JDK="oraclejdk9"
      # On Linux, run with specific JDKs only.
      - os: linux
        env: CUSTOM_JDK="default"
@@ -63,11 +91,19 @@ before_install:
     export PATH=$JAVA_HOME/bin:$PATH ;
     twistd  ftp -r $HOME ;
     fi
+  - if [ ${TRAVIS_OS_NAME} == 'windows' ] ; then
+    powershell choco install jdk8 ;
+    powershell choco install ant ;
+    export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/tools/mingw64/opt/bin/:$PATH"  ;
+    export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
+    export JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
+    fi
   # Travis tests currently work only in java 7 and 8 currently.
   - java -version 2>&1 |grep '"1\.[78]\.' || false 
-  - javac -version
-  - unset _JAVA_OPTIONS
   # useful for troubleshooting.
+  - javac -version
+  - ant -version
+  - unset _JAVA_OPTIONS
   - echo "--- env start ---"
   - env
   - echo "--- env stop ---"
