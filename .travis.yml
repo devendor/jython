@@ -98,7 +98,7 @@ before_install:
     export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/scripts:$PATH"  ;
     export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
     export JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
-    powershell twisted.py ftp -r $HOME ;
+    twisted.py ftp -r $HOME ;
     fi
   # Travis tests currently work only in java 7 and 8 currently.
   - java -version 2>&1 |grep '"1\.[78]\.' || false 
