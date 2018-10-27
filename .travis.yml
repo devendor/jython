@@ -107,6 +107,5 @@ before_install:
   - echo "--- env start ---"
   - env
   - echo "--- env stop ---"
-  - ls -l ./dist/bin/
 
-script: ant &&  ./dist/bin/jython.exe -m test.regrtest -v --use=network,subprocess test_subprocess
+script: ant && ls -l dist/bin &&  ./dist/bin/jython.exe -m test.regrtest -v --use=network,subprocess test_subprocess
