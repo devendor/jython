@@ -108,4 +108,4 @@ before_install:
   - env
   - echo "--- env stop ---"
 
-script: ant && ls -l dist/bin &&  ./dist/bin/jython.exe -m test.regrtest -v --use=network,subprocess test_subprocess
+script: ant && travis_wait 30 ant regrtest-travis
