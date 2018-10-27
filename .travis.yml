@@ -30,8 +30,8 @@ install:
   - ant
 
 os:
-  - linux
-  - osx
+  #- linux
+  #- osx
   - windows
 
 # Trusty is 14.04 LTS. 18.04 LTS / beaver is not supported by travis 10/2018
@@ -107,6 +107,6 @@ before_install:
   - echo "--- env start ---"
   - env
   - echo "--- env stop ---"
+  - _i=0 ; while : ; do sleep 30 ; let _i=$_i+30 ; echo ">runtime: $_i<" ; done &
 
-script: ant && ant regrtest-travis
-
+script: ant &&  dist/bin/jython -m test.regrtest -v --use=network,subprocess test_subprocess
