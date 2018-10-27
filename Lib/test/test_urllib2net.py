@@ -287,7 +287,10 @@ class TimeoutTest(unittest.TestCase):
             self.assertEqual(u.fp._sock.fp._sock.gettimeout(), 120)
 
 
-    if os.environ.get('TRAVIS_OS_NAME', '') == 'linux':
+    if (
+            os.environ.get('TRAVIS_OS_NAME', '') == 'linux' or
+            os.environ.get('TRAVIS_OS_NAME', '') == 'windows'
+    ):
         # Use twisted in linux travis tests to work around nat issues.
         FTP_HOST = "ftp://localhost:2121"
     else:
