@@ -91,19 +91,20 @@ before_install:
     export PATH=$JAVA_HOME/bin:$PATH ;
     twistd  ftp -r $HOME ;
     fi
-   - if [ ${TRAVIS_OS_NAME} == 'windows' ] ; then
-     powershell choco install jdk8 ;
-     powershell choco install ant ;
-     powershell choco install twisted ;
-     export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/scripts:$PATH"  ;
-     export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
-     export JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
-     powershell twisted.py ftp -r $HOME
+  - if [ ${TRAVIS_OS_NAME} == 'windows' ] ; then
+    powershell choco install jdk8 ;
+    powershell choco install ant ;
+    powershell choco install twisted ;
+    export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/scripts:$PATH"  ;
+    export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
+    export JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
+    powershell twisted.py ftp -r $HOME
   # Travis tests currently work only in java 7 and 8 currently.
   - java -version 2>&1 |grep '"1\.[78]\.' || false 
-  - javac -version
-  - unset _JAVA_OPTIONS
   # useful for troubleshooting.
+  - javac -version
+  - ant -version
+  - unset _JAVA_OPTIONS
   - echo "--- env start ---"
   - env
   - echo "--- env stop ---"
