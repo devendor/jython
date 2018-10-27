@@ -98,7 +98,8 @@ before_install:
     export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/scripts:/c/tools/mingw64/opt/bin/:$PATH"  ;
     export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
     export JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
-    ls -l /c/scripts/
+    ls -l /c/scripts/;
+    ls -l  /c/tools/mingw64/opt/bin/ ;
     python /c/scripts/twistd.py ftp -r $HOME ;
     fi
   # Travis tests currently work only in java 7 and 8 currently.
