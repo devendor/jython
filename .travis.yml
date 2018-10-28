@@ -91,13 +91,18 @@ before_install:
     export PATH=$JAVA_HOME/bin:$PATH ;
     twistd  ftp -r $HOME ;
     fi
-  - if [ ${TRAVIS_OS_NAME} == 'windows' ] ; then
+  - if [ ${TRAVIS_OS_NAME} == 'wwindows' ] ; then
     powershell choco install jdk8 ;
     powershell choco install ant ;
     export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/tools/mingw64/opt/bin/:$PATH"  ;
     export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
     export JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
     fi
+  - df
+  - find /c/ -name javac
+  - find /c/ -name ant
+  - find /c/ -name java
+  - false
   # Travis tests currently work only in java 7 and 8 currently.
   - java -version 2>&1 |grep '"1\.[78]\.' || false 
   # useful for troubleshooting.
@@ -108,4 +113,4 @@ before_install:
   - env
   - echo "--- env stop ---"
 
-script: ant && travis_wait 30 ant regrtest-travis
+script: true
