@@ -2,10 +2,17 @@ version: 1.0.{build}
 image: Visual Studio 2017
 environment:
   matrix:
-  - JAVA_HOME: C:\Program Files (x86)\Java\jdk1.7.0\bin
-  - JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0\bin
+  - JDK_HOME: C:\Program Files (x86)\Java\jdk1.7.0
+  - JDK_HOME: C:\Program Files (x86)\Java\jdk1.8.0
 build_script:
-- ps: >
-   choco install -i ant
+- sh: >-
+    choco install -i ant
 
-   ant regrtest-travis
+    export JAVA_HOME="${JDK_HOME}/jre"
+
+    export PATH="${JAVA_HOME}/bin:${JDK_HOME}/bin:$PATH"
+
+    ant regrtest-travis
+test: off
+artifacts:
+- path: dist/testreports/TEST*.xml

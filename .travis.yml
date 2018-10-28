@@ -97,7 +97,7 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == 'windows' ] ; then
     export JDK_HOME=`ls -d /c/Program\ Files/Java/jdk1.8.*|head -1` ;
     export JAVA_HOME="$JDK_HOME/jre" ;
-    export PATH="${JRE_HOME}/bin:${JDK_HOME}/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/tools/mingw64/opt/bin/:$PATH"  ;
+    export PATH="${JRE_HOME}/bin:${JDK_HOME}/bin:$PATH"  ;
     powershell choco install -i ant ;
     which ant ;
     fi
