@@ -5,11 +5,7 @@ environment:
   - JAVA_HOME: C:\Program Files (x86)\Java\jdk1.7.0\bin
   - JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0\bin
 build_script:
-- ps: >-
-    choco install ant
+- ps: >
+   choco install -i ant
 
-    refreshenv
-
-    ant
-test_script:
-- ps: ant regrtest-travis
+   ant regrtest-travis
