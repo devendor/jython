@@ -99,9 +99,9 @@ before_install:
     export JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
     fi
   - df
-  - find /c/ -name javac
-  - find /c/ -name ant
-  - find /c/ -name java
+  - find /c/ -name 'javac*' -type f
+  - find /c/ -name 'ant*' -type f
+  - find /c/ -name 'java' -type f
   - false
   # Travis tests currently work only in java 7 and 8 currently.
   - java -version 2>&1 |grep '"1\.[78]\.' || false 
