@@ -95,9 +95,7 @@ before_install:
     twistd  ftp -r $HOME ;
     fi
   - if [ "$TRAVIS_OS_NAME" == 'windows' ] ; then
-    ls -l "/c/Program Files/" ;
-    ls -l "/c/Program Files/Java" ;
-    ls -l "/c/Program Files/Java/jdk*" ;
+    ls -l /c/Program\ Files/Java/jdk* ;
     find /c/ -name java.exe -exec readlink -f '{}' ';' ;
     find /c/ -name javac.exe ;
     find /c/ -name ant.exe ;
