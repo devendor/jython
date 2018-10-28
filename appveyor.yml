@@ -1,16 +1,17 @@
 version: 1.0.{build}
 image: Visual Studio 2017
+clone_depth: 2
 environment:
   matrix:
   - JDK_HOME: C:\Program Files (x86)\Java\jdk1.7.0
   - JDK_HOME: C:\Program Files (x86)\Java\jdk1.8.0
 build_script:
-- sh: >-
+- cmd: >-
+    set JAVA_HOME=%JDK_HOME%/jre
+
+    set PATH=%JAVA_HOME%/bin;%JDK_HOME%/bin;%PATH%
+
     choco install -i ant
-
-    export JAVA_HOME="${JDK_HOME}/jre"
-
-    export PATH="${JAVA_HOME}/bin:${JDK_HOME}/bin:$PATH"
 
     ant regrtest-travis
 test: off
