@@ -98,10 +98,11 @@ before_install:
     export JDK_HOME=`ls -d '/c/Program Files/Java/jdk1.8.*'|head -1` ;
     export JAVA_HOME=$JDK_HOME ;
     export PATH="${JDK_HOME}/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/tools/mingw64/opt/bin/:$PATH"  ;
+    which java
     powershell choco install -i ant ;
     fi
   # Travis tests currently work only in java 7 and 8 currently.
-  - java -version 2>&1 |grep '"1\.[78]\.' || false 
+  - "java -version 2>&1 |grep '"1\.[78]\.' || { java -version ; false; } "
   # useful for troubleshooting.
   - javac -version
   - ant -version
