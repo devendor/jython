@@ -98,7 +98,7 @@ before_install:
     export JDK_HOME=`ls -d /c/Program\ Files/Java/jdk1.8.*|head -1` ;
     export JAVA_HOME="$JDK_HOME/jre" ;
     export PATH="${JRE_HOME}/bin:${JDK_HOME}/bin:$PATH"  ;
-    powershell choco install -i ant ;
+    choco install --version=1.9.9 -i ant ;
     which ant ;
     fi
   # useful for troubleshooting.
