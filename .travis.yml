@@ -95,10 +95,10 @@ before_install:
     twistd  ftp -r $HOME ;
     fi
   - if [ ${TRAVIS_OS_NAME} == 'windows' ] ; then
-    powershell choco install jdk8 ant ;
-    export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/tools/mingw64/opt/bin/:$PATH"  ;
-    export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
-    export JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
+    export JDK_HOME=`ls -d '/c/Program Files/Java/jdk1.8.*'|head -1` ;
+    export JAVA_HOME=$JDK_HOME ;
+    export PATH="${JDK_HOME}/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/tools/mingw64/opt/bin/:$PATH"  ;
+    choco install ant ;
     fi
   # Travis tests currently work only in java 7 and 8 currently.
   - java -version 2>&1 |grep '"1\.[78]\.' || false 
