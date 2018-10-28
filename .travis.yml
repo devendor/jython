@@ -95,12 +95,12 @@ before_install:
     twistd  ftp -r $HOME ;
     fi
   - if [ "$TRAVIS_OS_NAME" == 'windows' ] ; then
-    export JDK_HOME=`ls -d '/c/Program Files/Java/jdk1.8.*'|head -1` ;
-    export JAVA_HOME=$JDK_HOME ;
-    export PATH="${JDK_HOME}/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/tools/mingw64/opt/bin/:$PATH"  ;
     find /c/ -name java.exe ;
     find /c/ -name javac.exe ;
     find /c/ -name ant.exe ;
+    export JDK_HOME=`ls -d /c/Program\ Files/Java/jdk*'|head -1` ;
+    export JAVA_HOME=$JDK_HOME ;
+    export PATH="${JDK_HOME}/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/tools/mingw64/opt/bin/:$PATH"  ;
     powershell choco install -i ant ;
     which java ;
     false ;
