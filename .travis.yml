@@ -78,6 +78,9 @@ addons:
 # pin to xcode9.3. Newer versions use java 10.
 osx_image: xcode9.3
 
+git: 
+  depth: 3
+
 before_install:
   - hostname
   - cat /etc/hosts
@@ -92,8 +95,7 @@ before_install:
     twistd  ftp -r $HOME ;
     fi
   - if [ ${TRAVIS_OS_NAME} == 'windows' ] ; then
-    powershell choco install jdk8 ;
-    powershell choco install ant ;
+    powershell choco install jdk8 ant ;
     export PATH="/c/Program Files/Java/jdk1.8.0_191/bin:/c/Users/travis/AppData/Local/Temp/chocolatey/ant:/c/tools/mingw64/opt/bin/:$PATH"  ;
     export JAVA_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
     export JDK_HOME="/c/Program Files/Java/jdk1.8.0_191/"  ;
