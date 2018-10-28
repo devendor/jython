@@ -9,7 +9,7 @@ build_script:
 - cmd: >-
     set JAVA_HOME=%JDK_HOME%/jre
 
-    set PATH="C:\Program Files (x86)\Java\jdk1.8.0\jre\bin;%JAVA_HOME%/bin;%JDK_HOME%/bin;%PATH%"
+    set PATH=%PROGRAMFILES(X86)%\Java\jdk1.8.0\jre\bin;%JAVA_HOME%/bin;%JDK_HOME%/bin;%PATH%
 
     choco install -i ant
 
