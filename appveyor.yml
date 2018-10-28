@@ -1,7 +1,12 @@
 version: 1.0.{build}
+image: Visual Studio 2017
+environment:
+  matrix:
+  - JAVA_HOME: C:\Program Files (x86)\Java\jdk1.7.0\bin
+  - JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0\bin
 build_script:
 - ps: >-
-    choco install ant jdk8
+    choco install ant
 
     refreshenv
 
