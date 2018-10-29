@@ -6,4 +6,7 @@ environment:
   - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
   - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
 build_script:
-- sh: ls -l /usr/lib/jvm
+- sh: >-
+     ls -l /usr/lib/jvm
+
+     ls -ld /usr/lib/jvm/*/bin/java
