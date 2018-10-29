@@ -1101,6 +1101,20 @@ The readme text for the next release will be like:
             description="run Python tests expected to work on Jython for Travis intergration"/>
 
     <target name="regrtest-unix-travis" if="os.family.unix">
+    <exec executable="${dist.dir}/bin/jython" failonerror="true" resultproperty="isotestsexit">
+        <env key="JAVA_OPTS" value="-Duser.language=en -Duser.region=US"/>
+            <arg value="${dist.dir}/Lib/test/regrtest.py"/>
+            <arg value="-w"/> <!-- re-run failed tests in verbose mode -->
+            <!-- Only run the tests that are expected to work on Jython -->
+            <arg value="--expected"/>
+            <arg value="-j"/>
+            <arg value="${junit.reports}"/>
+            <arg value="--use"/>
+            <arg value="subprocess,network"/>
+            <!-- isolated tests -->
+            <arg value="test_gc"/>
+            <arg value="test_gc_jy"/>
+     </exec>
     <parallel>
       <sequential>
         <exec executable="${dist.dir}/bin/jython" failonerror="false" resultproperty="maintestsexit">
@@ -1165,7 +1179,21 @@ The readme text for the next release will be like:
         <echo message="Longtests finished."/>
       </sequential>
     </parallel>
-    <exec executable="${dist.dir}/bin/jython" failonerror="true" dir="${basedir}/longtests" resultproperty="lasttestsexit">
+    <fail message="Some tests failed">
+       <condition>
+         <not>
+	   <and>
+           <equals arg1="${longtestsexit}" arg2="0"/>
+           <equals arg1="${maintestsexit}" arg2="0"/>
+           <equals arg1="${isotestsexit}" arg2="0"/>
+           </and>
+         </not>
+       </condition>
+    </fail>
+    </target>
+
+    <target name="regrtest-windows-travis" if="os.family.windows">
+    <exec executable="${dist.dir}/bin/jython.exe" failonerror="false" resultproperty="isotestsexit">
         <env key="JAVA_OPTS" value="-Duser.language=en -Duser.region=US"/>
             <arg value="${dist.dir}/Lib/test/regrtest.py"/>
             <arg value="-w"/> <!-- re-run failed tests in verbose mode -->
@@ -1179,20 +1207,6 @@ The readme text for the next release will be like:
             <arg value="test_gc"/>
             <arg value="test_gc_jy"/>
      </exec>
-    <fail message="Some tests failed">
-       <condition>
-         <not>
-	   <and>
-           <equals arg1="${longtestsexit}" arg2="0"/>
-           <equals arg1="${maintestsexit}" arg2="0"/>
-           <equals arg1="${lasttestsexit}" arg2="0"/>
-           </and>
-         </not>
-       </condition>
-    </fail>
-    </target>
-
-    <target name="regrtest-windows-travis" if="os.family.windows">
     <parallel>
       <sequential>
         <exec executable="${dist.dir}/bin/jython.exe" failonerror="true" resultproperty="maintestsexit">
@@ -1256,28 +1270,13 @@ The readme text for the next release will be like:
         <echo message="Longtests finished."/>
         </sequential>
       </parallel>
-      <exec executable="${dist.dir}/bin/jython.exe" failonerror="false" dir="${basedir}/longtests" resultproperty="lasttestsexit">
-        <env key="JAVA_OPTS" value="-Duser.language=en -Duser.region=US"/>
-            <arg value="${dist.dir}/Lib/test/regrtest.py"/>
-            <arg value="-w"/> <!-- re-run failed tests in verbose mode -->
-            <!-- Only run the tests that are expected to work on Jython -->
-            <arg value="--expected"/>
-            <arg value="-j"/>
-            <arg value="${junit.reports}"/>
-            <arg value="--use"/>
-            <arg value="subprocess,network"/>
-            <!-- isolated tests -->
-            <arg value="test_gc"/>
-            <arg value="test_gc_jy"/>
-     </exec>
-
     <fail message="Some tests failed">
        <condition>
          <not>
 	   <and>
            <equals arg1="${longtestsexit}" arg2="0"/>
            <equals arg1="${maintestsexit}" arg2="0"/>
-           <equals arg1="${lasttestsexit}" arg2="0"/>
+           <equals arg1="${isotestsexit}" arg2="0"/>
            </and>
          </not>
        </condition>
