@@ -20,6 +20,24 @@ build_script:
     ant
 test_script: 
 - cmd: ant regrtest-travis
+notifications:
+- provider: Email
+  to:
+  - ray.ferguson@devdendortech.com
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
 on_finish:
-- ps: "$wc = New-Object 'System.Net.WebClient'\nGet-ChildItem \".\\dist\\testresults\" -Filter *.xml |\nForeach-Object {\n$wc.UploadFile(\"https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)\", (Resolve-Path $_))\n}\n"
+- ps: >-
 
+    $wc = New-Object 'System.Net.WebClient'
+
+
+
+    Get-ChildItem ".\dist\testresults" -Filter *.xml |
+
+
+
+    Foreach-Object {
+     $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $_))
+    }    
