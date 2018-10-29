@@ -3,6 +3,10 @@ shallow_clone: true
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
+    - DESC: xenial openjdk8 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
+      require_pass: true
     - DESC: xenial openjdk7 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
       JAVA_HOME: /usr/lib/jvm/java-7-openjdk-amd64
@@ -72,6 +76,10 @@ build_script:
     sudo apt-get update
 
     sudo apt-get install -y tzdata || true
+
+    if [ "$APPVEYOR_BUILD_WORKER_IMAGE" == "Ubuntu1604" ] ; then
+      dpkg-reconfigure tzdata ;
+    fi
 
     sudo apt-get install ant
 
