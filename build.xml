@@ -1101,13 +1101,13 @@ The readme text for the next release will be like:
             description="run Python tests expected to work on Jython for Travis intergration"/>
 
     <target name="regrtest-unix-travis" if="os.family.unix">
-	<parallel>
-	<sequential>
-        <exec executable="${dist.dir}/bin/jython" failonerror="true">
+    <parallel>
+      <sequential>
+        <exec executable="${dist.dir}/bin/jython" failonerror="false" resultproperty="maintestsexit">
             <env key="JAVA_OPTS" value="-Duser.language=en -Duser.region=US"/>
             <arg value="${dist.dir}/Lib/test/regrtest.py"/>
             <arg value="-w"/> <!-- re-run failed tests in verbose mode -->
-	    <arg value="-S"/> <!-- good to see what other tests can be kicked into longtests -->
+            <arg value="-S"/> <!-- good to see what other tests can be kicked into longtests -->
             <!-- Only run the tests that are expected to work on Jython -->
             <arg value="--expected"/>
             <arg value="-j"/>
@@ -1118,7 +1118,7 @@ The readme text for the next release will be like:
             <arg value="--exclude"/>
             <arg value="test_select_new"/>
             <arg value="test_socket"/>
-	    <!-- break 10 ten long running into parallel test process -->
+            <!-- break 10 ten long running into parallel test process -->
             <arg value="test_subprocess"/>
             <arg value="test_file2k"/>
             <arg value="test_gc_jy"/>
@@ -1129,12 +1129,12 @@ The readme text for the next release will be like:
             <arg value="test_threading_local_jy"/>
             <arg value="test_lib2to3"/>
         </exec>
-	<echo message="Main tests finished."/>
-        </sequential>
-	<sequential>
+        <echo message="Main tests finished." />
+      </sequential>
+      <sequential>
         <!-- regrtest tries clean up tmp files in cwd on exit -->
         <mkdir dir="${basedir}/longtests"/> 
-	<exec executable="${dist.dir}/bin/jython" failonerror="true" dir="${basedir}/longtests">
+        <exec executable="${dist.dir}/bin/jython" failonerror="true" dir="${basedir}/longtests" resultproperty="longtestsexit">
             <env key="JAVA_OPTS" value="-Duser.language=en -Duser.region=US"/>
             <arg value="${dist.dir}/Lib/test/regrtest.py"/>
             <arg value="-w"/> <!-- re-run failed tests in verbose mode -->
@@ -1144,7 +1144,7 @@ The readme text for the next release will be like:
             <arg value="${junit.reports}"/>
             <arg value="--use"/>
             <arg value="subprocess,network"/>
-	    <!-- break 10 ten long running into parallel test process -->
+            <!-- break 10 ten long running into parallel test process -->
             <arg value="test_subprocess"/>
             <arg value="test_file2k"/>
             <arg value="test_gc_jy"/>
@@ -1155,20 +1155,30 @@ The readme text for the next release will be like:
             <arg value="test_threading_local_jy"/>
             <arg value="test_lib2to3"/>
         </exec>
-	<echo message="Longtests finished."/>
-        </sequential>
-        </parallel>
+        <echo message="Longtests finished."/>
+      </sequential>
+    </parallel>
+    <fail message="Some tests failed">
+       <condition>
+         <not>
+	   <and>
+           <equals arg1="${longtestsexit}" arg2="0"/>
+           <equals arg1="${maintestsexit}" arg2="0"/>
+           </and>
+         </not>
+       </condition>
+    </fail>
     </target>
 
     <target name="regrtest-windows-travis" if="os.family.windows">
-	<parallel>
-	<sequential>
-        <exec executable="${dist.dir}/bin/jython.exe" failonerror="true">
+    <parallel>
+      <sequential>
+        <exec executable="${dist.dir}/bin/jython.exe" failonerror="true" resultproperty="maintestsexit">
             <env key="JAVA_OPTS" value="-Duser.language=en -Duser.region=US"/>
             <arg value="${dist.dir}/Lib/test/regrtest.py"/>
             <arg value="-w"/> <!-- re-run failed tests in verbose mode -->
             <!-- Only run the tests that are expected to work on Jython -->
-	    <arg value="-S"/> <!-- good to see what other tests can be kicked into longtests -->
+            <arg value="-S"/> <!-- good to see what other tests can be kicked into longtests -->
             <arg value="--expected"/>
             <arg value="-j"/>
             <arg value="${junit.reports}"/>
@@ -1189,11 +1199,11 @@ The readme text for the next release will be like:
             <arg value="test_threading_local_jy"/>
             <arg value="test_lib2to3"/>
         </exec>
-	<echo message="Main tests finished."/>
-        </sequential>
-	<sequential>
+        <echo message="Main tests finished."/>
+      </sequential>
+      <sequential>
         <mkdir dir="${basedir}/longtests"/>
-	<exec executable="${dist.dir}/bin/jython.exe" failonerror="true" dir="${basedir}/longtests">
+        <exec executable="${dist.dir}/bin/jython.exe" failonerror="false" dir="${basedir}/longtests" resultproperty="longtestsexit">
             <env key="JAVA_OPTS" value="-Duser.language=en -Duser.region=US"/>
             <arg value="${dist.dir}/Lib/test/regrtest.py"/>
             <arg value="-w"/> <!-- re-run failed tests in verbose mode -->
@@ -1214,9 +1224,19 @@ The readme text for the next release will be like:
             <arg value="test_threading_local_jy"/>
             <arg value="test_lib2to3"/>
         </exec>
-	<echo message="Longtests finished."/>
+        <echo message="Longtests finished."/>
         </sequential>
-        </parallel>
+      </parallel>
+    <fail message="Some tests failed">
+       <condition>
+         <not>
+	   <and>
+           <equals arg1="${longtestsexit}" arg2="0"/>
+           <equals arg1="${maintestsexit}" arg2="0"/>
+           </and>
+         </not>
+       </condition>
+    </fail>
     </target>
 
     <target name="regrtest-html-report" depends="init" description="generates HTML output out of regrtest JUnit XML">
