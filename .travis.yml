@@ -58,18 +58,22 @@ before_install:
     export JAVA_HOME=$(/usr/libexec/java_home)
     brew update;
     brew install ant ;
+    sw_vers ;
     fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
     jdk_switcher use "$CUSTOM_JDK" ;
     export PATH=$JAVA_HOME/bin:$PATH ;
     twistd  ftp -r $HOME ;
+    source /etc/os-release ;
+    echo $PRETTY_NAME ;
+    uname -rp ;
     fi
   - if [ "$TRAVIS_OS_NAME" == 'windows' ] ; then
     export JDK_HOME=`ls -d /c/Program\ Files/Java/jdk1.8.*|head -1` ;
     export JAVA_HOME="$JDK_HOME/jre" ;
     export PATH="${JRE_HOME}/bin:${JDK_HOME}/bin:$PATH"  ;
     choco install --version=1.9.9 -i ant ;
-    which ant ;
+    powershell "systeminfo | findstr /C:\"OS\"" ;
     fi
   # useful for troubleshooting.
   - java -version 

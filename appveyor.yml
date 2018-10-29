@@ -35,7 +35,7 @@ build_script:
 
     ant -version
 
-    ver
+    systeminfo | findstr /C:"OS"
 
     ant
 - sh: >-
