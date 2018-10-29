@@ -6,6 +6,7 @@ image:
 - Ubuntu
 clone_depth: 2
 environment:
+  APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
   - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
     JDK_HOME: /usr/lib/java-8-openjdk-amd64/
@@ -64,3 +65,5 @@ on_finish:
     Foreach-Object {
      $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\dist\testreports\$_))
     }    
+- sh: |
+      find "$APPVEYOR_BUILD_FOLDER/dist/testreports" -type f -name 'TEST*.xml' -print0 | xargs -0 -I '{}' curl -F 'file=@{}' "https://ci.appveyor.com/api/testresults/junit/$APPVEYOR_JOB_ID"
