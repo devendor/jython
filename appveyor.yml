@@ -3,21 +3,22 @@ image:
 - Visual Studio 2015
 - Visual Studio 2017
 - Ubuntu1804
+- Ubuntu1604
 clone_depth: 2
 environment:
   matrix:
-  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-    JDK_HOME: C:\Program Files\Java\jdk1.7.0
+  - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+    JDK_HOME: /usr/lib/java-8-openjdk-amd64/
+  - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+    JDK_HOME: /usr/lib/java-7-openjdk-amd64/
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     JDK_HOME: C:\Program Files\Java\jdk1.8.0
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    JDK_HOME: C:\Program Files\Java\jdk1.7.0
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     JDK_HOME: C:\Program Files\Java\jdk1.8.0
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     JDK_HOME: C:\Program Files (x86)\Java\jdk1.8.0
-  - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
-    JDK_HOME: /usr/lib/java-8-openjdk-amd64/
-  - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
-    JDK_HOME: /usr/lib/java-7-openjdk-amd64/
   - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
     JDK_HOME: /usr/lib/java-9-openjdk-amd64/
 build_script:
