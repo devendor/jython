@@ -32,11 +32,7 @@ on_finish:
 
     $wc = New-Object 'System.Net.WebClient'
 
-
-
-    Get-ChildItem ".\dist\testresults" -Filter *.xml |
-
-
+    Get-ChildItem .\dist\testreports -Filter *.xml |
 
     Foreach-Object {
      $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $_))
