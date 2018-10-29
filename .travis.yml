@@ -53,11 +53,11 @@ git:
 
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-    export JAVA_HOME=$(/usr/libexec/java_home)
-    export PATH=${JAVA_HOME}/bin:$PATH
+    export JAVA_HOME=$(/usr/libexec/java_home) ;
+    export PATH=${JAVA_HOME}/bin:$PATH ;
     brew update;
     brew install ant ;
-    echo "############### INFO ##################"
+    echo "############### INFO ##################" ;
     sw_vers ;
     fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
@@ -65,9 +65,9 @@ before_install:
     export PATH=$JAVA_HOME/bin:$PATH ;
     twistd  ftp -r $HOME ;
     source /etc/os-release ;
-    apt-get update
-    apt-get upgade -y -s
-    echo "############### INFO ##################"
+    apt-get update;
+    apt-get upgade -y -s ;
+    echo "############### INFO ##################" ;
     echo $PRETTY_NAME ;
     uname -rp ;
     fi
@@ -75,7 +75,7 @@ before_install:
     export JAVA_HOME=`ls -d /c/Program\ Files/Java/jdk1.8.*|head -1` ;
     export PATH="${JAVA_HOME}/bin:$PATH"  ;
     choco install -i ant ;
-    echo "############### INFO ##################"
+    echo "############### INFO ##################";
     powershell "systeminfo | findstr /C:\"OS\"" ;
     fi
   # useful for troubleshooting.
