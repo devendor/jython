@@ -19,5 +19,5 @@ build_script:
 
     ant
 test: 
-- cmd: ant regrtest-travis
+  cmd: ant regrtest-travis
 
