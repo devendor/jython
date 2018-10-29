@@ -71,7 +71,7 @@ build_script:
 
     sudo apt-get update
 
-    sudo apt-get upgrade -y tzdata
+    sudo apt-get install -y tzdata || true
 
     sudo apt-get install ant
 
