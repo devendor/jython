@@ -18,6 +18,5 @@ build_script:
     javac -version
 
     ant
-test: 
-  cmd: ant regrtest-travis
-
+test_script: 
+- cmd: ant regrtest-travis
