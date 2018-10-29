@@ -53,7 +53,10 @@ build_script:
     ant
 test_script: 
 - cmd: ant regrtest-travis
-- sh: ant regrtest-travis
+- sh: >-
+  unset JAVA_TOOL_OPTIONS
+
+  ant regrtest-travis
 notifications:
 - provider: Email
   to:
