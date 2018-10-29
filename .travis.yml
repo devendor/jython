@@ -5,7 +5,7 @@ notifications:
     recipients:
       - ray.ferguson@devendortech.com
 
-install: 
+install:
   - ant
 
 os:
@@ -31,19 +31,19 @@ env:
 
 matrix:
   exclude:
-     - os: osx
-       env: CUSTOM_JDK="openjdk7"
-     - os: osx
-       env: CUSTOM_JDK="oraclejdk9"
-     - os: windows
-       env: CUSTOM_JDK="openjdk7"
-     - os: windows
-       env: CUSTOM_JDK="oraclejdk9"
+    - os: osx
+      env: CUSTOM_JDK="openjdk7"
+    - os: osx
+      env: CUSTOM_JDK="oraclejdk9"
+    - os: windows
+      env: CUSTOM_JDK="openjdk7"
+    - os: windows
+      env: CUSTOM_JDK="oraclejdk9"
 
 addons:
-   hosts:
-      - travis
-   hostname: travis
+  hosts:
+    - travis
+  hostname: travis
 
 # pin to xcode9.3. Newer versions use java 10.
 osx_image: xcode9.3
@@ -53,11 +53,11 @@ git:
 
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-    export JAVA_HOME=$(/usr/libexec/java_home) ;
+    export JAVA_HOME=$(/usr/libexec/java_home);
     export PATH=${JAVA_HOME}/bin:$PATH ;
     brew update;
-    brew install ant ;
-    echo "############### INFO ##################" ;
+    brew install ant;
+    echo "############### INFO ##################";
     sw_vers ;
     fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then

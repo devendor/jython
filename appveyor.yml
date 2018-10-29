@@ -3,46 +3,46 @@ shallow_clone: true
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
-  - DESC: xenial openjdk7 x64
-    APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
-    JAVA_HOME: /usr/lib/jvm/java-7-openjdk-amd64
-    require_pass: true
-  - DESC: bionic openjdk8 x64
-    APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
-    JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
-    require_pass: true
-  - DESC: ws2012r2 jdk8 x64
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-    JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-    require_pass: false
-  - DESC: ws2012r2 jdk7 x64
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-    JAVA_HOME: C:\Program Files\Java\jdk1.7.0
-    require_pass: false
-  - DESC: ws2016 jdk7 x64
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-    JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-    require_pass: false
-  - DESC: ws2012r2 jdk8 x86
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-    JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0
-    require_pass: false
-  - DESC: bionic openjdk9 x64
-    APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
-    JAVA_HOME: /usr/lib/jvm/java-9-openjdk-amd64
-    require_pass: false
-  # - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
-  #   JDK_HOME: /usr/lib/jvm/java-10-openjdk-amd64
-  # - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
-  #   JDK_HOME: /usr/lib/jvm/java-11-openjdk-amd64
+    - DESC: xenial openjdk7 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+      JAVA_HOME: /usr/lib/jvm/java-7-openjdk-amd64
+      require_pass: true
+    - DESC: bionic openjdk8 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
+      require_pass: true
+    - DESC: ws2012r2 jdk8 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+      require_pass: false
+    - DESC: ws2012r2 jdk7 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      JAVA_HOME: C:\Program Files\Java\jdk1.7.0
+      require_pass: false
+    - DESC: ws2016 jdk7 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+      require_pass: false
+    - DESC: ws2012r2 jdk8 x86
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0
+      require_pass: false
+    - DESC: bionic openjdk9 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+      JAVA_HOME: /usr/lib/jvm/java-9-openjdk-amd64
+      require_pass: false
+    # - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+    #   JDK_HOME: /usr/lib/jvm/java-10-openjdk-amd64
+    # - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+    #   JDK_HOME: /usr/lib/jvm/java-11-openjdk-amd64
 
 matrix:
   fast_finish: true
   allow_failures:
-     - require_pass: false
+    - require_pass: false
 
 build_script:
-- cmd: >-
+  - cmd: >-
     set PATH=%JAVA_HOME%/bin;%PATH%
 
     choco install -i --version=1.9.9 ant
@@ -66,7 +66,7 @@ build_script:
     ant
 
     echo "############### TEST ##################"
-- sh: >-
+  - sh: >-
     export PATH="${JAVA_HOME}/bin:$PATH"
 
     sudo apt-get update
@@ -101,30 +101,33 @@ build_script:
 
     echo "############### TEST ##################"
 test_script: 
-- cmd: ant regrtest-travis
-- sh: >-
+  - cmd: ant regrtest-travis
+  - sh: >-
     unset JAVA_TOOL_OPTIONS
 
     ant regrtest-travis
 notifications:
-- provider: Email
-  to:
-  - ray.ferguson@devendortech.com
-  # - jython-dev@lists.sourceforge.net
-  on_build_success: true
-  on_build_failure: true
-  on_build_status_changed: true
+  - provider: Email
+    to:
+    - ray.ferguson@devendortech.com
+    # - jython-dev@lists.sourceforge.net
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
 on_finish:
-- ps: >-
+  - ps: >-
 
-    $wc = New-Object 'System.Net.WebClient'
+      $wc = New-Object 'System.Net.WebClient'
 
-    Get-ChildItem .\dist\testreports -Filter *.xml |
+      Get-ChildItem .\dist\testreports -Filter *.xml |
 
-    Foreach-Object {
-     $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\dist\testreports\$_))
-    }    
-- sh: >-
-    find "$APPVEYOR_BUILD_FOLDER/dist/testreports" -type f -name 'TEST*.xml' -print0 |
-    xargs -0 -I '{}'
-    curl -F 'file=@{}' "https://ci.appveyor.com/api/testresults/junit/$APPVEYOR_JOB_ID"
+      Foreach-Object {
+
+      $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)",
+      (Resolve-Path .\dist\testreports\$_))
+
+      }    
+  - sh: >-
+      find "$APPVEYOR_BUILD_FOLDER/dist/testreports" -type f -name 'TEST*.xml' -print0 |
+      xargs -0 -I '{}'
+      curl -F 'file=@{}' "https://ci.appveyor.com/api/testresults/junit/$APPVEYOR_JOB_ID"
