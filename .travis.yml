@@ -22,7 +22,6 @@ sudo: false
 
 env:
   matrix:
-    - CUSTOM_JDK="default"
     - CUSTOM_JDK="openjdk7"
     - CUSTOM_JDK="oraclejdk8"
     # oraclejdk7 is no longer supported by oracle or travis
@@ -32,22 +31,14 @@ env:
 
 matrix:
   exclude:
-     # On OSX, run with default JDK only.
      - os: osx
        env: CUSTOM_JDK="openjdk7"
-     - os: osx
-       env: CUSTOM_JDK="oraclejdk8"
      - os: osx
        env: CUSTOM_JDK="oraclejdk9"
      - os: windows
        env: CUSTOM_JDK="openjdk7"
      - os: windows
-       env: CUSTOM_JDK="default"
-     - os: windows
        env: CUSTOM_JDK="oraclejdk9"
-     # On Linux, run with specific JDKs only.
-     - os: linux
-       env: CUSTOM_JDK="default"
 
 addons:
    hosts:

@@ -33,6 +33,10 @@ build_script:
 
     javac -version
 
+    ant -version
+
+    ver
+
     ant
 - sh: >-
     export JAVA_HOME="${JDK_HOME}/jre"
@@ -44,6 +48,18 @@ build_script:
     sudo apt-get install ant
 
     unset JAVA_TOOL_OPTIONS
+
+    java -version
+
+    javac -version
+
+    source /etc/os-release
+
+    echo $PRETTY_NAME
+
+    uname -rp
+
+    ant -version
 
     ant
 test_script: 
