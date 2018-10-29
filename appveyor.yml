@@ -18,5 +18,13 @@ build_script:
     javac -version
 
     ant
+
 test_script: 
 - cmd: ant regrtest-travis
+on_finish:
+- ps: "$wc = New-Object 'System.Net.WebClient'\n"
+      "Get-ChildItem \".\\dist\\testresults\" -Filter *.xml |\n"
+      "Foreach-Object {\n"
+      "  $wc.UploadFile(\"https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)\", (Resolve-Path $_))\n"
+      "}\n"
+
