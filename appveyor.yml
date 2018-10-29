@@ -109,7 +109,8 @@ test_script:
 notifications:
 - provider: Email
   to:
-  - jython-dev@lists.sourceforge.net
+  - ray.ferguson@devendortech.com
+  # - jython-dev@lists.sourceforge.net
   on_build_success: true
   on_build_failure: true
   on_build_status_changed: true

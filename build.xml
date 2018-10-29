@@ -1114,6 +1114,7 @@ The readme text for the next release will be like:
             <!-- isolated tests -->
             <arg value="test_gc"/>
             <arg value="test_gc_jy"/>
+            <arg value="test_datetime_jy"/>
      </exec>
     <parallel>
       <sequential>
@@ -1147,6 +1148,7 @@ The readme text for the next release will be like:
             <!-- isolated tests -->
             <arg value="test_gc_jy"/>
             <arg value="test_gc"/>
+            <arg value="test_datetime_jy"/>
         </exec>
         <echo message="Main tests finished." />
       </sequential>
@@ -1206,6 +1208,7 @@ The readme text for the next release will be like:
             <!-- isolated tests -->
             <arg value="test_gc"/>
             <arg value="test_gc_jy"/>
+            <arg value="test_datetime_jy"/>
      </exec>
     <parallel>
       <sequential>
@@ -1239,6 +1242,7 @@ The readme text for the next release will be like:
             <!-- isolated tests -->
             <arg value="test_gc_jy"/>
             <arg value="test_gc"/>
+            <arg value="test_datetime_jy"/>
         </exec>
         <echo message="Main tests finished."/>
       </sequential>

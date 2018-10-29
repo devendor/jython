@@ -3,7 +3,7 @@ language: shell
 notifications:
   email:
     recipients:
-      - jython-dev@lists.sourceforge.net
+      - ray.ferguson@devendortech.com
 
 install: 
   - ant
