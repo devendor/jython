@@ -3,6 +3,10 @@ shallow_clone: true
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
+  - DESC: xenial openjdk8 x64
+    APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+    JAVA_HOME: /usr/lib/jvm/java-7-openjdk-amd64
+    require_pass: true
   - DESC: bionic openjdk8 x64
     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
     JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
@@ -60,6 +64,10 @@ build_script:
     export PATH="${JAVA_HOME}/bin:$PATH"
 
     sudo apt-get update
+
+    sudo apt-get upgrade -y -s
+
+    false
 
     sudo apt-get install ant
 

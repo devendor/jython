@@ -3,7 +3,7 @@ language: shell
 notifications:
   email:
     recipients:
-      - ray.ferguson@devendortech.com
+      - jython-dev@lists.sourceforge.net
 
 install: 
   - ant
@@ -22,7 +22,6 @@ sudo: false
 
 env:
   matrix:
-    - CUSTOM_JDK="default"
     - CUSTOM_JDK="openjdk7"
     - CUSTOM_JDK="oraclejdk8"
     # oraclejdk7 is no longer supported by oracle or travis
@@ -32,22 +31,14 @@ env:
 
 matrix:
   exclude:
-     # On OSX, run with default JDK only.
      - os: osx
        env: CUSTOM_JDK="openjdk7"
-     - os: osx
-       env: CUSTOM_JDK="oraclejdk8"
      - os: osx
        env: CUSTOM_JDK="oraclejdk9"
      - os: windows
        env: CUSTOM_JDK="openjdk7"
      - os: windows
-       env: CUSTOM_JDK="default"
-     - os: windows
        env: CUSTOM_JDK="oraclejdk9"
-     # On Linux, run with specific JDKs only.
-     - os: linux
-       env: CUSTOM_JDK="default"
 
 addons:
    hosts:
@@ -61,24 +52,26 @@ git:
   depth: 1
 
 before_install:
-  - hostname
-  - cat /etc/hosts
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
     export JAVA_HOME=$(/usr/libexec/java_home)
+    export PATH=${JAVA_HOME}/bin:$PATH
     brew update;
     brew install ant ;
+    sw_vers ;
     fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
     jdk_switcher use "$CUSTOM_JDK" ;
     export PATH=$JAVA_HOME/bin:$PATH ;
     twistd  ftp -r $HOME ;
+    source /etc/os-release ;
+    echo $PRETTY_NAME ;
+    uname -rp ;
     fi
   - if [ "$TRAVIS_OS_NAME" == 'windows' ] ; then
-    export JDK_HOME=`ls -d /c/Program\ Files/Java/jdk1.8.*|head -1` ;
-    export JAVA_HOME="$JDK_HOME/jre" ;
-    export PATH="${JRE_HOME}/bin:${JDK_HOME}/bin:$PATH"  ;
-    choco install --version=1.9.9 -i ant ;
-    which ant ;
+    export JAVA_HOME=`ls -d /c/Program\ Files/Java/jdk1.8.*|head -1` ;
+    export PATH="${JAVA_HOME}/bin:$PATH"  ;
+    choco install -i ant ;
+    powershell "systeminfo | findstr /C:\"OS\"" ;
     fi
   # useful for troubleshooting.
   - java -version 
