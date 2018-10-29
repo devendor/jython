@@ -52,8 +52,6 @@ git:
   depth: 1
 
 before_install:
-  - hostname
-  - cat /etc/hosts
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
     export JAVA_HOME=$(/usr/libexec/java_home)
     brew update;
