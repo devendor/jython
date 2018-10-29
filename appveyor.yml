@@ -17,8 +17,7 @@ build_script:
 
     javac -version
 
-    ant regrtest-travis
+    ant
+test: 
+- cmd: ant regrtest-travis
 
-test: off
-artifacts:
-- path: dist/testreports/TEST*.xml
