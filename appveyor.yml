@@ -3,7 +3,7 @@ shallow_clone: true
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
-  - DESC: xenial openjdk8 x64
+  - DESC: xenial openjdk7 x64
     APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
     JAVA_HOME: /usr/lib/jvm/java-7-openjdk-amd64
     require_pass: true
@@ -15,10 +15,6 @@ environment:
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     JAVA_HOME: C:\Program Files\Java\jdk1.8.0
     require_pass: false
-  - DESC: xenial openjdk7 x64
-    APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
-    JAVA_HOME: /usr/lib/jvm/java-7-openjdk-amd64
-    require_pass: true
   - DESC: ws2012r2 jdk7 x64
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
     JAVA_HOME: C:\Program Files\Java\jdk1.7.0
@@ -51,6 +47,8 @@ build_script:
 
     choco install -i --version=1.9.9 ant
 
+    echo "############### INFO ##################"
+
     java -version
 
     javac -version
@@ -59,19 +57,27 @@ build_script:
 
     systeminfo | findstr /C:"OS"
 
+    echo "############### ENV ##################"
+
+    env
+
+    echo "############### BUILD ##################"
+
     ant
+
+    echo "############### TEST ##################"
 - sh: >-
     export PATH="${JAVA_HOME}/bin:$PATH"
 
     sudo apt-get update
 
-    sudo apt-get upgrade -y -s
-
-    false
+    sudo apt-get upgrade -y tzdata
 
     sudo apt-get install ant
 
     unset JAVA_TOOL_OPTIONS
+
+    echo "############### INFO ##################"
 
     java -version
 
@@ -83,9 +89,17 @@ build_script:
 
     uname -rp
 
+    echo "############### ENV ##################"
+
+    env
+
+    echo "############### BUILD ##################"
+
     ant -version
 
     ant
+
+    echo "############### TEST ##################"
 test_script: 
 - cmd: ant regrtest-travis
 - sh: >-
