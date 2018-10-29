@@ -40,13 +40,15 @@ build_script:
 
     ant
 - sh: >-
-    export JAVA_HOME="${JDK_HOME}"
+    export JAVA_HOME="${JDK_HOME}/jre"
 
-    export PATH="${JAVA_HOME}/bin:$PATH"
+    export PATH="${JAVA_HOME}/bin:${JDK_HOME}/bin:$PATH"
 
     sudo apt-get update
 
     sudo apt-get install ant
+
+    unset JAVA_TOOL_OPTIONS
 
     ant
 test_script: 
