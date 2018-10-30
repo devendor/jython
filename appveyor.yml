@@ -45,15 +45,17 @@ matrix:
 build_script:
   - cmd: |-
      echo "############# %DESC% ##############"
-     set PATH=%JAVA_HOME%/bin;%PATH%
-     choco install -i --version=1.9.9 ant
+     choco install -y -i  ant
+     refreshenv
+     set PATH=%JAVA_HOME%\bin;%PATH%
      echo "############### INFO ##################"
+     which java
      java -version
      javac -version
      ant -version
      systeminfo | findstr /C:"OS"
      echo "############### ENV ##################"
-     env
+     set
      echo "############### BUILD ##################"
      ant
      echo "############### TEST ##################"
@@ -61,10 +63,10 @@ build_script:
      echo "############# ${DESC} ##############"
      export PATH="${JAVA_HOME}/bin:$PATH"
      sudo apt-get update
-     sudo apt-get install -y tzdata || true
-     if [ "$APPVEYOR_BUILD_WORKER_IMAGE" == "Ubuntu1604" ] ; then
-       dpkg-reconfigure tzdata ;
-     fi
+     #sudo apt-get install -y tzdata || true
+     #if [ "$APPVEYOR_BUILD_WORKER_IMAGE" == "Ubuntu1604" ] ; then
+     #  dpkg-reconfigure tzdata ;
+     #fi
      sudo apt-get install ant
      unset JAVA_TOOL_OPTIONS
      echo "############### INFO ##################"
@@ -87,7 +89,7 @@ test_script:
   - sh: |-
      unset JAVA_TOOL_OPTIONS
      echo "############### TESTENV ##################"
-     env
+     set
      echo "############### TEST ##################"
      ant regrtest-travis
 notifications:
