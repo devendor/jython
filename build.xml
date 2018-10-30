@@ -1114,7 +1114,8 @@ The readme text for the next release will be like:
             <!-- isolated tests -->
             <arg value="test_gc"/>
             <arg value="test_gc_jy"/>
-            <arg value="test_datetime_jy"/>
+            <arg value="test_os"/>
+            <arg value="test_jython_luancher"/>
      </exec>
     <parallel>
       <sequential>
@@ -1148,7 +1149,8 @@ The readme text for the next release will be like:
             <!-- isolated tests -->
             <arg value="test_gc_jy"/>
             <arg value="test_gc"/>
-            <arg value="test_datetime_jy"/>
+            <arg value="test_os"/>
+            <arg value="test_jython_luancher"/>
         </exec>
         <echo message="Main tests finished." />
       </sequential>
@@ -1208,7 +1210,8 @@ The readme text for the next release will be like:
             <!-- isolated tests -->
             <arg value="test_gc"/>
             <arg value="test_gc_jy"/>
-            <arg value="test_datetime_jy"/>
+            <arg value="test_os"/>
+            <arg value="test_jython_luancher"/>
     </exec>
     <parallel>
       <sequential>
@@ -1242,7 +1245,8 @@ The readme text for the next release will be like:
             <!-- isolated tests -->
             <arg value="test_gc_jy"/>
             <arg value="test_gc"/>
-            <arg value="test_datetime_jy"/>
+            <arg value="test_os"/>
+            <arg value="test_jython_luancher"/>
         </exec>
         <echo message="Main tests finished."/>
       </sequential>
