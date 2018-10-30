@@ -3,13 +3,13 @@ shallow_clone: true
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
-    - DESC: xenial openjdk8 x64
-      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
-      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
-      require_pass: true
     - DESC: xenial openjdk7 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
       JAVA_HOME: /usr/lib/jvm/java-7-openjdk-amd64
+      require_pass: true
+    - DESC: xenial openjdk8 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+      JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
       require_pass: true
     - DESC: bionic openjdk8 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
@@ -41,6 +41,7 @@ matrix:
     - require_pass: false
 build_script:
   - cmd: |-
+     echo "############# %DESC% ##############"
      set PATH=%JAVA_HOME%/bin;%PATH%
      choco install -i --version=1.9.9 ant
      echo "############### INFO ##################"
@@ -54,6 +55,7 @@ build_script:
      ant
      echo "############### TEST ##################"
   - sh: |-
+     echo "############# ${DESC} ##############"
      export PATH="${JAVA_HOME}/bin:$PATH"
      sudo apt-get update
      sudo apt-get install -y tzdata || true
