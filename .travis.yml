@@ -81,4 +81,4 @@ before_install:
     env
     echo "############### BUILD ##################"
 script: >-
-  ant && echo "############# TEST ###############" && ant regrtest-travis
+  env ; ant && echo "############# TEST ###############" && ant regrtest-travis
