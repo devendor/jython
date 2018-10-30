@@ -40,16 +40,16 @@ osx_image: xcode9.3
 git:
   depth: 2
 before_install:
-  - |
+  - |-
     if [ "$TRAVIS_OS_NAME" == "osx" ]; then
       export JAVA_HOME=$(/usr/libexec/java_home)
       export PATH=${JAVA_HOME}/bin:$PATH
       brew update
       brew install ant
-      echo "############### INFO ##################"
+      echo "############### SYSINFO ##################"
       sw_vers
     fi
-  - |
+  - |-
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       jdk_switcher use "$CUSTOM_JDK"
       export PATH=$JAVA_HOME/bin:$PATH
@@ -57,27 +57,28 @@ before_install:
       source /etc/os-release
       apt-get update
       apt-get upgade -y -s
-      echo "############### INFO ##################"
+      echo "############### SYSINFO ##################"
       echo $PRETTY_NAME
       uname -rp
     fi
-  - |
+  - |-
     if [ "$TRAVIS_OS_NAME" == 'windows' ] ; then
       export JAVA_HOME=`ls -d /c/Program\ Files/Java/jdk1.8.*|head -1`
       export PATH="${JAVA_HOME}/bin:$PATH"
       choco install -i ant
-      echo "############### INFO ##################"
+      echo "############### SYSINFO ##################"
       powershell "systeminfo | findstr /C:\"OS\""
     fi
   # useful for troubleshooting.
-  - java -version
-  - javac -version
-  - ant -version
-  - unset _JAVA_OPTIONS
-  - echo "############### ENV ##################"
-  - env
-  - echo "############### BUILD ##################"
-
-# 30 is a no output timeout after which the job will be terminated. 10 is default.
-# subprocess runs longer than that on slow travis windows containers.
-script: ant && echo "############# TEST ###############" && ant regrtest-travis
+  - |-
+    echo "############### VERSIONS ##################"
+    java -version
+    javac -version
+    ant -version
+    unset _JAVA_OPTIONS
+  - |-
+    echo "############### ENV ##################"
+    env
+    echo "############### BUILD ##################"
+script: >-
+  ant && echo "############# TEST ###############" && ant regrtest-travis
