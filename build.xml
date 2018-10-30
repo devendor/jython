@@ -1115,7 +1115,7 @@ The readme text for the next release will be like:
             <arg value="test_gc"/>
             <arg value="test_gc_jy"/>
             <arg value="test_os"/>
-            <arg value="test_jython_luancher"/>
+            <arg value="test_jython_launcher"/>
      </exec>
     <parallel>
       <sequential>
