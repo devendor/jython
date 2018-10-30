@@ -79,11 +79,17 @@ build_script:
      echo "############### BUILD ##################"
      ant -version
      ant
-     echo "############### TEST ##################"
 test_script:
-  - cmd: ant regrtest-travis
+  - cmd: |-
+     echo "############### TESTENV ##################"
+     env
+     echo "############### TEST ##################"
+     ant regrtest-travis
   - sh: |-
      unset JAVA_TOOL_OPTIONS
+     echo "############### TESTENV ##################"
+     env
+     echo "############### TEST ##################"
      ant regrtest-travis
 notifications:
   - provider: Email
