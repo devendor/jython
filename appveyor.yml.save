@@ -1,0 +1,70 @@
+version: 1.0.{build}
+clone_depth: 2
+environment:
+  APPVEYOR_YML_DISABLE_PS_LINUX: true
+  matrix:
+  - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+    JDK_HOME: /usr/lib/jvm/java-8-openjdk-amd64
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    JDK_HOME: C:\Program Files\Java\jdk1.8.0
+  - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+    JDK_HOME: /usr/lib/jvm/java-7-openjdk-amd64
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    JDK_HOME: C:\Program Files\Java\jdk1.7.0
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    JDK_HOME: C:\Program Files\Java\jdk1.8.0
+  - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+    JDK_HOME: C:\Program Files (x86)\Java\jdk1.8.0
+  - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+    JDK_HOME: /usr/lib/jvm/java-9-openjdk-amd64
+  # - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+  #   JDK_HOME: /usr/lib/jvm/java-10-openjdk-amd64
+  # - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+  #   JDK_HOME: /usr/lib/jvm/java-11-openjdk-amd64
+build_script:
+- cmd: >-
+    set JAVA_HOME=%JDK_HOME%/jre
+
+    set PATH=%JAVA_HOME%/bin;%JDK_HOME%/bin;%PATH%
+
+    choco install -i --version=1.9.9 ant
+
+    java -version
+
+    javac -version
+
+    ant
+- sh: >-
+    export JAVA_HOME="${JDK_HOME}/jre"
+
+    export PATH="${JAVA_HOME}/bin:${JDK_HOME}/bin:$PATH"
+
+    sudo apt-get update
+
+    sudo apt-get install ant
+
+    unset JAVA_TOOL_OPTIONS
+
+    ant
+test_script: 
+- cmd: ant regrtest-travis
+- sh: unset JAVA_TOOL_OPTIONS ; ant regrtest-travis
+notifications:
+- provider: Email
+  to:
+  - ray.ferguson@devdendortech.com
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
+on_finish:
+- ps: >-
+
+    $wc = New-Object 'System.Net.WebClient'
+
+    Get-ChildItem .\dist\testreports -Filter *.xml |
+
+    Foreach-Object {
+     $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\dist\testreports\$_))
+    }    
+- sh: |
+      find "$APPVEYOR_BUILD_FOLDER/dist/testreports" -type f -name 'TEST*.xml' -print0 | xargs -0 -I '{}' curl -F 'file=@{}' "https://ci.appveyor.com/api/testresults/junit/$APPVEYOR_JOB_ID"

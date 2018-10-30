@@ -1,25 +1,18 @@
 language: shell
-
 notifications:
   email:
     recipients:
       - ray.ferguson@devendortech.com
-
 install:
   - ant
-
 os:
   - linux
   - osx
   - windows
-
 # Trusty is 14.04 LTS. 18.04 LTS / beaver is not supported by travis 10/2018
 # setting these two options allows faster testing in docker images.
-
 dist: trusty
-
-sudo: false 
-
+sudo: false
 env:
   matrix:
     - CUSTOM_JDK="openjdk7"
@@ -28,7 +21,6 @@ env:
     # 9 is available on trusty. Please try a newer xcode
     # below if you get newer java working.
     # - CUSTOM_JDK="oraclejdk9"
-
 matrix:
   exclude:
     - os: osx
@@ -39,47 +31,46 @@ matrix:
       env: CUSTOM_JDK="openjdk7"
     - os: windows
       env: CUSTOM_JDK="oraclejdk9"
-
 addons:
   hosts:
     - travis
   hostname: travis
-
 # pin to xcode9.3. Newer versions use java 10.
 osx_image: xcode9.3
-
-git: 
-  depth: 4
-
+git:
+  depth: 2
 before_install:
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-    export JAVA_HOME=$(/usr/libexec/java_home);
-    export PATH=${JAVA_HOME}/bin:$PATH ;
-    brew update;
-    brew install ant;
-    echo "############### INFO ##################";
-    sw_vers ;
+  - |
+    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+      export JAVA_HOME=$(/usr/libexec/java_home)
+      export PATH=${JAVA_HOME}/bin:$PATH
+      brew update
+      brew install ant
+      echo "############### INFO ##################"
+      sw_vers
     fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-    jdk_switcher use "$CUSTOM_JDK" ;
-    export PATH=$JAVA_HOME/bin:$PATH ;
-    twistd  ftp -r $HOME ;
-    source /etc/os-release ;
-    apt-get update;
-    apt-get upgade -y -s ;
-    echo "############### INFO ##################" ;
-    echo $PRETTY_NAME ;
-    uname -rp ;
+  - |
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      jdk_switcher use "$CUSTOM_JDK"
+      export PATH=$JAVA_HOME/bin:$PATH
+      twistd  ftp -r $HOME
+      source /etc/os-release
+      apt-get update
+      apt-get upgade -y -s
+      echo "############### INFO ##################"
+      echo $PRETTY_NAME
+      uname -rp
     fi
-  - if [ "$TRAVIS_OS_NAME" == 'windows' ] ; then
-    export JAVA_HOME=`ls -d /c/Program\ Files/Java/jdk1.8.*|head -1` ;
-    export PATH="${JAVA_HOME}/bin:$PATH"  ;
-    choco install -i ant ;
-    echo "############### INFO ##################";
-    powershell "systeminfo | findstr /C:\"OS\"" ;
+  - |
+    if [ "$TRAVIS_OS_NAME" == 'windows' ] ; then
+      export JAVA_HOME=`ls -d /c/Program\ Files/Java/jdk1.8.*|head -1`
+      export PATH="${JAVA_HOME}/bin:$PATH"
+      choco install -i ant
+      echo "############### INFO ##################"
+      powershell "systeminfo | findstr /C:\"OS\""
     fi
   # useful for troubleshooting.
-  - java -version 
+  - java -version
   - javac -version
   - ant -version
   - unset _JAVA_OPTIONS
@@ -90,4 +81,3 @@ before_install:
 # 30 is a no output timeout after which the job will be terminated. 10 is default.
 # subprocess runs longer than that on slow travis windows containers.
 script: ant && echo "############# TEST ###############" && ant regrtest-travis
-
