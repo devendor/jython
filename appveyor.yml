@@ -40,7 +40,7 @@ matrix:
   allow_failures:
     - require_pass: false
 build_script:
-  - cmd: |
+  - cmd: |-
      set PATH=%JAVA_HOME%/bin;%PATH%
      choco install -i --version=1.9.9 ant
      echo "############### INFO ##################"
@@ -53,7 +53,7 @@ build_script:
      echo "############### BUILD ##################"
      ant
      echo "############### TEST ##################"
-  - sh: |
+  - sh: |-
      export PATH="${JAVA_HOME}/bin:$PATH"
      sudo apt-get update
      sudo apt-get install -y tzdata || true
@@ -76,7 +76,7 @@ build_script:
      echo "############### TEST ##################"
 test_script:
   - cmd: ant regrtest-travis
-  - sh: |
+  - sh: |-
      unset JAVA_TOOL_OPTIONS
      ant regrtest-travis
 notifications:
@@ -98,6 +98,6 @@ on_finish:
      (Resolve-Path .\dist\testreports\$_))
      }
   - sh: >-
-      find "$APPVEYOR_BUILD_FOLDER/dist/testreports" -type f -name 'TEST*.xml' -print0 |
-      xargs -0 -I '{}'
-      curl -F 'file=@{}' "https://ci.appveyor.com/api/testresults/junit/$APPVEYOR_JOB_ID"
+      find "$APPVEYOR_BUILD_FOLDER/dist/testreports" -type f -name 'TEST*.xml'
+      -print0 | xargs -0 -I '{}' curl -F 'file=@{}'
+      "https://ci.appveyor.com/api/testresults/junit/$APPVEYOR_JOB_ID"
