@@ -40,7 +40,6 @@ environment:
       JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0
       require_pass: false
 matrix:
-  fast_finish: true
   allow_failures:
     - require_pass: false
 build_script:
@@ -79,11 +78,17 @@ build_script:
      echo "############### BUILD ##################"
      ant -version
      ant
-     echo "############### TEST ##################"
 test_script:
-  - cmd: ant regrtest-travis
+  - cmd: |-
+     echo "############### TESTENV ##################"
+     env
+     echo "############### TEST ##################"
+     ant regrtest-travis
   - sh: |-
      unset JAVA_TOOL_OPTIONS
+     echo "############### TESTENV ##################"
+     env
+     echo "############### TEST ##################"
      ant regrtest-travis
 notifications:
   - provider: Email
