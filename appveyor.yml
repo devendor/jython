@@ -3,10 +3,6 @@ shallow_clone: true
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
-    - DESC: xenial openjdk7 x64
-      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
-      JAVA_HOME: /usr/lib/jvm/java-7-openjdk-amd64
-      require_pass: true
     - DESC: xenial openjdk8 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
       JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
@@ -19,6 +15,14 @@ environment:
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       JAVA_HOME: C:\Program Files\Java\jdk1.8.0
       require_pass: false
+    - DESC: xenial openjdk7 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
+      JAVA_HOME: /usr/lib/jvm/java-7-openjdk-amd64
+      require_pass: false
+    - DESC: bionic openjdk7 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+      JAVA_HOME: /usr/lib/jvm/java-7-openjdk-amd64
+      require_pass: false
     - DESC: ws2012r2 jdk7 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       JAVA_HOME: C:\Program Files\Java\jdk1.7.0
@@ -27,13 +31,13 @@ environment:
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       JAVA_HOME: C:\Program Files\Java\jdk1.8.0
       require_pass: false
-    - DESC: ws2012r2 jdk8 x86
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0
-      require_pass: false
     - DESC: bionic openjdk9 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
       JAVA_HOME: /usr/lib/jvm/java-9-openjdk-amd64
+      require_pass: false
+    - DESC: ws2012r2 jdk8 x86 (32 bit)
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0
       require_pass: false
 matrix:
   fast_finish: true
