@@ -1101,7 +1101,7 @@ The readme text for the next release will be like:
             description="run Python tests expected to work on Jython for Travis intergration"/>
 
     <target name="regrtest-unix-travis" if="os.family.unix">
-    <exec executable="${dist.dir}/bin/jython" failonerror="true" resultproperty="isotestsexit">
+    <exec executable="${dist.dir}/bin/jython" failonerror="false" resultproperty="isotestsexit">
         <env key="JAVA_OPTS" value="-Duser.language=en -Duser.region=US"/>
             <arg value="${dist.dir}/Lib/test/regrtest.py"/>
             <arg value="-w"/> <!-- re-run failed tests in verbose mode -->
@@ -1155,7 +1155,7 @@ The readme text for the next release will be like:
       <sequential>
         <!-- regrtest tries clean up tmp files in cwd on exit -->
         <mkdir dir="${basedir}/longtests"/> 
-        <exec executable="${dist.dir}/bin/jython" failonerror="true" dir="${basedir}/longtests" resultproperty="longtestsexit">
+        <exec executable="${dist.dir}/bin/jython" failonerror="false" dir="${basedir}/longtests" resultproperty="longtestsexit">
             <env key="JAVA_OPTS" value="-Duser.language=en -Duser.region=US"/>
             <arg value="${dist.dir}/Lib/test/regrtest.py"/>
             <arg value="-w"/> <!-- re-run failed tests in verbose mode -->
@@ -1209,10 +1209,10 @@ The readme text for the next release will be like:
             <arg value="test_gc"/>
             <arg value="test_gc_jy"/>
             <arg value="test_datetime_jy"/>
-     </exec>
+    </exec>
     <parallel>
       <sequential>
-        <exec executable="${dist.dir}/bin/jython.exe" failonerror="true" resultproperty="maintestsexit">
+        <exec executable="${dist.dir}/bin/jython.exe" failonerror="false" resultproperty="maintestsexit">
             <env key="JAVA_OPTS" value="-Duser.language=en -Duser.region=US"/>
             <arg value="${dist.dir}/Lib/test/regrtest.py"/>
             <arg value="-w"/> <!-- re-run failed tests in verbose mode -->
