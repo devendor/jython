@@ -49,7 +49,6 @@ build_script:
      set CLASSPATH=
      set "PATH=%WINDIR%\system32;%WINDIR%;%PROGRAMDATA%\chocolatey\bin;%JAVA_HOME%\bin"
      choco install -y -i  ant
-     refreshenv
      set
      echo "############### INFO ##################"
      java -version
