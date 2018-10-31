@@ -87,6 +87,7 @@ test_script:
   - cmd: |-
      echo "############### TESTENV ##################"
      set CLASSPATH=
+     set TERM=vt100
      set
      echo "############### TEST ##################"
      ant regrtest-travis
