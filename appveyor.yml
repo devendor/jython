@@ -48,7 +48,7 @@ build_script:
      choco install -y jdk8
      choco install -y -i  ant
      refreshenv
-     #set PATH=%JAVA_HOME%\bin;%PATH%
+     REM set PATH=%JAVA_HOME%\bin;%PATH%
      set
      echo "############### INFO ##################"
      java -version
