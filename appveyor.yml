@@ -45,10 +45,12 @@ matrix:
 build_script:
   - cmd: |-
      echo "############# %DESC% ##############"
+     set CLASSPATH=
+     set JAVA_HOME=
      choco install -y jdk8
+     refreshenv
      choco install -y -i  ant
      refreshenv
-     REM set PATH=%JAVA_HOME%\bin;%PATH%
      set
      echo "############### INFO ##################"
      java -version
@@ -84,13 +86,14 @@ build_script:
 test_script:
   - cmd: |-
      echo "############### TESTENV ##################"
-     env
+     set CLASSPATH=
+     set
      echo "############### TEST ##################"
      ant regrtest-travis
   - sh: |-
      unset JAVA_TOOL_OPTIONS
      echo "############### TESTENV ##################"
-     set
+     env
      echo "############### TEST ##################"
      ant regrtest-travis
 notifications:
