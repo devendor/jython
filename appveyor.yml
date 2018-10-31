@@ -45,10 +45,9 @@ matrix:
 build_script:
   - cmd: |-
      echo "############# %DESC% ##############"
+     set TERM=dumb
      set CLASSPATH=
-     set JAVA_HOME=
-     choco install -y jdk8
-     refreshenv
+     set "PATH=%WINDIR%\system32;%WINDIR%;%PROGRAMDATA%\chocolatey\bin;%JAVA_HOME%\bin"
      choco install -y -i  ant
      refreshenv
      set
@@ -62,6 +61,7 @@ build_script:
      echo "############### BUILD ##################"
      ant
      echo "############### TEST ##################"
+     ant regrtest-travis
   - sh: |-
      echo "############# ${DESC} ##############"
      export PATH="${JAVA_HOME}/bin:$PATH"
@@ -83,18 +83,7 @@ build_script:
      echo "############### BUILD ##################"
      ant -version
      ant
-test_script:
-  - cmd: |-
-     echo "############### TESTENV ##################"
-     set CLASSPATH=
-     set TERM=vt100
-     set
-     echo "############### TEST ##################"
-     ant regrtest-travis
-  - sh: |-
      unset JAVA_TOOL_OPTIONS
-     echo "############### TESTENV ##################"
-     env
      echo "############### TEST ##################"
      ant regrtest-travis
 notifications:
