@@ -3,12 +3,12 @@ shallow_clone: true
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
-    - DESC: ws2016 jdk8 x64
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-      require_pass: false
     - DESC: ws2012r2 jdk8 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+      require_pass: false
+    - DESC: ws2016 jdk8 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       JAVA_HOME: C:\Program Files\Java\jdk1.8.0
       require_pass: false
     - DESC: xenial openjdk8 x64
@@ -45,11 +45,12 @@ matrix:
 build_script:
   - cmd: |-
      echo "############# %DESC% ##############"
+     choco install -y jdk8
      choco install -y -i  ant
      refreshenv
-     set PATH=%JAVA_HOME%\bin;%PATH%
+     #set PATH=%JAVA_HOME%\bin;%PATH%
+     set
      echo "############### INFO ##################"
-     which java
      java -version
      javac -version
      ant -version
