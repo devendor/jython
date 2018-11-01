@@ -93,9 +93,9 @@ script: |-
       echo "############### ENV ##################"
       set
       echo "############### BUILD ##################"
-      ant || ( exit 1)
+      ant || exit /b 1
       echo "############# TEST ###############"
-      ant regrtest-travis || echo 1
+      ant regrtest-travis || exit /b 1
    END
       cat build.bat
       ./build.bat
