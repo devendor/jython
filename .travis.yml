@@ -80,12 +80,13 @@ script: |-
       WJAVA_HOME=$(echo $JAVA_HOME | sed 's#^/c#C:# ; s#/#\\\\#g')
       cat>build.bat<<END
       @echo on
-      cd "%HOMEPATH%/jython" || exit 1
       refreshenv
       echo "########## original env ############"
       set
       set "JAVA_HOME=$WJAVA_HOME"
       set CLASSPATH=
+      where ant
+      where wpr.exe
       FOR /F "tokens=*" %%G IN ('where wpa.exe') do SET XPP=%%G
       FOR /F "tokens=*" %%H IN ('where dnvm.cmd') do SET DNXP=%%H
       set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;%XPP:xperf.exe=%"
