@@ -79,9 +79,12 @@ before_install:
 # Testing doesn't work so well with odd things in PATH and within bash on travis.
 script: |-
    if [ "$TRAVIS_OS_NAME" == "windows" ] ; then
-      WJAVA_HOME=$(echo $JAVA_HOME | sed 's#^/c#C:# ; s#/#\\#g')
+      WJAVA_HOME=$(echo $JAVA_HOME | sed 's#^/c#C:# ; s#/#\\\#g')
       cmd.exe /E:ON <<END
+      cd "%HOMEPATH%/jython"
       refreshenv
+      echo "########## original env ############"
+      set
       set "JAVA_HOME=$WJAVA_HOME"
       set CLASSPATH=
       FOR /F "tokens=*" %G IN ('where wpa.exe') do SET XPP=%G
@@ -93,9 +96,11 @@ script: |-
       ant && echo "############# TEST ###############" && ant regrtest-travis
       if %errrorlevel% 1 ( exit %errorlevel% )
    END
+      exit $?
    else
       echo "############### ENV ##################"
       env
       echo "############### BUILD ##################"
       ant && echo "############# TEST ###############" && ant regrtest-travis
+      exit $?
    fi
