@@ -79,22 +79,24 @@ script: |-
    if [ "$TRAVIS_OS_NAME" == "windows" ] ; then
       WJAVA_HOME=$(echo $JAVA_HOME | sed 's#^/c#C:# ; s#/#\\#g')
       cat>build.bat<<END
+      @echo on
       refreshenv
       echo "########## original env ############"
       set
       set "JAVA_HOME=$WJAVA_HOME"
       set CLASSPATH=
       where ant
-      where wpr.exe
       FOR /F "tokens=*" %%G IN ('where wpa.exe') do SET XPP=%%G
       FOR /F "tokens=*" %%H IN ('where dnvm.cmd') do SET DNXP=%%H
       set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;%XPP:xperf.exe=%"
       echo "############### ENV ##################"
       set
       echo "############### BUILD ##################"
-      ant || exit /b 1
+      ant 
+      if %exitcode% 1 ( exit /b %exitcode% )
       echo "############# TEST ###############"
-      ant regrtest-travis || exit /b 1
+      ant regrtest-travis
+      if %exitcode% 1 ( exit /b %exitcode% )
    END
       cat build.bat
       cmd /E:ON /C ".\build.bat"
