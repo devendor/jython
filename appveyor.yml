@@ -3,33 +3,29 @@ shallow_clone: true
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
+    - DESC: ws2012r2 jdk7 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      JAVA_HOME: C:\Program Files\Java\jdk1.7.0
+      require_pass: false
+    - DESC: ws2012r2 jdk8 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+      require_pass: true
     - DESC: xenial openjdk8 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
       JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
+      require_pass: true
+    - DESC: ws2016 jdk8 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
       require_pass: true
     - DESC: bionic openjdk8 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
       JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
       require_pass: true
-    - DESC: ws2012r2 jdk8 x64
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
-      require_pass: false
     - DESC: xenial openjdk7 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
       JAVA_HOME: /usr/lib/jvm/java-7-openjdk-amd64
-      require_pass: false
-    - DESC: bionic openjdk7 x64
-      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
-      JAVA_HOME: /usr/lib/jvm/java-7-openjdk-amd64
-      require_pass: false
-    - DESC: ws2012r2 jdk7 x64
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      JAVA_HOME: C:\Program Files\Java\jdk1.7.0
-      require_pass: false
-    - DESC: ws2016 jdk7 x64
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      JAVA_HOME: C:\Program Files\Java\jdk1.8.0
       require_pass: false
     - DESC: bionic openjdk9 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
@@ -40,32 +36,36 @@ environment:
       JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0
       require_pass: false
 matrix:
-  fast_finish: true
   allow_failures:
     - require_pass: false
 build_script:
   - cmd: |-
      echo "############# %DESC% ##############"
-     set PATH=%JAVA_HOME%/bin;%PATH%
-     choco install -i --version=1.9.9 ant
+     REM Tests are sensitive to PATH. test_xmlrpc throws without Dnvm. Launcher and test_os fail
+     REM When PATH has some extra thing somewhere in PATH. Not sure what, but minimal works.
+     set TERM=dumb
+     set CLASSPATH=
+     set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%PROGRAMDIR%\Microsoft DNX\Dnvm;%JAVA_HOME%\bin"
+     echo %DESC% | findstr jdk7 >Nul && choco install -y -i --version=1.9.9 ant || choco install -y -i  ant
      echo "############### INFO ##################"
      java -version
      javac -version
      ant -version
      systeminfo | findstr /C:"OS"
      echo "############### ENV ##################"
-     env
+     set
      echo "############### BUILD ##################"
      ant
      echo "############### TEST ##################"
+     ant regrtest-travis
   - sh: |-
      echo "############# ${DESC} ##############"
      export PATH="${JAVA_HOME}/bin:$PATH"
      sudo apt-get update
-     sudo apt-get install -y tzdata || true
-     if [ "$APPVEYOR_BUILD_WORKER_IMAGE" == "Ubuntu1604" ] ; then
-       dpkg-reconfigure tzdata ;
-     fi
+     #sudo apt-get install -y tzdata || true
+     #if [ "$APPVEYOR_BUILD_WORKER_IMAGE" == "Ubuntu1604" ] ; then
+     #  dpkg-reconfigure tzdata ;
+     #fi
      sudo apt-get install ant
      unset JAVA_TOOL_OPTIONS
      echo "############### INFO ##################"
@@ -80,10 +80,6 @@ build_script:
      ant -version
      ant
      echo "############### TEST ##################"
-test_script:
-  - cmd: ant regrtest-travis
-  - sh: |-
-     unset JAVA_TOOL_OPTIONS
      ant regrtest-travis
 notifications:
   - provider: Email
