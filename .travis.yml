@@ -84,7 +84,8 @@ script: >-
 
    set CLASSPATH=
 
-   set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%PROGRAMDIR%\Microsoft DNX\Dnvm;%JAVA_HOME%\bin"
+   set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%PROGRAMDIR%\Microsoft
+   DNX\Dnvm;%JAVA_HOME%\bin"
 
    echo "############### ENV ##################"
 
