@@ -79,28 +79,30 @@ before_install:
 # Testing doesn't work so well with odd things in PATH and within bash on travis.
 script: |-
    if [ "$TRAVIS_OS_NAME" == "windows" ] ; then
-      WJAVA_HOME=$(echo $JAVA_HOME | sed 's#^/c#C:# ; s#/#\\\#g')
-      cmd.exe /E:ON <<END
-      cd "%HOMEPATH%/jython"
+      WJAVA_HOME=$(echo $JAVA_HOME | sed 's#^/c#C:# ; s#/#\\\\#g')
+      cat>build.bat<<END
+      @echo on
+      cd "%HOMEPATH%/jython" || exit 1
       refreshenv
       echo "########## original env ############"
       set
       set "JAVA_HOME=$WJAVA_HOME"
       set CLASSPATH=
-      FOR /F "tokens=*" %G IN ('where wpa.exe') do SET XPP=%G
-      FOR /F "tokens=*" %G IN ('where dnvm.cmd') do SET DNXP=%G
+      FOR /F "tokens=*" %%G IN ('where wpa.exe') do SET XPP=%%G
+      FOR /F "tokens=*" %%H IN ('where dnvm.cmd') do SET DNXP=%%H
       set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;%XPP:xperf.exe=%"
       echo "############### ENV ##################"
       set
       echo "############### BUILD ##################"
-      ant && echo "############# TEST ###############" && ant regrtest-travis
-      if %errrorlevel% 1 ( exit %errorlevel% )
+      ant || ( exit 1)
+      echo "############# TEST ###############"
+      ant regrtest-travis || echo 1
    END
-      exit $?
+      cat build.bat
+      ./build.bat
    else
       echo "############### ENV ##################"
       env
       echo "############### BUILD ##################"
       ant && echo "############# TEST ###############" && ant regrtest-travis
-      exit $?
    fi
