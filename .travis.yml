@@ -79,7 +79,6 @@ script: |-
    if [ "$TRAVIS_OS_NAME" == "windows" ] ; then
       WJAVA_HOME=$(echo $JAVA_HOME | sed 's#^/c#C:# ; s#/#\\#g')
       cat>build.bat<<END
-      @echo on
       refreshenv
       echo "########## original env ############"
       set
@@ -98,7 +97,7 @@ script: |-
       ant regrtest-travis || exit /b 1
    END
       cat build.bat
-      ./build.bat
+      cmd /C ".\build.bat"
    else
       echo "############### ENV ##################"
       env
