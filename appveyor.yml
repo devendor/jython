@@ -45,7 +45,7 @@ build_script:
      REM When PATH has some extra thing somewhere in PATH. Not sure what, but minimal works.
      set TERM=dumb
      set CLASSPATH=
-     set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%PROGRAMDIR%\Microsoft DNX\Dnvm;%JAVA_HOME%\bin"
+     set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%PROGRAMFILES%\Microsoft DNX\Dnvm;%JAVA_HOME%\bin"
      echo %DESC% | findstr jdk7 >Nul && choco install -y -i --version=1.9.9 ant || choco install -y -i  ant
      echo "############### INFO ##################"
      java -version
