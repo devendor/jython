@@ -97,7 +97,8 @@ script: |-
       ant regrtest-travis || exit /b 1
    END
       cat build.bat
-      cmd /C ".\build.bat"
+      cmd /E:ON /C ".\build.bat"
+      exit $?
    else
       echo "############### ENV ##################"
       env
