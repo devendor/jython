@@ -79,8 +79,9 @@ before_install:
 # Testing doesn't work so well with odd things in PATH and within bash on travis.
 script: |-
    if [ "$TRAVIS_OS_NAME" == "windows" ] ; then
-      cmd.exe /E:ON <<END
-      set "JAVA_HOME=%PROGRAMFILES%\java\$(basename $JAVA_HOME)"
+      WJAVA_HOME=$(echo $JAVA_HOME | sed 's#^/c#C:# ; s#/#\\#g')
+      cat <<'END' | sed
+      set "JAVA_HOME=$WJAVA_HOME"
       set CLASSPATH=
       set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%PROGRAMFILES%\Microsoft DNX\Dnvm;%JAVA_HOME%\bin"
       echo "############### ENV ##################"
