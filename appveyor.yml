@@ -45,8 +45,8 @@ build_script:
      REM When PATH has some extra thing somewhere in PATH. Not sure what, but minimal works.
      set TERM=dumb
      set CLASSPATH=
-     #choco install -v -y windows-adk
-     #FOR /F "tokens=*" %%G IN ('where wpa') do SET XPP=%%G
+     REM choco install -v -y windows-adk
+     REM FOR /F "tokens=*" %%G IN ('where wpa') do SET XPP=%%G
      FOR /F "tokens=*" %%G IN ('where dnvm.cmd') do SET DNXP=%%G
      set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\system32\config\systemprofile\.dnx\bin;"
      echo %DESC% | findstr jdk7 >Nul && choco install -y -i --version=1.9.9 ant || choco install -y -i  ant
