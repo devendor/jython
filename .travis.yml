@@ -93,5 +93,5 @@ script: >-
    ant && echo "############# TEST ###############" && ant regrtest-travis
 
    else
-   
+
    ant && echo "############# TEST ###############" && ant regrtest-travis
