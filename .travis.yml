@@ -80,7 +80,7 @@ before_install:
 script: |-
    if [ "$TRAVIS_OS_NAME" == "windows" ] ; then
       WJAVA_HOME=$(echo $JAVA_HOME | sed 's#^/c#C:# ; s#/#\\#g')
-      cat <<'END' | sed
+      cmd.exe<<END
       set "JAVA_HOME=$WJAVA_HOME"
       set CLASSPATH=
       FOR /F "tokens=*" %G IN ('where xperf.exe') do SET XPP=%G
