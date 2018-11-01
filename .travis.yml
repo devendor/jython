@@ -3,8 +3,6 @@ notifications:
   email:
     recipients:
       - ray.ferguson@devendortech.com
-install:
-  - ant
 os:
   - linux
   - osx
