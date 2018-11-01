@@ -106,3 +106,5 @@ script: >-
    echo "############### BUILD ##################"
 
    ant && echo "############# TEST ###############" && ant regrtest-travis
+
+   fi
