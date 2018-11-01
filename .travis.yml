@@ -80,5 +80,18 @@ before_install:
     echo "############### ENV ##################"
     env
     echo "############### BUILD ##################"
+# Testing doesn't work so well with odd things in PATH and within bash on travis.
 script: >-
-  env ; ant && echo "############# TEST ###############" && ant regrtest-travis
+   if [ "$TRAVIS_OS_NAME" == "windows" ]; then cmd.exe /E:ON <<-END
+
+   set "JAVA_HOME"=$JAVA_HOME
+
+   set CLASSPATH=
+
+   set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%PROGRAMDIR%\Microsoft DNX\Dnvm;%JAVA_HOME%\bin"
+
+   ant && echo "############# TEST ###############" && ant regrtest-travis
+
+   else
+   
+   ant && echo "############# TEST ###############" && ant regrtest-travis
