@@ -91,7 +91,7 @@ script: |-
       set
       echo "############### BUILD ##################"
       ant && echo "############# TEST ###############" && ant regrtest-travis
-      if %errrorlevel% 1 ( exit /b %errorlevel% )
+      if %errrorlevel% 1 ( exit %errorlevel% )
    END
    else
       echo "############### ENV ##################"
