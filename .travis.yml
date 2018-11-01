@@ -83,7 +83,9 @@ script: |-
       cat <<'END' | sed
       set "JAVA_HOME=$WJAVA_HOME"
       set CLASSPATH=
-      set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%PROGRAMFILES%\Microsoft DNX\Dnvm;%JAVA_HOME%\bin"
+      FOR /F "tokens=*" %G IN ('where xperf.exe') do SET XPP=%G
+      FOR /F "tokens=*" %G IN ('where dnvm.cmd') do SET DNXP=%G
+      set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;%XPP:xperf.exe=%"
       echo "############### ENV ##################"
       set
       echo "############### BUILD ##################"
