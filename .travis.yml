@@ -80,7 +80,7 @@ script: |-
       WJAVA_HOME=$(echo $JAVA_HOME | sed 's#^/c#C:# ; s#/#\\#g')
    cat<<END > build.bat
    @echo on
-   refreshenv
+   call refreshenv
    echo "########## original env ############"
    set
    set "JAVA_HOME=$WJAVA_HOME"
@@ -98,7 +98,6 @@ script: |-
    ant regrtest-travis
    if %exitcode% 1 ( exit %exitcode% )
    END
-   cat build.bat
    ./build.bat
    exit $?
    else
