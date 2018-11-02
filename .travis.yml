@@ -99,7 +99,7 @@ script: |-
    if %exitcode% 1 ( exit %exitcode% )
    END
    cat build.bat
-   cmd /C ".\build.bat"
+   ./build.bat
    exit $?
    else
       echo "############### ENV ##################"
