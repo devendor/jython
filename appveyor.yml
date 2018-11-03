@@ -47,10 +47,11 @@ build_script:
      set CLASSPATH=
      REM choco install -v -y windows-adk
      REM FOR /F "tokens=*" %%G IN ('where wpa') do SET XPP=%%G
-     FOR /F "tokens=*" %%G IN ('where dnvm.cmd') do SET DNXP=%%G
-     where perf*
-     set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\system32\config\systemprofile\.dnx\bin;"
+     REM FOR /F "tokens=*" %%G IN ('where dnvm.cmd') do SET DNXP=%%G
+     REM where perf*
+     REM set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\system32\config\systemprofile\.dnx\bin;"
      echo %DESC% | findstr jdk7 >Nul && choco install -y -i --version=1.9.9 ant || choco install -y -i  ant
+     call refreshenv.cmd
      echo "############### INFO ##################"
      java -version
      javac -version
@@ -68,8 +69,7 @@ build_script:
      sudo apt-get update
      #sudo apt-get install -y tzdata || true
      #if [ "$APPVEYOR_BUILD_WORKER_IMAGE" == "Ubuntu1604" ] ; then
-     #  dpkg-reconfigure tzdata ;
-     #fi
+     #  dpkg-reconfigure tzdata ; #fi
      sudo apt-get install ant
      unset JAVA_TOOL_OPTIONS
      echo "############### INFO ##################"
