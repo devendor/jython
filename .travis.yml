@@ -78,7 +78,7 @@ before_install:
 script: |-
    if [ "$TRAVIS_OS_NAME" == "windows" ] ; then
       WJAVA_HOME=$(echo $JAVA_HOME | sed 's#^/c#C:# ; s#/#\\#g')
-   cat<<END > build.bat
+      cat<<END > test.bat
    @echo on
    call refreshenv
    echo "########## original env ############"
@@ -91,13 +91,12 @@ script: |-
    echo "############### ENV ##################"
    set
    echo "############### BUILD ##################"
-   ant || exit /b ERRORLEVEL
+   ant || exit ERRORLEVEL
    echo "############# TEST ###############"
    ant regrtest-travis
-   exit /b ERRORLEVEL
+   exit ERRORLEVEL
    END
-   ./build.bat
-   exit $?
+      ./build.bat
    else
       echo "############### ENV ##################"
       env
