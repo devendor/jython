@@ -85,7 +85,7 @@ build_script:
      ant
      echo "############### TEST ##################"
      ant regrtest-travis
-     dir %TMP%
+     dir "%TEMP%"
 notifications:
   - provider: Email
     to:
