@@ -48,8 +48,7 @@ build_script:
      REM choco install -v -y windows-adk
      REM FOR /F "tokens=*" %%G IN ('where wpa') do SET XPP=%%G
      REM FOR /F "tokens=*" %%G IN ('where dnvm.cmd') do SET DNXP=%%G
-     jar -xvf extlibs/jffi-x86_64-Windows.jar
-     set "PATH=%CD%\jni\x86_64-Windows;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
+     set "PATH=%CD%\dist\bin;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
      echo %DESC% | findstr jdk7 >Nul && choco install -y -i --version=1.9.9 ant || choco install -y -i  ant
      REM set "PATH=%JAVA_HOME%\bin;%PATH:*;C:\Windows\system32;=C:\Windows\system32;%"
      echo "############### INFO ##################"
@@ -62,8 +61,10 @@ build_script:
      echo "############### BUILD ##################"
      ant
      echo "############### TEST ##################"
+     jar -xvf extlibs/jffi-x86_64-Windows.jar
+     move jni\x86_64-Windows\jffi-1.2.dll .\dist\bin\
+     dir %TEMP%
      ant regrtest-travis
-     (dir "%TEMP%"/*.dll)
   - sh: |-
      echo "############# ${DESC} ##############"
      export PATH="${JAVA_HOME}/bin:$PATH"
@@ -96,6 +97,7 @@ notifications:
     on_build_status_changed: true
 on_finish:
   - ps: >-
+     Get-ChildItem $env:TEMP | % { fsutil reparsepoint query %_ }
      $wc = New-Object 'System.Net.WebClient'
 
      Get-ChildItem .\dist\testreports -Filter *.xml |
