@@ -49,7 +49,8 @@ build_script:
      REM FOR /F "tokens=*" %%G IN ('where wpa') do SET XPP=%%G
      REM FOR /F "tokens=*" %%G IN ('where dnvm.cmd') do SET DNXP=%%G
      jar -xvf extlibs/jffi-x86_64-Windows.jar
-     set "PATH=%CD%\jni\x86_64-Windows;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
+     mv jni\x86_64-Windows\jffi-1.2.dll dist\bin\
+     set "PATH=%PWD%\dist\bin;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
      echo %DESC% | findstr jdk7 >Nul && choco install -y -i --version=1.9.9 ant || choco install -y -i  ant
      REM set "PATH=%JAVA_HOME%\bin;%PATH:*;C:\Windows\system32;=C:\Windows\system32;%"
      echo "############### INFO ##################"
@@ -63,6 +64,7 @@ build_script:
      ant
      echo "############### TEST ##################"
      ant regrtest-travis
+     dir "%TEMP%"
   - sh: |-
      echo "############# ${DESC} ##############"
      export PATH="${JAVA_HOME}/bin:$PATH"
@@ -85,7 +87,6 @@ build_script:
      ant
      echo "############### TEST ##################"
      ant regrtest-travis
-     dir "%TEMP%"
 notifications:
   - provider: Email
     to:

@@ -86,11 +86,13 @@ script: |-
    set "JAVA_HOME=$WJAVA_HOME"
    set CLASSPATH=
    where ant
+   echo "------------------- Prefind jffi -------------"
+   dir /R %TEMP% jffi*.dll
    REM FOR /F "tokens=*" %%H IN ('where dnvm.cmd') do SET DNXP=%%H
    REM Removes prepended paths and add our javahome/bin to the front of path.
    REM set "PATH=%JAVA_HOME%\bin;%PATH:*;C:\Windows\system32;=C:\Windows\system32;%"
    jar -xvf extlibs/jffi-x86_64-Windows.jar
-   set "PATH=%CD%\jni\x86_64-Windows;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
+   set "PATH=%PWD%\jni\x86_64-Windows;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
    REM set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;%XPP:xperf.exe=%"
    echo "############### ENV ##################"
    set
@@ -98,7 +100,10 @@ script: |-
    ant || exit ERRORLEVEL
    echo "############# TEST ###############"
    ant regrtest-travis
-   exit ERRORLEVEL
+   echo "------------------- Postfind jffi -------------"
+   dir /R %TEMP% jffi*.dll
+   set _EXITCODE=%ERRORLEVEL%
+   exit %_EXITCODE%
    END
       ./build.bat
       ls -l $TEMP
