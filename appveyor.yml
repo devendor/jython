@@ -98,6 +98,7 @@ notifications:
 on_finish:
   - ps: >-
      Get-ChildItem $env:TEMP | % { fsutil reparsepoint query %_ }
+
      $wc = New-Object 'System.Net.WebClient'
 
      Get-ChildItem .\dist\testreports -Filter *.xml |
