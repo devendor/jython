@@ -48,9 +48,7 @@ build_script:
      REM choco install -v -y windows-adk
      REM FOR /F "tokens=*" %%G IN ('where wpa') do SET XPP=%%G
      REM FOR /F "tokens=*" %%G IN ('where dnvm.cmd') do SET DNXP=%%G
-     where jffi*.dll
-     set "PATH=%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem%;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
-     where jffi*.dll
+     set "PATH=%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
      echo %DESC% | findstr jdk7 >Nul && choco install -y -i --version=1.9.9 ant || choco install -y -i  ant
      #set "PATH=%JAVA_HOME%\bin;%PATH:*;C:\Windows\system32;=C:\Windows\system32;%"
      echo "############### INFO ##################"
