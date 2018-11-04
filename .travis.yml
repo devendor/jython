@@ -88,7 +88,10 @@ script: |-
    where ant
    REM FOR /F "tokens=*" %%H IN ('where dnvm.cmd') do SET DNXP=%%H
    REM Removes prepended paths and add our javahome/bin to the front of path.
-   set "PATH=%JAVA_HOME%\bin;%PATH:*;C:\Windows\system32;=C:\Windows\system32;%"
+   REM set "PATH=%JAVA_HOME%\bin;%PATH:*;C:\Windows\system32;=C:\Windows\system32;%"
+   where jffi*.dll
+   set "PATH=%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem%;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
+   where jffi*.dll
    REM set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;%XPP:xperf.exe=%"
    echo "############### ENV ##################"
    set
