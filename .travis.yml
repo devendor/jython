@@ -92,7 +92,7 @@ script: |-
    REM Removes prepended paths and add our javahome/bin to the front of path.
    REM set "PATH=%JAVA_HOME%\bin;%PATH:*;C:\Windows\system32;=C:\Windows\system32;%"
    jar -xvf extlibs/jffi-x86_64-Windows.jar
-   set "PATH=%PWD:/=\%\jni\x86_64-Windows;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
+   set "PATH=%CD%\jni\x86_64-Windows;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
    REM set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;%XPP:xperf.exe=%"
    echo "############### ENV ##################"
    set
