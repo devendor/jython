@@ -86,8 +86,9 @@ script: |-
    set "JAVA_HOME=$WJAVA_HOME"
    set CLASSPATH=
    where ant
-   FOR /F "tokens=*" %%H IN ('where dnvm.cmd') do SET DNXP=%%H
-   set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;%XPP:xperf.exe=%"
+   REM FOR /F "tokens=*" %%H IN ('where dnvm.cmd') do SET DNXP=%%H
+   set "PATH=%JAVA_HOME%/bin;%PATH:C:\tools\ruby25\bin;=%"
+   REM set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;%XPP:xperf.exe=%"
    echo "############### ENV ##################"
    set
    echo "############### BUILD ##################"
