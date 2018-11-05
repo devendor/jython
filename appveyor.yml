@@ -75,6 +75,10 @@ build_script:
      echo "cwd=%CD% _JAVA_OPTIONS=%_JAVA_OPTIONS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
      dir %TEMP%\jffi*.dll || type nul>nul
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
+     echo "cwd=%CD% _JAVA_OPTIONS=%_JAVA_OPTIONS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
+     dir %TEMP%\jffi*.dll || type nul>nul
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
+     dir %TEMP%\jffi*.dll || type nul>nul
      set CLASSPATH=
      echo "cwd=%CD% _JAVA_OPTIONS=%_JAVA_OPTIONS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
      dir %TEMP%\jffi*.dll || type nul>nul
