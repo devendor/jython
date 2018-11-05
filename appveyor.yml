@@ -73,21 +73,21 @@ build_script:
      dir %TEMP%
      jython dist\Lib\test\test_xmlrpc.py
      cd %HOMEDRIVE%%HOMEPATH%
-     jython dist\Lib\test\test_xmlrpc.py
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
-     jython dist\Lib\test\test_xmlrpc.py
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
      del %TEMP%\*.dll
      PATH=%CLASSPATH%;%PATH%
-     jython dist\Lib\test\test_xmlrpc.py
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
-     jython dist\Lib\test\test_xmlrpc.py
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
      del %TEMP%\*.dll
      set _JAVA_OPTIONS=-Djava.library.path=%CLASSPATH%
-     jython dist\Lib\test\test_xmlrpc.py
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
-     jython dist\Lib\test\test_xmlrpc.py
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
      set _JAVA_OPTIONS=
      mkdir %APPDATA%\jython
@@ -95,10 +95,17 @@ build_script:
      set CLASSPATH=
      set PATH=%APPDATA%\jython;%PATH%
      del %TEMP%\*.dll
-     jython dist\Lib\test\test_xmlrpc.py
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
-     jython dist\Lib\test\test_xmlrpc.py
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
+     cd %APPVEYOR_BUILD_FOLDER%
      ant regrtest-travis
+     dir %TEMP%
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
+     dir %TEMP%
+     del %TEMP%\*.dll
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
+     dir %TEMP%
   - sh: |-
      echo "############# ${DESC} ##############"
      export PATH="${JAVA_HOME}/bin:$PATH"
