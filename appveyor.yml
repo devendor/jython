@@ -3,13 +3,13 @@ shallow_clone: true
 environment:
   APPVEYOR_YML_DISABLE_PS_LINUX: true
   matrix:
-    - DESC: ws2012r2 jdk7 x64
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      JAVA_HOME: C:\Program Files\Java\jdk1.7.0
-      require_pass: true
     - DESC: ws2012r2 jdk8 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       JAVA_HOME: C:\Program Files\Java\jdk1.8.0
+      require_pass: true
+    - DESC: ws2012r2 jdk7 x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      JAVA_HOME: C:\Program Files\Java\jdk1.7.0
       require_pass: true
     - DESC: xenial openjdk8 x64
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1604
@@ -72,8 +72,17 @@ build_script:
      jython dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
      jython dist\Lib\test\test_xmlrpc.py
-     del %TEMP%\*.dll
+     cd %HOMEDRIVE%%HOMEPATH%
      jython dist\Lib\test\test_xmlrpc.py
+     dir %TEMP%
+     jython dist\Lib\test\test_xmlrpc.py
+     dir %TEMP%
+     del %TEMP%\*.dll
+     PATH=%CLASSPATH%;%PATH%
+     jython dist\Lib\test\test_xmlrpc.py
+     dir %TEMP%
+     jython dist\Lib\test\test_xmlrpc.py
+     dir %TEMP%
      del %TEMP%\*.dll
      set _JAVA_OPTIONS=-Djava.library.path=%CLASSPATH%
      jython dist\Lib\test\test_xmlrpc.py
