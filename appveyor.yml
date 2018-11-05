@@ -48,11 +48,12 @@ build_script:
      REM choco install -v -y windows-adk
      REM FOR /F "tokens=*" %%G IN ('where wpa') do SET XPP=%%G
      REM FOR /F "tokens=*" %%G IN ('where dnvm.cmd') do SET DNXP=%%G
-     set "PATH=%CD%\dist\bin;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
+     set "%CD\dist\bin;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
      jar -xvf extlibs\jffi-x86_64-Windows.jar
-     mkdir .\dist
-     mkdir .\dist\bin
-     move jni\x86_64-Windows\jffi-1.2.dll .\dist\bin\
+     set CLASSPATH=%CD%\jni\x86_64-Windows\
+     dir %CLASSPATH%
+     echo "---"
+     dir %TEMP%
      echo %DESC% | findstr jdk7 >Nul && choco install -y -i --version=1.9.9 ant || choco install -y -i  ant
      REM set "PATH=%JAVA_HOME%\bin;%PATH:*;C:\Windows\system32;=C:\Windows\system32;%"
      echo "############### INFO ##################"
@@ -64,7 +65,19 @@ build_script:
      set
      echo "############### BUILD ##################"
      ant
+     dir %TEMP%
      echo "############### TEST ##################"
+     dir %TEMP%
+     jython dist\Lib\test\test_xmlrpc.xml
+     dir %TEMP%
+     jython dist\Lib\test\test_xmlrpc.xml
+     del %TEMP%/*.dll
+     jython dist\Lib\test\test_xmlrpc.xml
+     del %TEMP%/*.dll
+     _JAVA_OPTIONS=-Djava.library.path=%CLASSPATH%
+     jython dist\Lib\test\test_xmlrpc.xml
+     dir %TEMP%
+     jython dist\Lib\test\test_xmlrpc.xml
      dir %TEMP%
      ant regrtest-travis
   - sh: |-
