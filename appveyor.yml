@@ -69,16 +69,16 @@ build_script:
      dir %TEMP%
      echo "############### TEST ##################"
      dir %TEMP%
-     jython dist\Lib\test\test_xmlrpc.xml
+     jython dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
-     jython dist\Lib\test\test_xmlrpc.xml
+     jython dist\Lib\test\test_xmlrpc.py
      del %TEMP%/*.dll
-     jython dist\Lib\test\test_xmlrpc.xml
+     jython dist\Lib\test\test_xmlrpc.py
      del %TEMP%/*.dll
      set _JAVA_OPTIONS=-Djava.library.path=%CLASSPATH%
-     jython dist\Lib\test\test_xmlrpc.xml
+     jython dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
-     jython dist\Lib\test\test_xmlrpc.xml
+     jython dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
      set _JAVA_OPTIONS=
      mkdir %APPDATA%\jython
@@ -86,9 +86,9 @@ build_script:
      set CLASSPATH=
      set PATH=%APPDATA%\jython;%PATH%
      del %TEMP%/*.dll
-     jython dist\Lib\test\test_xmlrpc.xml
+     jython dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
-     jython dist\Lib\test\test_xmlrpc.xml
+     jython dist\Lib\test\test_xmlrpc.py
      ant regrtest-travis
   - sh: |-
      echo "############# ${DESC} ##############"
