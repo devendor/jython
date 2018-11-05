@@ -70,46 +70,46 @@ build_script:
      dir %TEMP%
      echo "############### TEST ##################"
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython dist\Lib\test\test_xmlrpc.py
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython dist\Lib\test\test_xmlrpc.py
      cd %HOMEDRIVE%%HOMEPATH%
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      del %TEMP%\*.dll
      PATH=%CLASSPATH%;%PATH%
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      del %TEMP%\*.dll
      set _JAVA_OPTIONS=-Djava.library.path=%CLASSPATH%
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      del %TEMP%\*.dll
      set PATH=%OPATH%
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      set _JAVA_OPTIONS=
      mkdir %APPDATA%\Local\jython
      move %APPVEYOR_BUILD_FOLDER%\jni\x86_64-Windows\jffi-1.2.dll %APPDATA%\Local\jython\
@@ -117,15 +117,15 @@ build_script:
      set PATH=%APPDATA%\Local\jython;%OPATH%
      del %TEMP%\*.dll
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      del %TEMP%\*.dll
      set PATH=%OPATH
      set CLASSPATH=
@@ -135,14 +135,18 @@ build_script:
      set TMP=%TEMP%
      del %TEMP%\*.dll
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH% TEMP=%TEMP%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH% TEMP=%TEMP%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
+     echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH% TEMP=%TEMP%"
+     (dir %TEMP%\jffi*.dll)
+     mv %APPDATA%\Local\jython\jffi-1.2.dll %APPVEYOR_BUILD_FOLDER%\dist\bin\
+     echo "" > %APPVEYOR_BUILD_FOLDER%\dist\bin\jyhon.exe.local
      cd %APPVEYOR_BUILD_FOLDER%
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
-     (dir %TEMP%/jffi*.dll)
+     (dir %TEMP%\jffi*.dll)
      ant regrtest-travis
 
   - sh: |-
