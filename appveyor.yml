@@ -49,6 +49,7 @@ build_script:
      REM FOR /F "tokens=*" %%G IN ('where wpa') do SET XPP=%%G
      REM FOR /F "tokens=*" %%G IN ('where dnvm.cmd') do SET DNXP=%%G
      set "PATH=%CD%\dist\bin;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
+     set "OPATH=%PATH%"
      set
      jar -xvf extlibs\jffi-x86_64-Windows.jar
      set CLASSPATH=%CD%\jni\x86_64-Windows\
@@ -89,11 +90,16 @@ build_script:
      dir %TEMP%
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
+     del %TEMP%\*.dll
+     set PATH=%OPATH%
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
+     dir %TEMP%
+     jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      set _JAVA_OPTIONS=
-     mkdir %APPDATA%\jython
-     move jni\x86_64-Windows\jffi-1.2.dll %APPDATA%\jython\
+     mkdir %APPDATA%\Local\jython
+     move %APPVEYOR_BUILD_FOLDER%\jni\x86_64-Windows\jffi-1.2.dll %APPDATA%\Local\jython\
      set CLASSPATH=
-     set PATH=%APPDATA%\jython;%PATH%
+     set PATH=%APPDATA%\Local\jython;%OPATH%
      del %TEMP%\*.dll
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
