@@ -77,7 +77,7 @@ build_script:
      dir %TEMP%\jffi*.dll || type nul>nul
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      del %TEMP%\jffi*.dll
-     jar -xvf %APPVEYOR_BUILD_DIRECTORY%\extlibs\jffi-x86_64-Windows.jar
+     jar -xvf %APPVEYOR_BUILD_FOLDER%\extlibs\jffi-x86_64-Windows.jar
      set CLASSPATH=%CD%\jni\x86_64-Windows\
      dir %CLASSPATH%\*.dll || type nul>nul
      echo "cwd=%CD% _JAVA_OPTS=%_JAVA_OPTS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
