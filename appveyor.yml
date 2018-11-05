@@ -72,9 +72,9 @@ build_script:
      jython dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
      jython dist\Lib\test\test_xmlrpc.py
-     del %TEMP%/*.dll
+     del %TEMP%\*.dll
      jython dist\Lib\test\test_xmlrpc.py
-     del %TEMP%/*.dll
+     del %TEMP%\*.dll
      set _JAVA_OPTIONS=-Djava.library.path=%CLASSPATH%
      jython dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
@@ -85,7 +85,7 @@ build_script:
      move jni\x86_64-Windows\jffi-1.2.dll %APPDATA%\jython\
      set CLASSPATH=
      set PATH=%APPDATA%\jython;%PATH%
-     del %TEMP%/*.dll
+     del %TEMP%\*.dll
      jython dist\Lib\test\test_xmlrpc.py
      dir %TEMP%
      jython dist\Lib\test\test_xmlrpc.py
