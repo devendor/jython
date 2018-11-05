@@ -97,7 +97,7 @@ script: |-
    set
    echo "############### BUILD ##################"
    ant || exit ERRORLEVEL
-   jar -xvf extlibs/jffi-x86_64-Windows.jar
+   jar -xvf extlibs\jffi-x86_64-Windows.jar
    move jni\x86_64-Windows\jffi-1.2.dll .\dist\bin\
    echo "############# TEST ###############"
    ant regrtest-travis
@@ -107,7 +107,9 @@ script: |-
    exit %_EXITCODE%
    END
       ./build.bat
+      EC=$?
       ls -l $TEMP
+      exit $EC
    else
       echo "############### ENV ##################"
       env

@@ -49,7 +49,7 @@ build_script:
      REM FOR /F "tokens=*" %%G IN ('where wpa') do SET XPP=%%G
      REM FOR /F "tokens=*" %%G IN ('where dnvm.cmd') do SET DNXP=%%G
      set "PATH=%CD%\dist\bin;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
-     jar -xvf extlibs/jffi-x86_64-Windows.jar
+     jar -xvf extlibs\jffi-x86_64-Windows.jar
      mkdir .\dist
      mkdir .\dist\bin
      move jni\x86_64-Windows\jffi-1.2.dll .\dist\bin\
