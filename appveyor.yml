@@ -48,7 +48,7 @@ build_script:
      REM choco install -v -y windows-adk
      REM FOR /F "tokens=*" %%G IN ('where wpa') do SET XPP=%%G
      REM FOR /F "tokens=*" %%G IN ('where dnvm.cmd') do SET DNXP=%%G
-     set "PATH=%CD\dist\bin;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
+     set "PATH=%CD%\dist\bin;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
      set
      jar -xvf extlibs\jffi-x86_64-Windows.jar
      set CLASSPATH=%CD%\jni\x86_64-Windows\
