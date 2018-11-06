@@ -65,7 +65,7 @@ build_script:
      echo "############### BUILD ##################"
      ant
      dir %TEMP% || type nul>nul
-     set "_JAVA_OPTIONS=-verbose jni"
+     set "_JAVA_OPTIONS=-verbose:jni"
      echo "############### TEST ##################"
      echo "cwd=%CD% _JAVA_OPTIONS=%_JAVA_OPTIONS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
      dir %TEMP%\jffi*.dll || type nul>nul
