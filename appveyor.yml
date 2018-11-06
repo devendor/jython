@@ -88,7 +88,7 @@ build_script:
      del %TEMP%\jffi*.dll
      cd %APPVEYOR_BUILD_FOLDER%
      jar -xvf %APPVEYOR_BUILD_FOLDER%\extlibs\jffi-x86_64-Windows.jar
-     cd %HOMEDRIVE%HOMEPATH%
+     cd %HOMEDRIVE%%HOMEPATH%
      set CLASSPATH=%CD%\jni\x86_64-Windows\
      dir %CLASSPATH%\*.dll || type nul>nul
      echo "cwd=%CD% _JAVA_OPTIONS=%_JAVA_OPTIONS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
