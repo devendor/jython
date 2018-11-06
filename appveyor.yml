@@ -126,7 +126,7 @@ build_script:
      dir %TEMP%\jffi*.dll || type nul>nul
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%\jffi*.dll || type nul>nul
-     set _JAVA_OPTIONS=-verbose:jno
+     set _JAVA_OPTIONS=-verbose:jni
      mkdir %APPDATA%\Local\jython || type nul>nul
      move %APPVEYOR_BUILD_FOLDER%\jni\x86_64-Windows\jffi-1.2.dll %APPDATA%\Local\jython\
      set CLASSPATH=
