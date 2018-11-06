@@ -109,7 +109,7 @@ build_script:
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%\jffi*.dll || type nul>nul
      del %TEMP%\*.dll
-     set _JAVA_OPTIONS="-Djava.library.path=%CLASSPATH% -verbose jni"
+     set _JAVA_OPTIONS="-Djava.library.path=%CLASSPATH% -verbose:jni"
      echo "cwd=%CD% _JAVA_OPTIONS=%_JAVA_OPTIONS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
      dir %TEMP%\jffi*.dll || type nul>nul
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
