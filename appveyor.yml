@@ -142,7 +142,7 @@ build_script:
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%\jffi*.dll || type nul>nul
      del %TEMP%\*.dll
-     set PATH=%OPATH
+     set PATH=%OPATH%
      set CLASSPATH=
      cd %HOMEDRIVE%%HOMEPATH%
      set _JAVA_OPTIONS=
