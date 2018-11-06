@@ -47,6 +47,7 @@ build_script:
      REM choco install -v -y windows-adk
      REM FOR /F "tokens=*" %%G IN ('where wpa') do SET XPP=%%G
      REM FOR /F "tokens=*" %%G IN ('where dnvm.cmd') do SET DNXP=%%G
+     where jffi*.dll || type nul>nul
      set "PATH=%CD%\dist\bin;%WINDIR%\system32;%WINDIR%;%WINDIR%\system32\wbem;%JAVA_HOME%\bin;%ChocolateyInstall%\bin;"
      set "OPATH=%PATH%"
      set
@@ -85,7 +86,9 @@ build_script:
      jython %APPVEYOR_BUILD_FOLDER%\dist\Lib\test\test_xmlrpc.py
      dir %TEMP%\jffi*.dll || type nul>nul
      del %TEMP%\jffi*.dll
+     cd %APPVEYOR_BUILD_FOLDER%
      jar -xvf %APPVEYOR_BUILD_FOLDER%\extlibs\jffi-x86_64-Windows.jar
+     cd %HOMEDRIVE%HOMEPATH%
      set CLASSPATH=%CD%\jni\x86_64-Windows\
      dir %CLASSPATH%\*.dll || type nul>nul
      echo "cwd=%CD% _JAVA_OPTIONS=%_JAVA_OPTIONS% CLASSPATH=%CLASSPATH% PATH=%PATH%"
