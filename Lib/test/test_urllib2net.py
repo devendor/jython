@@ -286,25 +286,15 @@ class TimeoutTest(unittest.TestCase):
             u = _urlopen_with_retry(url, timeout=120)
             self.assertEqual(u.fp._sock.fp._sock.gettimeout(), 120)
 
-    TRAVIS_OS_NAME=os.environ.get('TRAVIS_OS_NAME', '')
-
-    if TRAVIS_OS_NAME == 'linux':
-        # Use twisted in linux travis tests to work around nat issues.
-        FTP_HOST = "ftp://localhost:2121"
-    else:
-        FTP_HOST = "ftp://ftp.mirror.nl/pub/gnu/"
+    FTP_HOST = "ftp://ftp.mirror.nl/pub/gnu/"
 
     def test_ftp_basic(self):
-        if self.TRAVIS_OS_NAME in ['osx', 'windows']:
-            self.skipTest("NAT in robot environtment makes ftp untenable.")
         self.assertTrue(socket.getdefaulttimeout() is None)
         with test_support.transient_internet(self.FTP_HOST, timeout=None):
             u = _urlopen_with_retry(self.FTP_HOST)
             self.assertTrue(u.fp.fp._sock.gettimeout() is None)
 
     def test_ftp_default_timeout(self):
-        if self.TRAVIS_OS_NAME in ['osx', 'windows']:
-            self.skipTest("NAT in robot environtment makes ftp untenable.")
         self.assertTrue(socket.getdefaulttimeout() is None)
         with test_support.transient_internet(self.FTP_HOST):
             socket.setdefaulttimeout(60)
@@ -315,8 +305,6 @@ class TimeoutTest(unittest.TestCase):
             self.assertEqual(u.fp.fp._sock.gettimeout(), 60)
 
     def test_ftp_no_timeout(self):
-        if self.TRAVIS_OS_NAME in ['osx', 'windows']:
-            self.skipTest("NAT in robot environtment makes ftp untenable.")
         self.assertTrue(socket.getdefaulttimeout() is None)
         with test_support.transient_internet(self.FTP_HOST):
             socket.setdefaulttimeout(60)
@@ -327,8 +315,6 @@ class TimeoutTest(unittest.TestCase):
             self.assertTrue(u.fp.fp._sock.gettimeout() is None)
 
     def test_ftp_timeout(self):
-        if self.TRAVIS_OS_NAME in ['osx', 'windows']:
-            self.skipTest("NAT in robot environtment makes ftp untenable.")
         with test_support.transient_internet(self.FTP_HOST):
             u = _urlopen_with_retry(self.FTP_HOST, timeout=60)
             self.assertEqual(u.fp.fp._sock.gettimeout(), 60)

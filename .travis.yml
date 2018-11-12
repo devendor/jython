@@ -1,101 +1,48 @@
-language: shell
+language: java
+
 notifications:
   email:
     recipients:
-      - ray.ferguson@devendortech.com
-install:
-  - ant
+      - jython-dev@lists.sourceforge.net
+
+install: ant
+
 os:
   - linux
   - osx
-  - windows
-# Trusty is 14.04 LTS. 18.04 LTS / beaver is not supported by travis 10/2018
-# setting these two options allows faster testing in docker images.
-dist: trusty
-sudo: false
+
 env:
   matrix:
+    - CUSTOM_JDK="default"
+    - CUSTOM_JDK="oraclejdk7"
     - CUSTOM_JDK="openjdk7"
     - CUSTOM_JDK="oraclejdk8"
-    # oraclejdk7 is no longer supported by oracle or travis
-    # 9 is available on trusty. Please try a newer xcode
-    # below if you get newer java working.
-    # - CUSTOM_JDK="oraclejdk9"
+
 matrix:
   exclude:
-    - os: osx
-      env: CUSTOM_JDK="openjdk7"
-    - os: osx
-      env: CUSTOM_JDK="oraclejdk9"
-    - os: windows
-      env: CUSTOM_JDK="openjdk7"
-    - os: windows
-      env: CUSTOM_JDK="oraclejdk9"
-addons:
-  hosts:
-    - travis
-  hostname: travis
-# pin to xcode9.3. Newer versions use java 10.
-osx_image: xcode9.3
-git:
-  depth: 2
+     # On OSX, run with default JDK only.
+     - os: osx
+       env: CUSTOM_JDK="oraclejdk7"
+     - os: osx
+       env: CUSTOM_JDK="openjdk7"
+     - os: osx
+       env: CUSTOM_JDK="oraclejdk8"
+     # On Linux, run with specific JDKs only.
+     - os: linux
+       env: CUSTOM_JDK="default"
+
 before_install:
-  - |-
-    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      export JAVA_HOME=$(/usr/libexec/java_home)
-      export PATH=${JAVA_HOME}/bin:$PATH
-      brew update
-      brew install ant
-      echo "############### SYSINFO ##################"
-      sw_vers
-    fi
-  - |-
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      jdk_switcher use "$CUSTOM_JDK"
-      export PATH=$JAVA_HOME/bin:$PATH
-      twistd  ftp -r $HOME
-      source /etc/os-release
-      apt-get update
-      apt-get upgade -y -s
-      echo "############### SYSINFO ##################"
-      echo $PRETTY_NAME
-      uname -rp
-    fi
-  - |-
-    if [ "$TRAVIS_OS_NAME" == 'windows' ] ; then
-      export JAVA_HOME=`ls -d /c/Program\ Files/Java/jdk1.8.*|head -1`
-      export PATH="${JAVA_HOME}/bin:$PATH"
-      choco install -i ant
-      echo "############### SYSINFO ##################"
-      powershell "systeminfo | findstr /C:\"OS\""
-    fi
-  # useful for troubleshooting.
-  - |-
-    echo "############### VERSIONS ##################"
-    java -version
-    javac -version
-    ant -version
-    unset _JAVA_OPTIONS
-# Testing doesn't work so well with odd things in PATH and within bash on travis.
-script: |-
-   if [ "$TRAVIS_OS_NAME" == "windows" ] ; then
-      WJAVA_HOME=$(echo $JAVA_HOME | sed 's#^/c#C:# ; s#/#\\#g')
-      cmd.exe /E:ON <<END
-      refreshenv
-      set "JAVA_HOME=$WJAVA_HOME"
-      set CLASSPATH=
-      FOR /F "tokens=*" %G IN ('where wpa.exe') do SET XPP=%G
-      FOR /F "tokens=*" %G IN ('where dnvm.cmd') do SET DNXP=%G
-      set "PATH=%WINDIR%\system32;%WINDIR%;%ChocolateyInstall%\bin;%JAVA_HOME%\bin;%DNXP:dnvm.cmd=%;%XPP:xperf.exe=%"
-      echo "############### ENV ##################"
-      set
-      echo "############### BUILD ##################"
-      ant && echo "############# TEST ###############" && ant regrtest-travis
-      if %errrorlevel% 1 ( exit /b %errorlevel% )
-   END
-   else
-      echo "############### ENV ##################"
-      env
-      echo "############### BUILD ##################"
-      ant && echo "############# TEST ###############" && ant regrtest-travis
-   fi
+  # Patch for buffer overflow bug, see https://github.com/travis-ci/travis-ci/issues/5227
+  - hostname
+  - cat /etc/hosts # optionally check the content *before*
+  - sudo hostname "$(hostname | cut -c1-63)"
+  - sed -e "s/^\\(127\\.0\\.0\\.1.*\\)/\\1 $(hostname | cut -c1-63)/" /etc/hosts | sudo tee /etc/hosts
+  - hostname
+  - cat /etc/hosts # optionally check the content *after*
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export JAVA_HOME=$(/usr/libexec/java_home); fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ant; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then jdk_switcher use "$CUSTOM_JDK"; fi
+
+script: ant && ant regrtest-travis
+
