@@ -873,6 +873,15 @@ class BaseTest(unittest.TestCase):
             a[1:-1] = array.array(self.typecode, self.example[1-n:-1])
 
         v = memoryview(a)
+
+        # PyMemoryView still currently accepts all inbound array types but can be
+        # made more restrictive via accept_array_types in PyMemoryView Py2kBuffer
+        # is less restrictive and assumes UTF-16BE encoding for codepoints > 255.
+        #
+        # try:
+        #     v = memoryview(a)
+        # except TypeError, e:
+        #     v = buffer(a)
         orig = a[:]
 
         self.assertRaises(BufferError, resize, -1)

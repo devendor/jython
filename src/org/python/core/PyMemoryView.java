@@ -67,8 +67,30 @@ public class PyMemoryView extends PySequence implements BufferProtocol, Traverse
         ArgParser ap = new ArgParser("memoryview", args, keywords, "object");
         PyObject obj = ap.getPyObject(0);
 
-        if (obj instanceof BufferProtocol) {
-            return new PyMemoryView((BufferProtocol)obj);
+
+        /*
+         * Memoryview in 2.7 throws typeerror on unicode rather than assuming encoding like buffer().
+         * Various other array derivitives whos content encodeing can't be verified do the same. Reliable typing
+         * is one of the features of memoryview over the older buffer Py2kbuffer, and throwing the right exception
+         * is used in downstream modules like msgpack and pip even if technically there is a buffer interface behind
+         * the target object in our instance.
+         *
+         * This still accepts basically all of the PyArray typed variants, but probably shouldn't. Adjusting type
+         * string can granularly remove them but we should make sure there is not an active
+         * use case for this extra functionality before we get rid of it, and optionally allow a flag
+         * to ignore the type check if we really need memoryviews of array.arrays.
+        */
+        String accept_array_types = "zcbBhHiIlLduf";
+        if (obj instanceof Py2kBuffer || obj instanceof PyMemoryView || obj instanceof PyByteArray ||
+            (
+                obj instanceof PyString  && !(obj instanceof PyUnicode)
+            ) || (
+               obj instanceof PyArray
+               && obj.__getattr__("typecode") != null
+               && accept_array_types.contains( obj.__getattr__("typecode").toString() )
+            )
+           ) {
+            return new PyMemoryView( (BufferProtocol) obj );
         } else {
             throw Py.TypeError("cannot make memory view because object does not have "
                     + "the buffer interface");
