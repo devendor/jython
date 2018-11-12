@@ -337,8 +337,8 @@ class BasicSocketTests(unittest.TestCase):
         self.assertRaisesRegexp(ValueError,
                         "certfile must be specified for server-side operations",
                         ssl.wrap_socket, sock, server_side=True, certfile="")
-        if support.get_java_version() < (1, 9):
-            # Possible FIXME similar issue as seen in
+        if support.get_java_version() < (9,):
+            # FIXME: Fails on Java 9+. See b.j.o. issue #2710. A similar issue is seen in
             # test_load_cert_chain - apparently this RSA 1024 cert is too weak and gets a
             # java.security.KeyStoreException: Key protection  algorithm not found before the
             # ValueError raised on earlier versions of Java;
@@ -786,9 +786,9 @@ class ContextTests(unittest.TestCase):
         ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
         # Combined key and cert in a single file
         ctx.load_cert_chain(CERTFILE, keyfile=None)
-        if support.get_java_version() < (1, 9):
-            # Possible FIXME we may be skipping this test on Java 9 unnecessarily.
-            # CERTFILE as generated uses RSA 1024, which is considered too weak.
+        if support.get_java_version() < (9,):
+            # FIXME: Fails on Java 9+. See b.j.o. issue #2710. A similar issue is seen in
+            # test_errors. CERTFILE as generated uses RSA 1024, which is considered too weak.
             # This may be why this raises an error on Java 9:
             # java.security.KeyStoreException: Key protection  algorithm not found:
             # java.security.KeyStoreException: Certificate chain is not valid
