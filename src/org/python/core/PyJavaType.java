@@ -977,6 +977,26 @@ public class PyJavaType extends PyType {
                 return Py.newInteger(self.getJavaProxy().hashCode());
             }
         });
+
+        addMethod(new PyBuiltinMethodNarrow("__str__") {
+
+            @Override
+            public PyObject __call__() {
+                /*
+                 * java.lang.Object.toString returns Unicode. Translate to PyString if 
+                 * self is java.lang.String and 8 bit clean.
+                 */
+                if (self.getJavaProxy().getClass() == java.lang.String.class) {
+                    String toString = self.getJavaProxy().toString();
+                    try {
+                        return toString == null ? Py.EmptyString : new PyString(toString);
+                    } catch (IllegalArgumentException e) {
+                        return toString == null ? Py.EmptyUnicode : Py.newUnicode(toString);
+                    }
+                } else
+                    return self.__repr__();
+            }
+        });
         addMethod(new PyBuiltinMethodNarrow("__repr__") {
 
             @Override
