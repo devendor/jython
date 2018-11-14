@@ -191,21 +191,20 @@ public class Py2kBuffer extends PySequence implements BufferProtocol {
         return new PyString(ret);
     }
 
-    @Override
-    public PyString __str__() {
+    @Override 
+    public String toString(){
         PyBuffer buf = getBuffer();
         try {
-            if (buf instanceof BaseBuffer) {
-                // In practice, it always is
-                return new PyString(buf.toString());
-            } else {
-                // But just in case ...
-                String s = StringUtil.fromBytes(buf);
-                return new PyString(s);
-            }
-        } finally {
+            String string = (buf instanceof BaseBuffer) ? buf.toString() : StringUtil.fromBytes(buf);
+	    return string ;
+	} finally {
             buf.release();
-        }
+	}
+    }
+
+    @Override
+    public PyString __str__() {
+       return new PyString(toString());
     }
 
     /**
