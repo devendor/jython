@@ -186,7 +186,7 @@ public class Py2kBuffer extends PySequence implements BufferProtocol {
 
     @Override
     public PyString __repr__() {
-        String fmt = "<read-only buffer for %s, size %d, offset %d at 0x%s>";
+        String fmt = "<read-only buffer for %s, size %d, offset %d at %s>";
         String ret = String.format(fmt, Py.idstr((PyObject)object), size, offset, Py.idstr(this));
         return new PyString(ret);
     }
